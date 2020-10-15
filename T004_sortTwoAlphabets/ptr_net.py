@@ -189,7 +189,7 @@ def train(model, optimizer, epoch, clip=1.):
       print('Epoch [{}] loss: {}'.format(epoch, loss.item()))
 
 
-@torch.no_grad()
+#@torch.no_grad()
 def evaluate(model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))

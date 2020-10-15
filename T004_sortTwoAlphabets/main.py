@@ -9,14 +9,14 @@ EPOCHS = 2
 
 encoder = Encoder(config.HIDDEN_SIZE)
 decoder = Decoder(config.HIDDEN_SIZE)
-ptr_net = PointerNetwork(encoder, decoder)
+ptrNet = PointerNetwork(encoder, decoder)
 
-optimizer = optim.Adam(ptr_net.parameters())
+optimizer = optim.Adam(ptrNet.parameters())
 
 program_starts = time.time()
 for epoch in range(EPOCHS):
-  train(ptr_net, optimizer, epoch + 1)
-  evaluate(ptr_net, epoch + 1)
+  train(ptrNet, optimizer, epoch + 1)
+  evaluate(ptrNet, epoch + 1)
 
 now = time.time()
 print("It has been {0} seconds since the loop started".format(now - program_starts))
