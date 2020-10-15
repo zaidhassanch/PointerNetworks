@@ -192,31 +192,3 @@ def train(model, x, y, optimizer, epoch, clip=1.):
     if (step + 1) % 100 == 0:
       print('Epoch [{}] loss: {}'.format(epoch, loss.item()))
 
-
-@torch.no_grad()
-def evaluate(model, epoch):
-  """Evaluate after a train epoch"""
-  print('Epoch [{}] -- Evaluate'.format(epoch))
-
-  x_val, y_val = batch(4)
-  
-  out, _ = model(x_val, y_val, teacher_force_ratio=0.)
-  out = out.permute(1, 0)
-
-  """
-  for i in range(out.size(0)):
-    print('{} --> {} --> {}'.format(
-      x_val[i], 
-      x_val[i,:,0].gather(0, out[i]),
-      x_val[i,:,0].gather(0, y_val[i])
-    ))
-  """
-  sumVal = x_val.sum(dim=2)
-  for i in range(out.size(0)):
-    print('{} --> {} --> {} --> {}'.format(
-      sumVal[i], 
-      sumVal[i].gather(0, out[i]),
-      sumVal[i].gather(0, y_val[i]),
-      sumVal[i].gather(0, y_val[i]) - sumVal[i].gather(0, out[i])
-    ))
-    
