@@ -170,18 +170,18 @@ class PointerNetwork(nn.Module):
     return outputs, batch_loss
 
 
-def train(x, y, model, optimizer, epoch, clip=1.):
+def train(pNet, x, y, optimizer, epoch, clip=1.):
   """Train single epoch"""
   print('Epoch [{}] -- Train'.format(epoch))
   for step in range(STEPS_PER_EPOCH):
     optimizer.zero_grad()
 
     # Forward
-    out, loss = model(x, y)
+    out, loss = pNet(x, y)
 
     # Backward
     loss.backward()
-    nn.utils.clip_grad_norm_(model.parameters(), clip)
+    nn.utils.clip_grad_norm_(pNet.parameters(), clip)
     optimizer.step()
 
     if (step + 1) % 100 == 0:
