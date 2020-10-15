@@ -15,7 +15,7 @@ def main():
   program_starts = time.time()
 
   for epoch in range(EPOCHS):
-    print('Epoch [{}] -- Evaluate'.format(epoch))
+    print('Epoch [{}] -- Train'.format(epoch))
 
     x, y = batch(BATCH_SIZE)
     train(ptrNet, x, y, optimizer, epoch + 1)
@@ -24,7 +24,7 @@ def main():
     out, _ = ptrNet(x_val, y_val, teacher_force_ratio=0.)
     print(out.shape)
     out = out.permute(1, 0)
-
+    print(out.shape) 
     for i in range(out.size(0)):
       print('{} --> {} --> {}'.format(
         x_val[i], 
