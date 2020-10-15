@@ -1,15 +1,10 @@
 import random
-from typing import Tuple
-
-import torch
-import torch.nn as nn
 import torch.optim as optim
-import torch.nn.functional as F
 
 from data import batch
 import config
 import time
-from ptr_net import Encoder, Decoder, PointerNetwork, train, evaluate
+from ptr_net import PointerNetwork, train, evaluate
 
 HIDDEN_SIZE = 256
 
@@ -18,17 +13,16 @@ STEPS_PER_EPOCH = 500
 EPOCHS = 10
 
 
-ptr_net = PointerNetwork()
+ptrNet = PointerNetwork()
 
-optimizer = optim.Adam(ptr_net.parameters())
+optimizer = optim.Adam(ptrNet.parameters())
 
 program_starts = time.time()
 for epoch in range(EPOCHS):
-  #  train(ptr_net, optimizer, epoch + 1)
   x, y = batch(BATCH_SIZE)
   train(ptrNet, x, y, optimizer, epoch + 1)
 
-  evaluate(ptr_net, epoch + 1)
+  evaluate(ptrNet, epoch + 1)
 
 
   # x_val, y_val = batch(4)
