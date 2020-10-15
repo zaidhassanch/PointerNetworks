@@ -25,13 +25,9 @@ import torch.nn.functional as F
 
 from data import sample, batch
 import config
-import time
 
-HIDDEN_SIZE = 256
-
-BATCH_SIZE = 32
 STEPS_PER_EPOCH = 500
-EPOCHS = 10
+BATCH_SIZE = 32
 
 
 class Encoder(nn.Module):
@@ -138,7 +134,7 @@ class PointerNetwork(nn.Module):
 
     # out: (BATCH, ARRAY_LEN, HIDDEN_SIZE)
     # hs: tuple of (NUM_LAYERS, BATCH, HIDDEN_SIZE)
-    out, hs = encoder(encoder_in)
+    out, hs = self.encoder(encoder_in)
 
     # Accum loss throughout timesteps
     loss = 0
@@ -152,7 +148,7 @@ class PointerNetwork(nn.Module):
     dec_in = torch.zeros(out.size(0), 1, config.NUM_FEATURES, dtype=torch.float)
     
     for t in range(out.size(1)):
-      hs, att_w = decoder(dec_in, hs, out)
+      hs, att_w = self.decoder(dec_in, hs, out)
       predictions = F.softmax(att_w, dim=1).argmax(1)
 
       # Pick next index
@@ -210,19 +206,5 @@ def evaluate(model, epoch):
       x_val[i,:,0].gather(0, y_val[i])
     ))
 
-
-encoder = Encoder(HIDDEN_SIZE)
-decoder = Decoder(HIDDEN_SIZE)
-ptr_net = PointerNetwork(encoder, decoder)
-
-optimizer = optim.Adam(ptr_net.parameters())
-
-program_starts = time.time()
-for epoch in range(EPOCHS):
-  train(ptr_net, optimizer, epoch + 1)
-  evaluate(ptr_net, epoch + 1)
-
-now = time.time()
-print("It has been {0} seconds since the loop started".format(now - program_starts))
 
   
