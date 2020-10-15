@@ -22,8 +22,6 @@ for epoch in range(EPOCHS):
   x, y = batch(BATCH_SIZE)
   train(ptrNet, x, y, optimizer, epoch + 1)
 
-  #evaluate(ptrNet, epoch + 1)
-
 
   x_val, y_val = batch(4)
   out, _ = ptrNet(x_val, y_val, teacher_force_ratio=0.)
