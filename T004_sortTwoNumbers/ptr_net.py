@@ -174,7 +174,7 @@ class PointerNetwork(nn.Module):
     return outputs, batch_loss
 
 
-def train(model, optimizer, epoch, clip=1.):
+def train(model, x, y, optimizer, epoch, clip=1.):
   """Train single epoch"""
   print('Epoch [{}] -- Train'.format(epoch))
   for step in range(STEPS_PER_EPOCH):

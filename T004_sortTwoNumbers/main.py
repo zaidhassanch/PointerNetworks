@@ -24,8 +24,16 @@ optimizer = optim.Adam(ptr_net.parameters())
 
 program_starts = time.time()
 for epoch in range(EPOCHS):
-  train(ptr_net, optimizer, epoch + 1)
+  #  train(ptr_net, optimizer, epoch + 1)
+  x, y = batch(BATCH_SIZE)
+  train(ptrNet, x, y, optimizer, epoch + 1)
+
   evaluate(ptr_net, epoch + 1)
+
+
+  # x_val, y_val = batch(4)
+  # out, _ = ptrNet(x_val, y_val, teacher_force_ratio=0.)
+
 
 now = time.time()
 print("It has been {0} seconds since the loop started".format(now - program_starts))
