@@ -12,5 +12,6 @@ def batch(batch_size, min_len=5, max_len=12):
                             size=(1,))
 
   x = torch.randint(high=10, size=(batch_size, array_len, config.NUM_FEATURES))
-  return x, torch.sum(x, dim=2).argsort(dim=1)
+  y = torch.sum(x, dim=2).argsort(dim=1)
+  return x, y
 
