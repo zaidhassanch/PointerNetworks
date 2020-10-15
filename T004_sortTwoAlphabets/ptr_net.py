@@ -189,12 +189,12 @@ def train(x, y, model, optimizer, epoch, clip=1.):
 
 
 #@torch.no_grad()
-def evaluate(x_val, y_val, model, epoch):
+def evaluate(pNet, x_val, y_val, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
   
-  out, _ = model(x_val, y_val, teacher_force_ratio=0.)
+  out, _ = pNet(x_val, y_val, teacher_force_ratio=0.)
   out = out.permute(1, 0)
 
   for i in range(out.size(0)):
