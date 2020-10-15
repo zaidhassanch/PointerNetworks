@@ -22,11 +22,23 @@ for epoch in range(EPOCHS):
   x, y = batch(BATCH_SIZE)
   train(ptrNet, x, y, optimizer, epoch + 1)
 
-  evaluate(ptrNet, epoch + 1)
+  #evaluate(ptrNet, epoch + 1)
 
 
-  # x_val, y_val = batch(4)
-  # out, _ = ptrNet(x_val, y_val, teacher_force_ratio=0.)
+  x_val, y_val = batch(4)
+  out, _ = ptrNet(x_val, y_val, teacher_force_ratio=0.)
+  print(out.shape)
+  out = out.permute(1, 0)
+  print(out.shape) 
+
+  sumVal = x_val.sum(dim=2)
+  for i in range(out.size(0)):
+    print('{} --> {} --> {} --> {}'.format(
+      sumVal[i], 
+      sumVal[i].gather(0, out[i]),
+      sumVal[i].gather(0, y_val[i]),
+      sumVal[i].gather(0, out[i]) - sumVal[i].gather(0, y_val[i])
+    ))
 
 
 now = time.time()
