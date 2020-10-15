@@ -27,7 +27,6 @@ from data import  batch
 import config
 import time
 
-HIDDEN_SIZE = 256
 
 BATCH_SIZE = 32
 STEPS_PER_EPOCH = 500
@@ -116,10 +115,10 @@ class Decoder(nn.Module):
 
 
 class PointerNetwork(nn.Module):
-  def __init__(self):
+  def __init__(self, hiddenSize):
     super(PointerNetwork, self).__init__()
-    encoder = Encoder(HIDDEN_SIZE)
-    decoder = Decoder(HIDDEN_SIZE)
+    encoder = Encoder(hiddenSize)
+    decoder = Decoder(hiddenSize)
     self.encoder = encoder
     self.decoder = decoder
 

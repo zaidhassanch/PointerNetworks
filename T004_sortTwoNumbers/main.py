@@ -4,16 +4,16 @@ import torch.optim as optim
 from data import batch
 import config
 import time
-from ptr_net import PointerNetwork, train, evaluate
+from ptr_net import PointerNetwork, train
 
-HIDDEN_SIZE = 256
+
 
 BATCH_SIZE = 32
 STEPS_PER_EPOCH = 500
 EPOCHS = 10
 
 
-ptrNet = PointerNetwork()
+ptrNet = PointerNetwork(config.HIDDEN_SIZE)
 
 optimizer = optim.Adam(ptrNet.parameters())
 
