@@ -22,7 +22,7 @@ def main():
 
     x_val, y_val = batch(4)
     out, _ = ptrNet(x_val, y_val, teacher_force_ratio=0.)
-
+    print(out.shape)
     out = out.permute(1, 0)
 
     for i in range(out.size(0)):
