@@ -203,12 +203,23 @@ def evaluate(model, epoch):
   out, _ = model(x_val, y_val, teacher_force_ratio=0.)
   out = out.permute(1, 0)
 
+  """
   for i in range(out.size(0)):
     print('{} --> {} --> {}'.format(
       x_val[i], 
       x_val[i,:,0].gather(0, out[i]),
       x_val[i,:,0].gather(0, y_val[i])
     ))
+  """
+  sumVal = x_val.sum(dim=2)
+  for i in range(out.size(0)):
+    print('{} --> {} --> {} --> {}'.format(
+      sumVal[i], 
+      sumVal[i].gather(0, out[i]),
+      sumVal[i].gather(0, y_val[i]),
+      sumVal[i].gather(0, y_val[i]) - sumVal[i].gather(0, out[i])
+    ))
+    
 
 
 encoder = Encoder(HIDDEN_SIZE)
