@@ -111,10 +111,11 @@ class Decoder(nn.Module):
 
 
 class PointerNetwork(nn.Module):
-  def __init__(self, 
-               encoder: nn.Module, 
-               decoder: nn.Module):
+  def __init__(self, hidden_size):
     super(PointerNetwork, self).__init__()
+    encoder = Encoder(hidden_size)
+    decoder = Decoder(hidden_size)
+  
     self.encoder = encoder
     self.decoder = decoder
 

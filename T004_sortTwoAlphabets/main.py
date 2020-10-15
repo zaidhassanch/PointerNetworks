@@ -8,20 +8,17 @@ EPOCHS = 1
 BATCH_SIZE = 32
 
 
-encoder = Encoder(config.HIDDEN_SIZE)
-decoder = Decoder(config.HIDDEN_SIZE)
-ptrNet = PointerNetwork(encoder, decoder)
+ptrNet = PointerNetwork(config.HIDDEN_SIZE)
 
 optimizer = optim.Adam(ptrNet.parameters())
 
-
 program_starts = time.time()
 for epoch in range(EPOCHS):
+
   x, y = batch(BATCH_SIZE)
-
   train(x, y, ptrNet, optimizer, epoch + 1)
-  x_val, y_val = batch(4)
 
+  x_val, y_val = batch(4)
   evaluate(x_val, y_val, ptrNet, epoch + 1)
 
 now = time.time()
