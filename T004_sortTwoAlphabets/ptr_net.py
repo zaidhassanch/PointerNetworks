@@ -23,11 +23,10 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
-from data import sample, batch
+# from data import batch
 import config
 
 STEPS_PER_EPOCH = 500
-BATCH_SIZE = 32
 
 
 class Encoder(nn.Module):
@@ -170,14 +169,13 @@ class PointerNetwork(nn.Module):
     return outputs, batch_loss
 
 
-def train(model, optimizer, epoch, clip=1.):
+def train(x, y, model, optimizer, epoch, clip=1.):
   """Train single epoch"""
   print('Epoch [{}] -- Train'.format(epoch))
   for step in range(STEPS_PER_EPOCH):
     optimizer.zero_grad()
 
     # Forward
-    x, y = batch(BATCH_SIZE)
     out, loss = model(x, y)
 
     # Backward
@@ -190,11 +188,10 @@ def train(model, optimizer, epoch, clip=1.):
 
 
 #@torch.no_grad()
-def evaluate(model, epoch):
+def evaluate(x_val, y_val, model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
-  x_val, y_val = batch(4)
   
   out, _ = model(x_val, y_val, teacher_force_ratio=0.)
   out = out.permute(1, 0)
