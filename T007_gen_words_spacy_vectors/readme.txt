@@ -29,9 +29,13 @@
 =================================================================
 10 - CPU and GPU switching
 
-11 - Offline data/batch preparation
+11 - grouped sentences of same length together
 
-12 - Make batches for same length of words
+12 - train the network on sentences of length 8
+
+13 - Support different sentence length ranging from 4 to 12:
+
+
 =================================================
 6:35 - 6:45   Planning
 6:45 - 7:30    finished steps 1-7
@@ -40,7 +44,9 @@
 8:50 - 9:00   Planning for next 10, 11
 9:05 - 9:40   break
 9:40 - 9:50   figured out a way to make sentences of equal length, just append ". . ."
+10:00 - 12:00 We were able to achieve so much
 
+              CPU and GPU sw
 
 
 

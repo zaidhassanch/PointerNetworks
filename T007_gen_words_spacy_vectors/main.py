@@ -7,7 +7,7 @@ import torch
 import torch.nn as nn
 
 BATCH_SIZE = 32
-EPOCHS = 1
+EPOCHS = 10
 STEPS_PER_EPOCH = 100
 
 def train(pNet, optimizer, epoch, clip=1.):
@@ -47,9 +47,10 @@ def evaluateWordSort(model, epoch):
 
     print("]")
 
-
-#ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
-ptrNet = PointerNetwork(config.HIDDEN_SIZE)
+if config.GPU == True:
+  ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
+else:
+  ptrNet = PointerNetwork(config.HIDDEN_SIZE)
 optimizer = optim.Adam(ptrNet.parameters())
 
 program_starts = time.time()

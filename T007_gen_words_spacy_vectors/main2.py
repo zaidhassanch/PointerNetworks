@@ -4,10 +4,12 @@ import random
 import numpy as np
 import random
 from main3 import getGoodSentences
+import config
 
 nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
 sents = getGoodSentences()
-print(sents[4])
+for s in sents:
+    print(len(s))
 
 def generateSentence1(sentenceLength = 8):
     length = len(sents[sentenceLength])
@@ -28,7 +30,7 @@ def generateSentence(sentenceLength = 8):
 
     tokens = []
     while(len(tokens) != sentenceLength):
-        tokens = generateSentence1(sentenceLength=8)
+        tokens = generateSentence1(sentenceLength)
     if(len(tokens) != sentenceLength):
         x  = 3
     # print(len(tokens))
@@ -39,8 +41,8 @@ def generateSentence(sentenceLength = 8):
 # print(x)
 # exit()
 
-def randomizeSentence():
-    sentence = generateSentence(8)
+def randomizeSentence(randomizeSentence):
+    sentence = generateSentence(randomizeSentence)
     augmentedSentence = []
     count = 0
     for word in sentence:
@@ -70,30 +72,32 @@ def batch(batchSize):
     yy = [];
     tt = [];
     count = 0
+    sentenceLength = random.randint(4,6)
     for i in range(batchSize):
         count += 1
-        sentence = randomizeSentence()
+        sentence = randomizeSentence(sentenceLength)
         # print(sentence)
         x, y, text = prepareInputForPtrNet(sentence)
 
         xx.append(x)
         yy.append(y)
         tt.append(text)
-    # xx = torch.cuda.FloatTensor(xx)
-    # yy = torch.cuda.LongTensor(yy)
-
-    xx = torch.FloatTensor(xx)
-    yy = torch.LongTensor(yy)
+    if config.GPU == True:
+        xx = torch.cuda.FloatTensor(xx)
+        yy = torch.cuda.LongTensor(yy)
+    else:
+        xx = torch.FloatTensor(xx)
+        yy = torch.LongTensor(yy)
 
     return xx, yy, tt
 
 
-sentence = randomizeSentence()
-print(sentence)
-x, y, text = prepareInputForPtrNet(sentence)
-print(x)
-print(y)
-print(text)
+# sentence = randomizeSentence()
+# print(sentence)
+# x, y, text = prepareInputForPtrNet(sentence)
+# print(x)
+# print(y)
+# print(text)
 
 # nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
 # x, y, t = batch(5)

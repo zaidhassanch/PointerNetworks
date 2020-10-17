@@ -142,13 +142,15 @@ class PointerNetwork(nn.Module):
 
     # Save outputs at each timestep
     # outputs: (ARRAY_LEN, BATCH)
-    #outputs = torch.zeros(out.size(1), out.size(0), dtype=torch.long, device = 'cuda')
-    outputs = torch.zeros(out.size(1), out.size(0), dtype=torch.long)
-
     # First decoder input is always 0
     # dec_in: (BATCH, 1, 1)
-    #dec_in = torch.zeros(out.size(0), 1, config.NUM_FEATURES, dtype=torch.float, device = 'cuda')
-    dec_in = torch.zeros(out.size(0), 1, config.NUM_FEATURES, dtype=torch.float)
+    if config.GPU == True:
+      outputs = torch.zeros(out.size(1), out.size(0), dtype=torch.long, device = 'cuda')
+      dec_in = torch.zeros(out.size(0), 1, config.NUM_FEATURES, dtype=torch.float, device='cuda')
+    else:
+      outputs = torch.zeros(out.size(1), out.size(0), dtype=torch.long)
+      dec_in = torch.zeros(out.size(0), 1, config.NUM_FEATURES, dtype=torch.float)
+
 
     for t in range(out.size(1)):
       hs, att_w = self.decoder(dec_in, hs, out)

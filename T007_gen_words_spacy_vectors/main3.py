@@ -49,7 +49,7 @@ def getGoodSentences():
                     continue
                 else:
                     prevLine = engLine
-                print(count, engLine)
+                # print(count, engLine)
                 sentences[len(tempArr)].append(engLine)
                 count += 1
                 # if(count == 100): exit()

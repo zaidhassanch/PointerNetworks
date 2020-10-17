@@ -1,5 +1,8 @@
 - Test train split HP
 - Compute accuracy HP
+- Have my own sentences which it has never seen
+- I am sure he will talk to me
+-
 
 
 - Support CPU LP
