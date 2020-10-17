@@ -1,11 +1,14 @@
-
+import torch
 import spacy
 import random
-# nlp = spacy.load("en_core_web_md")  # make sure to use larger model!
+import numpy as np
+nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
 
 def generateSentence():
-    sentence = ['The', 'quick', 'brown', 'fox']
-    return sentence
+    sentence = 'The quick brown dog'#%['The', 'quick', 'brown', 'fox']
+    tokens = nlp(sentence)
+
+    return tokens
 
 def randomizeSentence():
     sentence = generateSentence()
@@ -26,13 +29,15 @@ def prepareInputForPtrNet(list):
     origList = list.copy()
 
     list.sort(key=lambda e: e[1])
-    input = [x[0] for x in origList]
+    input = [x[0].tensor for x in origList]
     target = [x[2] for x in list]
-    return input, target
+    text = [x[0].text for x in origList]
+    return torch.FloatTensor(input), target, text
 
 sentence = randomizeSentence()
 print(sentence)
-x, y = prepareInputForPtrNet(sentence)
+x, y, text = prepareInputForPtrNet(sentence)
 print(x)
 print(y)
+print(text)
 

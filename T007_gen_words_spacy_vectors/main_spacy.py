@@ -5,8 +5,11 @@ import spacy
 # nlp = spacy.load("en_core_web_sm")
 # import spacy
 
+sentence = "a quick brown fox";
+
+
 nlp = spacy.load("en_core_web_md")  # make sure to use larger model!
-tokens = nlp("dog cat banana")
+tokens = nlp(sentence)
 
 for t in tokens:
         print(t.vector)
