@@ -22,10 +22,13 @@ def prepareInputForPtrNet(origList, sortedList):
     target = [x[1] for x in sortedList]
     return input, target
 
+def convertAlphabetsToInts(v):
+    pass
+
 origList = generateWordBatch(2)
 sortedList = sortWords(origList)
 x, y = prepareInputForPtrNet(origList, sortedList)
-
+print(x[0][0])
 print(x)
 print(y)
 
