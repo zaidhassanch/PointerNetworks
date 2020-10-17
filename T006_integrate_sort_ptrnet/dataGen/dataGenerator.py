@@ -2,6 +2,15 @@ import string
 import random
 import torch
 
+f = open("dataGen/words.txt", "r")
+lines = f.read();
+
+words = lines.split('\n')
+print(len(words))
+print(words[0:3])
+print(words[-3:-1])
+# exit()
+
 def generateWord(minWordLength = 2, maxWordLength = 4):
     word = ''
     alphabets = string.ascii_lowercase
@@ -15,7 +24,10 @@ def generateWord(minWordLength = 2, maxWordLength = 4):
 def generateWords(n, minLength, maxLength):
     x1 = [];
     for i in range(n):
-        w = generateWord(minLength, maxLength) #generate two lettered words
+        index = random.randint(0,len(words)-1)
+
+        w = words[index]
+        #w = generateWord(minLength, maxLength) #generate two lettered words
         x1.append(w);
     nList = []
     count = 0

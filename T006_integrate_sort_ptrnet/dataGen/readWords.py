@@ -1,5 +1,6 @@
 
 
+
 def readInWords():
 	f = open("/usr/share/dict/words", "r")
 	char_list = ['\'', 'é', 'ö']

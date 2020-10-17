@@ -10,7 +10,7 @@ import torch.nn as nn
 
 BATCH_SIZE = 32
 # STEPS_PER_EPOCH = 500
-EPOCHS = 10
+EPOCHS = 20
 STEPS_PER_EPOCH = 500
 
 
@@ -51,11 +51,18 @@ def evaluate(model, epoch):
   #     sumVal[i].gather(0, y_val[i]) - sumVal[i].gather(0, out[i])
   #   ))
   for i in range(out.size(0)):
+    print("=============================================")
     print("yref", y_val[i], out[i], y_val[i] - out[i],)
     # print(x_val[out[i]])
 
     xv = convertToWordSingle(x_val[i])
-    print(xv)
+    print("orig", xv)
+    v = out[i].numpy()
+    print("[", end="")
+    for index in v:
+      print(xv[index]+", ", end="")
+
+    print("]")
 
 
 ptrNet = PointerNetwork(config.HIDDEN_SIZE)
