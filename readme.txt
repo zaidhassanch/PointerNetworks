@@ -23,6 +23,10 @@ PHASE 3: Sort Words Alphabetically,
 - Extend to words of any length < N,
   > append a special character at the end of the word which can be treated it as <a, or >z
 
+PHASE 4:
+
+
+
 PHASE 4: Sort Jumbled sentences
 ======================================
 - Instead of simple ascii representation of words, use "embedding" representation of words
