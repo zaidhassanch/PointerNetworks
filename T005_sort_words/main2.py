@@ -4,20 +4,21 @@ from dataGenerator import generateWords, sortWords, prepareInputForPtrNet, conve
 xx = [];
 yy = [];
 
-for i in range(1):
-    origList = generateWords(2, 5, 5)
+for i in range(4):
+    origList = generateWords(2, 3, 3)
     sortedList = sortWords(origList)
     xt, y = prepareInputForPtrNet(origList, sortedList)
     x = convertAlphabetsToInts(xt)
     xa = convertIntsToAlphabets(x)
+    print(x)
+    print(y)
+    print(xa)
+
     xx.append(x)
     yy.append(y)
 
 
-print(x)
-print(y)
-print(xa)
-print("abc")
+print("=============================================")
 
 print(xx)
 print(yy)

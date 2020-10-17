@@ -12,12 +12,12 @@ def readInWords():
 
 	maxlength = 0
 	for i, x in enumerate(f):
-	  print(x)
-	  if maxlength < len(x):
-	  	maxlength = len(x)
-	  	print(f[i])
+		#print(x)
+		if maxlength < len(x):
+			maxlength = len(x)
+			#print(f[i])
 
-	print(maxlength)
+	#print(maxlength)
 
 	print(type(f))
 	return f
@@ -29,6 +29,6 @@ def writeWords(words):
 			f.write(word + "\n");
 	f.close()
 
-f = readInWords()
-writeWords(f)
-print(f[0:5])
+# f = readInWords()
+# writeWords(f)
+# print(f[0:5])
