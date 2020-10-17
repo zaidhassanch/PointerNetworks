@@ -1,0 +1,33 @@
+
+Prepare input for our Neural Net
+- N lettered words and their sort order
+
+- Generate N lettered words
+x1 =['bd','cc','az']
+
+- Sort words to get sort order
+  > We have sorting logic already
+
+- Convert letters to arrays
+x = [[54, 58], [55, 55], [53, 65]]
+y = [2, 0, 1]
+
+- Convert array to letters BACK
+
+- done
+
+
+=================================================================
+
+- Append # to words which are of less than length N
+
+
+
+11:25 - 11:40: planning what do want to do today
+11:32 - 12:00: 1
+12:00 - 12:30: 2
+12:30 -  1:00: 3
+1:00  - 1:15: planning if optimization is required or not
+
+
+
