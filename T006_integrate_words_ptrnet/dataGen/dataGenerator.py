@@ -81,7 +81,7 @@ def batch(batchSize):
 
         xx.append(x)
         yy.append(y)
-    xx = torch.LongTensor(xx)
+    xx = torch.FloatTensor(xx)
     yy = torch.LongTensor(yy)
 
 
