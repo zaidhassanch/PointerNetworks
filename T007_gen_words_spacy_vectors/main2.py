@@ -7,11 +7,12 @@ nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
 def generateSentence():
     maxLength = 8;
     sentence = 'The quick brown dog'#%['The', 'quick', 'brown', 'fox']
+    sentence = "It's my fault that the cake was burned"
     s = sentence.split(" ");
     print(len(s))
     if len(s) < maxLength:
         for i in range(maxLength - len(s)):
-            sentence += " ."
+            sentence += " *"
     tokens = nlp(sentence)
 
     print(len(tokens))
