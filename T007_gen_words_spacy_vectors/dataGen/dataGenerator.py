@@ -2,26 +2,19 @@ import string
 import random
 import torch
 
-f = open("dataGen/words.txt", "r")
-lines = f.read();
+def generateSentence():
+    sentence = ['The', 'quick', 'brown', 'fox']
+    nList = []
+    count = 0
+    for word in x1:
+        nList.append([word, count])
+        count += 1
+    return nList
 
-words = lines.split('\n')
-print(len(words))
-print(words[0:3])
-print(words[-3:-1])
-# exit()
+print(generateSentence())
 
-def generateWord(minWordLength = 2, maxWordLength = 4):
-    word = ''
-    alphabets = string.ascii_lowercase
-    wordLength = random.randint(minWordLength, maxWordLength)
-    for k in range(wordLength):
-        word += random.sample(alphabets, 1)[0]
-    return word
 
-# print(generateWord())
-
-def generateWords(n, minLength, maxLength):
+def generateWords(n):
     x1 = [];
     for i in range(n):
         index = random.randint(0,len(words)-1)
@@ -36,7 +29,7 @@ def generateWords(n, minLength, maxLength):
         count += 1
     return nList
 
-def sortWords(list):
+def randomizeWords(list):
     newList = list.copy()
     newList.sort(key=lambda e: e[0])
     return newList
