@@ -17,16 +17,17 @@ def sortWords(list):
     newList.sort(key=lambda e: e[0])
     return newList
 
-def prepareInputForPtrNet(list):
-    input = [x[0] for x in originalList]
-    target = [x[1] for x in nList]
+def prepareInputForPtrNet(origList, sortedList):
+    input = [x[0] for x in origList]
+    target = [x[1] for x in sortedList]
     return input, target
 
-nList = generateWordBatch(2)
-nList2 = sortWords(nList)
+origList = generateWordBatch(2)
+sortedList = sortWords(origList)
+x, y = prepareInputForPtrNet(origList, sortedList)
 
-print(nList)
-print(nList2)
+print(x)
+print(y)
 
 # Prepare input for our Neural Net
 # - N lettered words and their sort order
