@@ -5,10 +5,22 @@ import numpy as np
 nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
 
 def generateSentence():
+    maxLength = 8;
     sentence = 'The quick brown dog'#%['The', 'quick', 'brown', 'fox']
+    s = sentence.split(" ");
+    print(len(s))
+    if len(s) < maxLength:
+        for i in range(maxLength - len(s)):
+            sentence += " ."
     tokens = nlp(sentence)
 
+    print(len(tokens))
+
     return tokens
+
+x = generateSentence()
+print(x)
+exit()
 
 def randomizeSentence():
     sentence = generateSentence()
@@ -52,12 +64,12 @@ def batch(batchSize):
     return xx, yy, tt
 
 
-# sentence = randomizeSentence()
-# print(sentence)
-# x, y, text = prepareInputForPtrNet(sentence)
-# print(x.shape)
-# print(y)
-# print(text)
+sentence = randomizeSentence()
+print(sentence)
+x, y, text = prepareInputForPtrNet(sentence)
+print(x)
+print(y)
+print(text)
 
 # nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
 # x, y, t = batch(5)

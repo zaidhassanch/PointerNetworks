@@ -24,11 +24,22 @@
 
 8 - make batch for training, we have the text and the desired order
 
+9 - "The quick brown dog" reordered on GPU
+
 =================================================================
+10 - CPU and GPU switching
+
+11 - Offline data/batch preparation
+
+12 - Make batches for same length of words
+=================================================
 6:35 - 6:45   Planning
 6:45 - 7:30    finished steps 1-7
 7:30 - 8:00   break
-8:00 - 8:10   planning
+8:00 - 8:50   running a sentence [A quick brown dog] different reordering and moving to GPU, worked
+8:50 - 9:00   Planning for next 10, 11
+9:05 - 9:40   break
+9:40 - 9:50   figured out a way to make sentences of equal length, just append ". . ."
 
 
 

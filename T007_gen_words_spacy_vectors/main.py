@@ -1,29 +1,24 @@
 import torch.optim as optim
 from main2 import batch
-import spacy
-
-#from data import batch
 import config
 import time
 from pointerNetwork import PointerNetwork
 import torch
 import torch.nn as nn
 
-BATCH_SIZE = 1024
-# STEPS_PER_EPOCH = 500
+BATCH_SIZE = 32
 EPOCHS = 1
-STEPS_PER_EPOCH = 50
-
+STEPS_PER_EPOCH = 100
 
 def train(pNet, optimizer, epoch, clip=1.):
   """Train single epoch"""
   print('Epoch [{}] -- Train'.format(epoch))
-  x, y, t = batch(BATCH_SIZE)
+
+
   for step in range(STEPS_PER_EPOCH):
     optimizer.zero_grad()
-
+    x, y, t = batch(BATCH_SIZE)
     # Forward
-
     out, loss = pNet(x, y)
     # Backward
     loss.backward()
