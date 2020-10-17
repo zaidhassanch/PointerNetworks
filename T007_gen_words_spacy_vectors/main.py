@@ -48,7 +48,8 @@ def evaluateWordSort(model, epoch):
     print("]")
 
 
-ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
+#ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
+ptrNet = PointerNetwork(config.HIDDEN_SIZE)
 optimizer = optim.Adam(ptrNet.parameters())
 
 program_starts = time.time()

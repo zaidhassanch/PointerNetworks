@@ -1,4 +1,9 @@
+- Test train split HP
+- Compute accuracy HP
 
+
+- Support CPU LP
+- Fully connected explore LP
 
 T001_sort               : Original code
 T002_sort_alphabet      : Code for word sorting

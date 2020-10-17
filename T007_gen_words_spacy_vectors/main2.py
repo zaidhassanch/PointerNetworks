@@ -2,29 +2,45 @@ import torch
 import spacy
 import random
 import numpy as np
+import random
+from main3 import getGoodSentences
+
 nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
+sents = getGoodSentences()
+print(sents[4])
 
-def generateSentence():
-    maxLength = 8;
-    sentence = 'The quick brown dog'#%['The', 'quick', 'brown', 'fox']
-    sentence = "It's my fault that the cake was burned"
+def generateSentence1(sentenceLength = 8):
+    length = len(sents[sentenceLength])
+    index = random.randint(0,length-1)
+    # sentenceLength = 8;
+    # index = 2;
+    sentence = sents[sentenceLength][index];
+    #sentence = 'The quick brown dog'#%['The', 'quick', 'brown', 'fox']
+
+    #sentence = "It's my fault that the cake was burned"
     s = sentence.split(" ");
-    print(len(s))
-    if len(s) < maxLength:
-        for i in range(maxLength - len(s)):
-            sentence += " *"
+    #print(len(s))
     tokens = nlp(sentence)
+    return tokens
 
-    print(len(tokens))
+
+def generateSentence(sentenceLength = 8):
+
+    tokens = []
+    while(len(tokens) != sentenceLength):
+        tokens = generateSentence1(sentenceLength=8)
+    if(len(tokens) != sentenceLength):
+        x  = 3
+    # print(len(tokens))
 
     return tokens
 
-x = generateSentence()
-print(x)
-exit()
+# x = generateSentence()
+# print(x)
+# exit()
 
 def randomizeSentence():
-    sentence = generateSentence()
+    sentence = generateSentence(8)
     augmentedSentence = []
     count = 0
     for word in sentence:
@@ -53,15 +69,22 @@ def batch(batchSize):
     xx = [];
     yy = [];
     tt = [];
+    count = 0
     for i in range(batchSize):
+        count += 1
         sentence = randomizeSentence()
         # print(sentence)
         x, y, text = prepareInputForPtrNet(sentence)
+
         xx.append(x)
         yy.append(y)
         tt.append(text)
-    xx = torch.cuda.FloatTensor(xx)
-    yy = torch.cuda.LongTensor(yy)
+    # xx = torch.cuda.FloatTensor(xx)
+    # yy = torch.cuda.LongTensor(yy)
+
+    xx = torch.FloatTensor(xx)
+    yy = torch.LongTensor(yy)
+
     return xx, yy, tt
 
 
