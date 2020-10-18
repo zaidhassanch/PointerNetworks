@@ -7,7 +7,7 @@ def filterSentences():
     sentences = [];
     for i in range(0, 20):   #max 20length sentences
         sentences.append([]);
-    f = open("eng-fra.txt", "r")
+    f = open("../data/eng-fra.txt", "r")
     line = ""
     count = 0
     fileLines = f.readlines()
