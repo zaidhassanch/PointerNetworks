@@ -69,20 +69,18 @@ def main():
   now = time.time()
   print("It has been {0} seconds since the loop started".format(now - program_starts))
 
-
-
 def savePickle(fileName):
   sentenceData = prepareDataVect()
   fx = open(fileName, "wb")
-  pickle.dump(sentVect, fx, protocol=pickle.HIGHEST_PROTOCOL)
+  pickle.dump(sentenceData, fx, protocol=pickle.HIGHEST_PROTOCOL)
 
 def loadPickle(fileName):
   fx = open(fileName, "rb")
   sentenceData = pickle.load(fx)
   return sentenceData
 
-#savePickle("sentence.pkl")
-sentenceData = loadPickle("sentence.pkl")
+# savePickle("sentence.pkl")
+# sentenceData = loadPickle("sentence.pkl")
 main()
 
 
