@@ -1,11 +1,13 @@
 import torch.optim as optim
-from filterSentences import batch
+from batch import batch
+from generateData import prepareDataVect
 import config
 import time
 from pointerNetwork import PointerNetwork
 import torch
 import torch.nn as nn
 import time
+import pickle
 
 BATCH_SIZE = 32
 EPOCHS = 10
@@ -18,7 +20,7 @@ def train(pNet, optimizer, epoch, clip=1.):
   start = time.time()
   for step in range(STEPS_PER_EPOCH):
     optimizer.zero_grad()
-    x, y, t = batch(BATCH_SIZE)
+    x, y, t = batch(sentenceData, BATCH_SIZE)
     
     # Forward
     out, loss = pNet(x, y)
@@ -35,7 +37,7 @@ def evaluateWordSort(model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
-  x_val, y_val, text_val = batch(4)
+  x_val, y_val, text_val = batch(sentenceData, 4)
   out, _ = model(x_val, y_val, teacher_force_ratio=0.)
   out = out.permute(1, 0)
 
@@ -68,4 +70,19 @@ def main():
   print("It has been {0} seconds since the loop started".format(now - program_starts))
 
 
+
+def savePickle(fileName):
+  sentenceData = prepareDataVect()
+  fx = open(fileName, "wb")
+  pickle.dump(sentVect, fx, protocol=pickle.HIGHEST_PROTOCOL)
+
+def loadPickle(fileName):
+  fx = open(fileName, "rb")
+  sentenceData = pickle.load(fx)
+  return sentenceData
+
+#savePickle("sentence.pkl")
+sentenceData = loadPickle("sentence.pkl")
 main()
+
+
