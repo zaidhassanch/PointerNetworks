@@ -3,15 +3,16 @@ import spacy
 import random
 import numpy as np
 import random
-from main3 import getGoodSentences
+from filterSentences import filterSentences
 import config
 
-nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
-sents = getGoodSentences()
+nlp = spacy.load("en_core_web_lg")  # make sure to use larger model!
+sents = filterSentences()
 for s in sents:
     print(len(s))
 
-def generateSentence1(sentenceLength = 8):
+def generateSentence1(sentenceLength = 8, newSentences = False):
+
     length = len(sents[sentenceLength])
     index = random.randint(0,length-1)
     # sentenceLength = 8;
@@ -26,11 +27,11 @@ def generateSentence1(sentenceLength = 8):
     return tokens
 
 
-def generateSentence(sentenceLength = 8):
+def generateSentence(sentenceLength = 8, newSentences = False):
 
     tokens = []
     while(len(tokens) != sentenceLength):
-        tokens = generateSentence1(sentenceLength)
+        tokens = generateSentence1(sentenceLength, sentenceLength)
     if(len(tokens) != sentenceLength):
         x  = 3
     # print(len(tokens))
@@ -41,8 +42,8 @@ def generateSentence(sentenceLength = 8):
 # print(x)
 # exit()
 
-def randomizeSentence(randomizeSentence):
-    sentence = generateSentence(randomizeSentence)
+def randomizeSentence(sentenceLength, newSentences = False):
+    sentence = generateSentence(sentenceLength, newSentences)
     augmentedSentence = []
     count = 0
     for word in sentence:
@@ -67,15 +68,15 @@ def prepareInputForPtrNet(list):
 
 
 
-def batch(batchSize):
+def batch(batchSize, newSentences = False):
     xx = [];
     yy = [];
     tt = [];
     count = 0
-    sentenceLength = random.randint(4,6)
+    sentenceLength = random.randint(4,10)
     for i in range(batchSize):
         count += 1
-        sentence = randomizeSentence(sentenceLength)
+        sentence = randomizeSentence(sentenceLength, newSentences)
         # print(sentence)
         x, y, text = prepareInputForPtrNet(sentence)
 

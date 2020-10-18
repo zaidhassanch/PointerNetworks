@@ -1,12 +1,14 @@
+
+
+
+=============================================
 - Test train split HP
+	> Have my own sentences which it has never seen
 - Compute accuracy HP
-- Have my own sentences which it has never seen
 - I am sure he will talk to me
--
 
-
-- Support CPU LP
-- Fully connected explore LP
+- Fully connected explore - Low priority
+- Try on Urdu
 
 T001_sort               : Original code
 T002_sort_alphabet      : Code for word sorting
@@ -30,10 +32,6 @@ PHASE 3: Sort Words Alphabetically,
 - Now since I could sort sum of vectors w.r.t a criteria, I should be able to sort fixed length words
 - Extend to words of any length < N,
   > append a special character at the end of the word which can be treated it as <a, or >z
-
-PHASE 4:
-
-
 
 PHASE 4: Sort Jumbled sentences
 ======================================

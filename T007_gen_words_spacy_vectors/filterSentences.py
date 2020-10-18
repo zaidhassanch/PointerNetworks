@@ -1,5 +1,5 @@
 
-def getGoodSentences():
+def filterSentences():
     sentences = [];
     for i in range(0, 20):   #max 20length sentences
         sentences.append([]);
