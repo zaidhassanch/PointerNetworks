@@ -110,7 +110,7 @@ def prepareDataVect():
             sentVectN.append(sentenceDict)
             if i%30==29: 
                 print(fc, nSentences, i)
-                break
+                # break
         svect.append(sentVectN)
     return svect
 
