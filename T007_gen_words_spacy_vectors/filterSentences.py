@@ -1,3 +1,5 @@
+import spacy
+
 
 def filterSentences():
     sentences = [];
@@ -20,6 +22,7 @@ def filterSentences():
 
         for engLine in englishLines:
             engLine  = engLine.strip()
+            if '&' in engLine: continue
             if '"' in engLine: continue
             if ',' in engLine: continue
             if "'" in engLine: continue
@@ -61,3 +64,18 @@ def filterSentences():
 #     print(cnt, len(s))
 #     cnt += 1
 #print(sents[4])
+
+nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
+sents = filterSentences()
+
+fc = 0
+for s in sents:
+    f = open("dataGen/sent_"+str(fc)+".txt", "w")
+    fc += 1
+    nSentences = len(s);
+    for i in range(nSentences):
+        f.write(s[i]+"\n")
+        
+    f.close()
+
+

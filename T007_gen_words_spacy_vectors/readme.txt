@@ -35,6 +35,9 @@
 
 13 - Support different sentence length ranging from 4 to 12:
 
+=================================================
+
+Prepare data in advance
 
 =================================================
 6:35 - 6:45   Planning

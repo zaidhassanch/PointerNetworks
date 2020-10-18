@@ -1,40 +1,25 @@
 import torch
-import spacy
 import random
 import numpy as np
 import random
-from filterSentences import filterSentences
 import config
-
-nlp = spacy.load("en_core_web_lg")  # make sure to use larger model!
-sents = filterSentences()
-for s in sents:
-    print(len(s))
+from filterSentences import sents, nlp
 
 def generateSentence1(sentenceLength = 8, newSentences = False):
-
     length = len(sents[sentenceLength])
     index = random.randint(0,length-1)
-    # sentenceLength = 8;
-    # index = 2;
     sentence = sents[sentenceLength][index];
-    #sentence = 'The quick brown dog'#%['The', 'quick', 'brown', 'fox']
-
-    #sentence = "It's my fault that the cake was burned"
     s = sentence.split(" ");
-    #print(len(s))
     tokens = nlp(sentence)
     return tokens
 
-
 def generateSentence(sentenceLength = 8, newSentences = False):
-
     tokens = []
     while(len(tokens) != sentenceLength):
         tokens = generateSentence1(sentenceLength, sentenceLength)
     if(len(tokens) != sentenceLength):
-        x  = 3
-    # print(len(tokens))
+        print("Unexpected case found")
+        exit()
 
     return tokens
 

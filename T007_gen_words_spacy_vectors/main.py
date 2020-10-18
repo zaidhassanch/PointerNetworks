@@ -7,12 +7,13 @@ import torch
 import torch.nn as nn
 
 BATCH_SIZE = 32
-EPOCHS = 1
+EPOCHS = 10
 STEPS_PER_EPOCH = 100
 
 def train(pNet, optimizer, epoch, clip=1.):
   """Train single epoch"""
   print('Epoch [{}] -- Train'.format(epoch))
+  #x, y, t = batch(BATCH_SIZE)
 
   for step in range(STEPS_PER_EPOCH):
     optimizer.zero_grad()
