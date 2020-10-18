@@ -9,7 +9,6 @@ def generateSentence1(sentenceLength = 8, newSentences = False):
     length = len(sents[sentenceLength])
     index = random.randint(0,length-1)
     sentence = sents[sentenceLength][index];
-    s = sentence.split(" ");
     tokens = nlp(sentence)
     return tokens
 
