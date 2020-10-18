@@ -1,11 +1,13 @@
 import torch.optim as optim
-from generateData import batch
+#from generateData import batch
+from filterSentences import batch
 import config
 import time
 from pointerNetwork import PointerNetwork
 import torch
 import torch.nn as nn
 import time
+
 
 BATCH_SIZE = 32
 EPOCHS = 10
@@ -14,7 +16,7 @@ STEPS_PER_EPOCH = 100
 def train(pNet, optimizer, epoch, clip=1.):
   """Train single epoch"""
   print('Epoch [{}] -- Train'.format(epoch))
-  #x, y, t = batch(BATCH_SIZE)
+  # x, y, t = batch(BATCH_SIZE)
 
 
   start = time.time()
@@ -37,7 +39,7 @@ def evaluateWordSort(model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
-  x_val, y_val, text_val = batch(4, True)
+  x_val, y_val, text_val = batch(4)
   out, _ = model(x_val, y_val, teacher_force_ratio=0.)
   out = out.permute(1, 0)
 

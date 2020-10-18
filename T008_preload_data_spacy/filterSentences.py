@@ -104,7 +104,8 @@ def makeSentenceDict(sentence):
     sentDict["wordArray"] = []
 
     for i in range(len(tokens)):
-        x = [1,2,3,4]#tokens[i].vector
+        #x = [1,2,3,4]#tokens[i].vector
+        x = tokens[i].vector
         t = tokens[i].text
         sentDict["wordArray"].append({"word":t, "vector":x})
 
