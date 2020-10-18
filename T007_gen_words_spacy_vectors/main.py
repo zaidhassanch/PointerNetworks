@@ -31,6 +31,7 @@ def train(pNet, optimizer, epoch, clip=1.):
     if (step + 1) % 10 == 0:
       duration = time.time() - start
       print('Epoch [{}] loss: {}  time:{:.2f}'.format(epoch, loss.item(), duration))
+      start = time.time()
 
 def evaluateWordSort(model, epoch):
   """Evaluate after a train epoch"""

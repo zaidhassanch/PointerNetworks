@@ -1,5 +1,7 @@
 import spacy
 import random
+import config
+import torch
 
 def filterSentences():
     sentences = [];
@@ -102,7 +104,7 @@ def makeSentenceDict(sentence):
     sentDict["wordArray"] = []
 
     for i in range(len(tokens)):
-        x = tokens[i].vector
+        x = [1,2,3,4]#tokens[i].vector
         t = tokens[i].text
         sentDict["wordArray"].append({"word":t, "vector":x})
 
@@ -142,10 +144,9 @@ for s in sents:
 for sentVectN in sentVect:
     for sentence in sentVectN:
         pass
-        printSDict(sentence)
+        # printSDict(sentence)
 
-def randomizeSentence(sentenceLength, newSentences = False):
-    sentence = generateSentence(sentenceLength, newSentences)
+def randomizeSentence(sentence):
     augmentedSentence = []
     count = 0
     for word in sentence:
@@ -159,36 +160,49 @@ def randomizeSentence(sentenceLength, newSentences = False):
         count += 1
     return augmentedSentence
 
+def prepareInputForPtrNet(list):
+    origList = list.copy()
 
-def batchFast(batchSize):
+    list.sort(key=lambda e: e[1])
+    input = [x[0]["vector"] for x in origList]
+    target = [x[2] for x in list]
+    text = [x[0]["word"] for x in origList]
+    return input, target, text
+
+
+def batch(batchSize):
     sentenceLength = random.randint(4,10)
     sentVectN = sentVect[sentenceLength]
     length = len(sentVectN)
-    
+    xx = []
+    yy = []
+    tt = []
     for i in range(batchSize):
         index = random.randint(0,length-1)
 
         sentence = sentVectN[index]
-        print(sentence["text"])
+        #print(index, sentence["text"])
+        sentence = randomizeSentence(sentence["wordArray"])
+        x, y, text = prepareInputForPtrNet(sentence)
+        # print(sentence)
+        # print(x)
+        # print(y)
+        # print(text)
+        # exit()
+        xx.append(x)
+        yy.append(y)
+        tt.append(text)
+    if config.GPU == True:
+        xx = torch.cuda.FloatTensor(xx)
+        yy = torch.cuda.LongTensor(yy)
+    else:
+        xx = torch.FloatTensor(xx)
+        yy = torch.LongTensor(yy)
 
-    #     count += 1
-    #     sentence = randomizeSentence(sentenceLength, newSentences)
-    #     # print(sentence)
-    #     x, y, text = prepareInputForPtrNet(sentence)
+    return xx, yy, tt
 
-    #     xx.append(x)
-    #     yy.append(y)
-    #     tt.append(text)
-    # if config.GPU == True:
-    #     xx = torch.cuda.FloatTensor(xx)
-    #     yy = torch.cuda.LongTensor(yy)
-    # else:
-    #     xx = torch.FloatTensor(xx)
-    #     yy = torch.LongTensor(yy)
-
-    # return xx, yy, tt
-
-#batchFast(2)
+# print("--")
+# batch(2000)
 
 
 
