@@ -59,6 +59,7 @@ def batch(batchSize, newSentences = False):
     tt = [];
     count = 0
     sentenceLength = random.randint(4,10)
+    sentenceLength = 6 
     for i in range(batchSize):
         count += 1
         sentence = randomizeSentence(sentenceLength, newSentences)

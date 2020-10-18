@@ -5,6 +5,7 @@ import time
 from pointerNetwork import PointerNetwork
 import torch
 import torch.nn as nn
+import time
 
 BATCH_SIZE = 32
 EPOCHS = 10
@@ -15,6 +16,8 @@ def train(pNet, optimizer, epoch, clip=1.):
   print('Epoch [{}] -- Train'.format(epoch))
   #x, y, t = batch(BATCH_SIZE)
 
+
+  start = time.time()
   for step in range(STEPS_PER_EPOCH):
     optimizer.zero_grad()
     x, y, t = batch(BATCH_SIZE)
@@ -26,7 +29,8 @@ def train(pNet, optimizer, epoch, clip=1.):
     nn.utils.clip_grad_norm_(pNet.parameters(), clip)
     optimizer.step()
     if (step + 1) % 10 == 0:
-      print('Epoch [{}] loss: {}'.format(epoch, loss.item()))
+      duration = time.time() - start
+      print('Epoch [{}] loss: {}  time:{:.2f}'.format(epoch, loss.item(), duration))
 
 def evaluateWordSort(model, epoch):
   """Evaluate after a train epoch"""
