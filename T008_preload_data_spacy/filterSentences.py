@@ -58,26 +58,9 @@ def filterSentences():
                 # if(count == 100): exit()
     return sentences
 
-# sents = getGoodSentences()
-# cnt = 0
-# for s in sents:
-#     print(cnt, len(s))
-#     cnt += 1
-#print(sents[4])
-
 nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
 sents = filterSentences()
 
-s1 = "He will address the nation today"
-t1 = nlp(s1)
-s2 = "What is your address"
-t2 = nlp(s2)
-
-# t = t1[2].vector - t2[3].vector;
-# print(t1[2].vector)
-# print(t2[3].vector)
-# print(t)
-# exit()
 
 def printSDict(sentenceDict):
     sentenceLength = len(sentenceDict["wordArray"])
@@ -113,39 +96,43 @@ def makeSentenceDict(sentence):
     # sentDict["textArray"] = {sentenceArray
     return True, sentDict
 
-fc = 0
-sentVect = [];
-for s in sents:
-    #print("======New case=======");
-    # f = open("dataGen/sent_"+str(fc)+".txt", "w")
-    fc += 1
-    nSentences = len(s);
-    #print(fc)
-    sentVectN = []
-    for i in range(nSentences):
-        sentence = s[i]
-        # sentence = "This is a very interesting thing"
-        # f.write(sentence+"\n")
-        success, sentenceDict = makeSentenceDict(sentence)
-        if success==False: continue
-        #printSDict(sentenceDict)
-        sentVectN.append(sentenceDict)
-        if i%30==2: 
-            #print(fc, nSentences, i)
-            break
+def prepareDataVect():
+    svect = []
+    fc = 0
+    for s in sents:
+        #print("======New case=======");
+        # f = open("dataGen/sent_"+str(fc)+".txt", "w")
+        fc += 1
+        nSentences = len(s);
+        #print(fc)
+        sentVectN = []
+        for i in range(nSentences):
+            sentence = s[i]
+            # sentence = "This is a very interesting thing"
+            # f.write(sentence+"\n")
+            success, sentenceDict = makeSentenceDict(sentence)
+            if success==False: continue
+            #printSDict(sentenceDict)
+            sentVectN.append(sentenceDict)
+            if i%30==29: 
+                print(fc, nSentences, i)
+                break
 
-    # exit()
-    # print(len(sentVectN), len(sents))
-    # f.close()
-    sentVect.append(sentVectN)
-    # print("...", len(sentVect))
+        # exit()
+        # print(len(sentVectN), len(sents))
+        # f.close()
+        svect.append(sentVectN)
+        # print("...", len(sentVect))
 
-# print("(((((((((((((((((((((((((()))))))))))))))))))))))", len(sentVect))
+    # print("(((((((((((((((((((((((((()))))))))))))))))))))))", len(sentVect))
+    return svect
+    # for sentVectN in sentVect:
+    #     for sentence in sentVectN:
+    #         pass
+            # printSDict(sentence)
 
-for sentVectN in sentVect:
-    for sentence in sentVectN:
-        pass
-        # printSDict(sentence)
+sentVect = prepareDataVect()
+
 
 def randomizeSentence(sentence):
     augmentedSentence = []

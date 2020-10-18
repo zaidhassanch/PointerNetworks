@@ -55,3 +55,13 @@ Prepare data in advance
 
 
 
+# s1 = "He will address the nation today"
+# t1 = nlp(s1)
+# s2 = "What is your address"
+# t2 = nlp(s2)
+
+# t = t1[2].vector - t2[3].vector;
+# print(t1[2].vector)
+# print(t2[3].vector)
+# print(t)
+# exit()
