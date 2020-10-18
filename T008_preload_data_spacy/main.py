@@ -9,9 +9,9 @@ import torch.nn as nn
 import time
 import pickle
 
-BATCH_SIZE = 32
+BATCH_SIZE = 2048
 EPOCHS = 10
-STEPS_PER_EPOCH = 100
+STEPS_PER_EPOCH = 500
 
 def train(pNet, optimizer, epoch, clip=1.):
   """Train single epoch"""
@@ -21,7 +21,7 @@ def train(pNet, optimizer, epoch, clip=1.):
   for step in range(STEPS_PER_EPOCH):
     optimizer.zero_grad()
     x, y, t = batch(sentenceData, BATCH_SIZE)
-    
+      
     # Forward
     out, loss = pNet(x, y)
     # Backward
@@ -37,7 +37,7 @@ def evaluateWordSort(model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
-  x_val, y_val, text_val = batch(sentenceData, 4)
+  x_val, y_val, text_val = batch(sentenceData, 8)
   out, _ = model(x_val, y_val, teacher_force_ratio=0.)
   out = out.permute(1, 0)
 
@@ -66,6 +66,11 @@ def main():
     train(ptrNet, optimizer, epoch + 1)
     evaluateWordSort(ptrNet, epoch + 1)
 
+  PATH = "state_dict_model.pt"
+
+  # Save
+  torch.save(ptrNet.state_dict(), PATH)
+
   now = time.time()
   print("It has been {0} seconds since the loop started".format(now - program_starts))
 
@@ -79,8 +84,9 @@ def loadPickle(fileName):
   sentenceData = pickle.load(fx)
   return sentenceData
 
-savePickle("sentence.pkl")
-# sentenceData = loadPickle("sentence.pkl")
-# main()
+#savePickle("sentence.pkl")
+sentenceData = loadPickle("sentence.pkl")
+main()
+
 
 
