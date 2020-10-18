@@ -1,4 +1,5 @@
 import spacy
+import random
 
 def filterSentences():
     sentences = [];
@@ -77,12 +78,12 @@ t2 = nlp(s2)
 # exit()
 
 def printSDict(sentenceDict):
-    sentenceLength = len(sentenceDict["textArray"])
+    sentenceLength = len(sentenceDict["wordArray"])
     print(str(sentenceLength) + " ==== ", sentenceDict["text"])
-    for k in range(sentenceLength):
-        print(sentenceDict["textArray"][k], end = " => [")
+    for v in sentenceDict["wordArray"]:
+        print(v["word"], end = " => [")
         for i in range(5):
-            print(str(sentenceDict["vector"][k][i])+", ", end="")
+            print(str(v["vector"][i])+", ", end="")
         print("]")
     print()
 
@@ -98,46 +99,96 @@ def makeSentenceDict(sentence):
         print("Unexpected case found #", sentence) # e.g. cannot
         return False, None
 
-    sentDict["vector"] = []
-    for token in tokens:
-        sentDict["vector"].append(token.vector)
+    sentDict["wordArray"] = []
+
+    for i in range(len(tokens)):
+        x = tokens[i].vector
+        t = tokens[i].text
+        sentDict["wordArray"].append({"word":t, "vector":x})
 
     sentDict["text"] = sentence
-    sentDict["textArray"] = sentenceArray
+    # sentDict["textArray"] = {sentenceArray
     return True, sentDict
 
 fc = 0
 sentVect = [];
 for s in sents:
-    print("======New case=======");
-    f = open("dataGen/sent_"+str(fc)+".txt", "w")
+    #print("======New case=======");
+    # f = open("dataGen/sent_"+str(fc)+".txt", "w")
     fc += 1
     nSentences = len(s);
-    print(fc)
+    #print(fc)
     sentVectN = []
     for i in range(nSentences):
         sentence = s[i]
         # sentence = "This is a very interesting thing"
-        f.write(sentence+"\n")
+        # f.write(sentence+"\n")
         success, sentenceDict = makeSentenceDict(sentence)
         if success==False: continue
-        printSDict(sentenceDict)
+        #printSDict(sentenceDict)
         sentVectN.append(sentenceDict)
         if i%30==2: 
-            print(fc, nSentences, i)
+            #print(fc, nSentences, i)
             break
 
     # exit()
-    print(len(sentVectN), len(sents))
-    f.close()
+    # print(len(sentVectN), len(sents))
+    # f.close()
     sentVect.append(sentVectN)
-    print("...", len(sentVect))
+    # print("...", len(sentVect))
 
-print("(((((((((((((((((((((((((()))))))))))))))))))))))", len(sentVect))
+# print("(((((((((((((((((((((((((()))))))))))))))))))))))", len(sentVect))
 
 for sentVectN in sentVect:
     for sentence in sentVectN:
+        pass
         printSDict(sentence)
+
+def randomizeSentence(sentenceLength, newSentences = False):
+    sentence = generateSentence(sentenceLength, newSentences)
+    augmentedSentence = []
+    count = 0
+    for word in sentence:
+        augmentedSentence.append([word, count])
+        count += 1
+
+    random.shuffle(augmentedSentence)
+    count = 0
+    for word in augmentedSentence:
+        word.append(count)
+        count += 1
+    return augmentedSentence
+
+
+def batchFast(batchSize):
+    sentenceLength = random.randint(4,10)
+    sentVectN = sentVect[sentenceLength]
+    length = len(sentVectN)
+    
+    for i in range(batchSize):
+        index = random.randint(0,length-1)
+
+        sentence = sentVectN[index]
+        print(sentence["text"])
+
+    #     count += 1
+    #     sentence = randomizeSentence(sentenceLength, newSentences)
+    #     # print(sentence)
+    #     x, y, text = prepareInputForPtrNet(sentence)
+
+    #     xx.append(x)
+    #     yy.append(y)
+    #     tt.append(text)
+    # if config.GPU == True:
+    #     xx = torch.cuda.FloatTensor(xx)
+    #     yy = torch.cuda.LongTensor(yy)
+    # else:
+    #     xx = torch.FloatTensor(xx)
+    #     yy = torch.LongTensor(yy)
+
+    # return xx, yy, tt
+
+#batchFast(2)
 
 
 
