@@ -79,8 +79,8 @@ def loadPickle(fileName):
   sentenceData = pickle.load(fx)
   return sentenceData
 
-# savePickle("sentence.pkl")
+savePickle("sentence.pkl")
 # sentenceData = loadPickle("sentence.pkl")
-main()
+# main()
 
 
