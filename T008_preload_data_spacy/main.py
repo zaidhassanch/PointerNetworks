@@ -1,5 +1,4 @@
 import torch.optim as optim
-#from generateData import batch
 from filterSentences import batch
 import config
 import time
@@ -52,16 +51,21 @@ def evaluateWordSort(model, epoch):
 
     print("]")
 
-if config.GPU == True:
-  ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
-else:
-  ptrNet = PointerNetwork(config.HIDDEN_SIZE)
-optimizer = optim.Adam(ptrNet.parameters())
 
-program_starts = time.time()
-for epoch in range(EPOCHS):
-  train(ptrNet, optimizer, epoch + 1)
-  evaluateWordSort(ptrNet, epoch + 1)
+def main():
+  if config.GPU == True:
+    ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
+  else:
+    ptrNet = PointerNetwork(config.HIDDEN_SIZE)
+  optimizer = optim.Adam(ptrNet.parameters())
 
-now = time.time()
-print("It has been {0} seconds since the loop started".format(now - program_starts))
+  program_starts = time.time()
+  for epoch in range(EPOCHS):
+    train(ptrNet, optimizer, epoch + 1)
+    evaluateWordSort(ptrNet, epoch + 1)
+
+  now = time.time()
+  print("It has been {0} seconds since the loop started".format(now - program_starts))
+
+
+main()

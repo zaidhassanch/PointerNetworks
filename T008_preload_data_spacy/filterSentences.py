@@ -100,38 +100,33 @@ def prepareDataVect():
     svect = []
     fc = 0
     for s in sents:
-        #print("======New case=======");
-        # f = open("dataGen/sent_"+str(fc)+".txt", "w")
         fc += 1
         nSentences = len(s);
-        #print(fc)
         sentVectN = []
         for i in range(nSentences):
             sentence = s[i]
-            # sentence = "This is a very interesting thing"
-            # f.write(sentence+"\n")
             success, sentenceDict = makeSentenceDict(sentence)
             if success==False: continue
-            #printSDict(sentenceDict)
             sentVectN.append(sentenceDict)
             if i%30==29: 
                 print(fc, nSentences, i)
                 break
-
-        # exit()
-        # print(len(sentVectN), len(sents))
-        # f.close()
         svect.append(sentVectN)
-        # print("...", len(sentVect))
-
-    # print("(((((((((((((((((((((((((()))))))))))))))))))))))", len(sentVect))
     return svect
-    # for sentVectN in sentVect:
-    #     for sentence in sentVectN:
-    #         pass
-            # printSDict(sentence)
+
+# for sentVectN in sentVect:
+#     for sentence in sentVectN:
+#         pass
+# printSDict(sentence)
 
 sentVect = prepareDataVect()
+import pickle
+# fx = open("sentence.pkl", "wb")
+# pickle.dump(sentVect, fx, protocol=pickle.HIGHEST_PROTOCOL)
+# exit()
+
+fx = open("sentence.pkl", "rb")
+sentVect = pickle.load(fx)
 
 
 def randomizeSentence(sentence):
