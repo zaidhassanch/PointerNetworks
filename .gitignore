@@ -1,6 +1,4 @@
-englishSentences_train.txt
-englishSentences_test.txt
-englishSentences_validate.txt
+*.dat
 *.pkl
 __pycache__
 .idea

@@ -1,8 +1,10 @@
 
 import torch
-from generateData import randomizeSentence, prepareInputForPtrNet
+from dataGen.generateData import randomizeSentence, prepareInputForPtrNet
 import random
 import config
+
+
 
 def batch(sentenceData, batchSize):
     sentenceLength = random.randint(4,10)
