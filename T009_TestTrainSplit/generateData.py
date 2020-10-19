@@ -1,4 +1,3 @@
-import spacy
 import random
 
 def filterSentences(fileName):
@@ -19,10 +18,6 @@ def filterSentences(fileName):
         count += 1
     return sentences
 
-nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
-sents = filterSentences("../data/englishSentences.txt")
-
-
 def printSDict(sentenceDict):
     sentenceLength = len(sentenceDict["wordArray"])
     print(str(sentenceLength) + " ==== ", sentenceDict["text"])
@@ -34,15 +29,22 @@ def printSDict(sentenceDict):
     print()
 
 
-def makeSentenceDict(sentence):
+def makeSentenceDict(nlp, sentence):
     sentDict = dict()
     sentenceArray = sentence.split(" ");
-
+    sentence = sentence.strip();
     tokens = nlp(sentence)
     if(len(tokens) != len(sentenceArray)):
         print(len(tokens))
         print(len(sentenceArray))
-        print("Unexpected case found #", sentence) # e.g. cannot
+        print("Unexpected case found #", sentence, "#") # e.g. cannot
+        print("==")
+        for token in tokens:
+            print(token)
+        print("==")
+        for word in sentenceArray:
+            print(word)
+        print("==")
         return False, None
 
     sentDict["wordArray"] = []
@@ -57,7 +59,7 @@ def makeSentenceDict(sentence):
     # sentDict["textArray"] = {sentenceArray
     return True, sentDict
 
-def prepareDataVect():
+def prepareDataVect(nlp, sents):
     svect = []
     fc = 0
     for s in sents:
@@ -66,7 +68,7 @@ def prepareDataVect():
         sentVectN = []
         for i in range(nSentences):
             sentence = s[i]
-            success, sentenceDict = makeSentenceDict(sentence)
+            success, sentenceDict = makeSentenceDict(nlp, sentence)
             if success==False: continue
             sentVectN.append(sentenceDict)
             if i%30==29: 

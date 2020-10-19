@@ -1,6 +1,5 @@
 import torch.optim as optim
 from batch import batch
-from generateData import prepareDataVect
 import config
 import time
 from pointerNetwork import PointerNetwork
@@ -8,6 +7,7 @@ import torch
 import torch.nn as nn
 import time
 import pickle
+
 
 BATCH_SIZE = 32
 EPOCHS = 100
@@ -69,23 +69,21 @@ def main():
   PATH = "state_dict_model.pt"
 
   # Save
-  torch.save(ptrNet.state_dict(), PATH)
+  # torch.save(ptrNet.state_dict(), PATH)
 
   now = time.time()
   print("It has been {0} seconds since the loop started".format(now - program_starts))
 
-def savePickle(fileName):
-  sentenceData = prepareDataVect()
-  fx = open(fileName, "wb")
-  pickle.dump(sentenceData, fx, protocol=pickle.HIGHEST_PROTOCOL)
 
 def loadPickle(fileName):
   fx = open(fileName, "rb")
   sentenceData = pickle.load(fx)
   return sentenceData
 
-#savePickle("sentence.pkl")
-sentenceData = loadPickle("sentence.pkl")
+
+
+#createPickles()
+sentenceData = loadPickle("../data/englishSentences_train.pkl")
 main()
 
 

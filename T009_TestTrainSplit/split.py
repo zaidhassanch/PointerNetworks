@@ -1,29 +1,49 @@
+from generateData import prepareDataVect, filterSentences
+import pickle
+import spacy
+
+def splitFiles(fileName)
+	f = open("../data/englishSentences.txt", "r")
+	f1 = open("../data/englishSentences_train.dat", "w")
+	f2 = open("../data/englishSentences_test.dat", "w")
+	f3 = open("../data/englishSentences_validate.dat", "w")
+
+	lines = f.readlines();
+	f.close()
+
+	length = len(lines)
+
+	newLines = [];
+	for i in range(length):
+	  if i%12 < 7:
+	    f1.writelines(lines[i])
+	  elif i%12 < 10:
+	    f2.writelines(lines[i])
+	  else:
+	    f3.writelines(lines[i])
+
+	f.close()
+	f1.close()
+	f2.close()
+	f3.close()
+
+def savePickle(nlp, sents, fileName):
+  sentenceData = prepareDataVect(nlp, sents)
+  fx = open(fileName, "wb")
+  pickle.dump(sentenceData, fx, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-f = open("../data/englishSentences.txt", "r")
+def createPickles():
+  nlp = spacy.load("en_core_web_sm")  # make sure to use larger model!
+  sents = filterSentences("../data/englishSentences_train.dat")
+  savePickle(nlp, sents, "../data/englishSentences_train.pkl")
 
-lines = f.readlines();
-f.close()
+  sents = filterSentences("../data/englishSentences_test.dat")
+  savePickle(nlp, sents, "../data/englishSentences_test.pkl")
 
-length = len(lines)
-
-newLines = [];
-for i in range(length):
-  # print(i)
-  flag = 0
-  for j in range(i+1, length):
-    line_i = lines[i]
-    line_j = lines[j]
-    if(lines[i] == lines[j]):
-      print("repeated", i,j)
-      print(line_i)
-      print(line_j)
-      flag = 1
-  if(flag == 0):
-    newLines.append(lines[i])
-
-f = open("../data/englishSentencesNoRepeat.txt", "w")
-f.writelines(newLines)
-f.close()
+  sents = filterSentences("../data/englishSentences_validate.dat")
+  savePickle(nlp, sents, "../data/englishSentences_validate.pkl")
 
 
+splitFiles()
+createPickles()
