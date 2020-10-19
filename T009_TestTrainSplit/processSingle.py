@@ -35,7 +35,7 @@ def modelEvaluateSingle(x_val, y_val, text_val, path):
 def processSingle():
 	modelPath = "state_dict_model.pt"
 	nlp = spacy.load("en_core_web_sm") 
-	jumbled_sentence = "We were so close"
+	jumbled_sentence = "We so close were"
 	success, sentDict = makeSentenceDict(nlp, jumbled_sentence)
 	augmentedSentence = randomizeSentence(sentDict["wordArray"])
 

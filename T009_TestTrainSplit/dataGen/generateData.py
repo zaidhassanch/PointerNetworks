@@ -33,7 +33,11 @@ def makeSentenceDict(nlp, sentence):
     sentDict = dict()
     sentenceArray = sentence.split(" ");
     sentence = sentence.strip();
-    tokens = nlp(sentence)
+    
+    tokens = [];
+    for word in sentenceArray:
+        tokens.append(nlp(word))
+
     if(len(tokens) != len(sentenceArray)):
         print(len(tokens))
         print(len(sentenceArray))
