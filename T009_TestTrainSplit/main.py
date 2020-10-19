@@ -9,9 +9,9 @@ import torch.nn as nn
 import time
 import pickle
 
-BATCH_SIZE = 2048
-EPOCHS = 10
-STEPS_PER_EPOCH = 500
+BATCH_SIZE = 32
+EPOCHS = 100
+STEPS_PER_EPOCH = 20
 
 def train(pNet, optimizer, epoch, clip=1.):
   """Train single epoch"""

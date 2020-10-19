@@ -253,7 +253,6 @@ I eat alone
 I eat bread
 I eat fruit
 I feel blue
-I feel cold
 I feel fine
 I feel good
 I feel lost
@@ -2897,7 +2896,6 @@ You like everyone
 You look European
 You look Japanese
 You look fabulous
-You look familiar
 You look handsome
 You look terrible
 You look terrific
@@ -3718,7 +3716,6 @@ It looks fun
 I am lost
 You look depressed
 I feel cold
-I feel cold
 He is a DJ
 I am a man
 I am a cook
@@ -4258,7 +4255,6 @@ He is a painter
 He is a psychic
 He is a student
 He is a teacher
-He is my friend
 He is off today
 He is very tall
 He is well paid
@@ -4412,7 +4408,6 @@ I need a doctor
 I need a hammer
 I need a laptop
 I need a lawyer
-I need a pencil
 I need a weapon
 I need help now
 I need his help
@@ -5713,7 +5708,6 @@ I need my privacy
 I need some light
 I need some paper
 I need some sleep
-I need some sugar
 I need some water
 I need this money
 I needed a change
@@ -6482,7 +6476,6 @@ I made you cookies
 I may die tomorrow
 I may not graduate
 I miss you already
-I missed my flight
 I moved last month
 I must be dreaming
 I must destroy you
@@ -13717,7 +13710,6 @@ The news made her sad
 The old man looks sad
 The pond has dried up
 The pond is very deep
-The radio is too loud
 The rain made me late
 The rent is very high
 The risk is too great
@@ -21867,7 +21859,6 @@ I have to cover his loss
 I have to do my homework
 I have to get some sleep
 I have to help my mother
-I have to write a letter
 I hear voices in my head
 I hope she will get well
 I hope that you are good
@@ -30947,7 +30938,6 @@ I just want to talk to them
 I just want you to be happy
 I know where we can get one
 I know you want to help him
-I left my keys on the table
 I like the way you treat me
 I like to fish in the river
 I live in a two story house
