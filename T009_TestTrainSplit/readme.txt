@@ -1,4 +1,14 @@
+sentenceDict has the following structure:
 
+{
+	wordArray: [
+		{"word": "quick", "vector": [1,2,3,4]},
+		{"word": "Brown", "vector": [1,2,3,4]},
+		{"word": "Fox", "vector": [1,2,3,4]},
+	],
+	text : {}
+
+}
 
 
 1 - We will have a sentence
