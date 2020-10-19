@@ -6,22 +6,6 @@ from pointerNetwork import PointerNetwork
 import torch
 import torch.nn as nn
 
-
-nlp = spacy.load("en_core_web_sm") 
-
-jumbled_sentence = "We were so close"
-
-success, sentDict = makeSentenceDict(nlp, jumbled_sentence)
-
-augmentedSentence = randomizeSentence(sentDict["wordArray"])
-#x, y, text = prepareInputForPtrNet(sentence)
-
-print(sentDict)
-
-print(augmentedSentence)
-
-
-
 def modelEvaluateSingle(x_val, y_val, text_val, path):
   if config.GPU == True:
     ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
@@ -48,10 +32,18 @@ def modelEvaluateSingle(x_val, y_val, text_val, path):
 
     print("]")
 
-modelPath = "state_dict_model.pt"
+def processSingle():
+	modelPath = "state_dict_model.pt"
+	nlp = spacy.load("en_core_web_sm") 
+	jumbled_sentence = "We were so close"
+	success, sentDict = makeSentenceDict(nlp, jumbled_sentence)
+	augmentedSentence = randomizeSentence(sentDict["wordArray"])
 
-x, y, text = prepareInputForPtrNet(augmentedSentence)
-xx = torch.FloatTensor([x])
-yy = torch.LongTensor([y])
-# print(text, y)
-modelEvaluateSingle(xx,yy, [text], modelPath)
+	x, y, text = prepareInputForPtrNet(augmentedSentence)
+	xx = torch.FloatTensor([x])
+	yy = torch.LongTensor([y])
+	# print(text, y)
+	modelEvaluateSingle(xx,yy, [text], modelPath)
+
+
+processSingle()
