@@ -11,7 +11,7 @@ import pickle
 
 BATCH_SIZE = 32
 EPOCHS = 100
-STEPS_PER_EPOCH = 20
+STEPS_PER_EPOCH = 40
 
 def train(pNet, optimizer, epoch, clip=1.):
   """Train single epoch"""
@@ -54,7 +54,7 @@ def evaluateWordSort(model, epoch):
     print("]")
 
 
-def main():
+def modelTrain(PATH):
   if config.GPU == True:
     ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
   else:
@@ -65,14 +65,20 @@ def main():
   for epoch in range(EPOCHS):
     train(ptrNet, optimizer, epoch + 1)
     evaluateWordSort(ptrNet, epoch + 1)
-
-  PATH = "state_dict_model.pt"
-
   # Save
-  # torch.save(ptrNet.state_dict(), PATH)
+  torch.save(ptrNet.state_dict(), PATH)
 
   now = time.time()
   print("It has been {0} seconds since the loop started".format(now - program_starts))
+
+def modelEvaluate(path):
+  if config.GPU == True:
+    ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
+  else:
+    ptrNet = PointerNetwork(config.HIDDEN_SIZE)
+
+  ptrNet.load_state_dict(torch.load(path))
+  evaluateWordSort(ptrNet, 1)
 
 
 def loadPickle(fileName):
@@ -84,7 +90,8 @@ def loadPickle(fileName):
 
 #createPickles()
 sentenceData = loadPickle("../data/englishSentences_train.pkl")
-main()
+#sentenceData = loadPickle("../data/sentence.pkl")
+modelPath = "state_dict_model.pt"
 
-
-
+modelTrain(modelPath)
+#modelEvaluate(modelPath)
