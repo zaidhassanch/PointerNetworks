@@ -11,7 +11,7 @@ import pickle
 
 BATCH_SIZE = 32
 EPOCHS = 100
-STEPS_PER_EPOCH = 40
+STEPS_PER_EPOCH = 20
 
 def train(pNet, optimizer, epoch, clip=1.):
   """Train single epoch"""
@@ -89,9 +89,9 @@ def loadPickle(fileName):
 
 
 #createPickles()
-sentenceData = loadPickle("../data/englishSentences_train.pkl")
+sentenceData = loadPickle("../data/englishSentences_test.pkl")
 #sentenceData = loadPickle("../data/sentence.pkl")
 modelPath = "state_dict_model.pt"
 
-modelTrain(modelPath)
-#modelEvaluate(modelPath)
+# modelTrain(modelPath)
+modelEvaluate(modelPath)

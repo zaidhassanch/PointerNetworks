@@ -1,3 +1,4 @@
+*.pt
 *.dat
 *.pkl
 __pycache__
