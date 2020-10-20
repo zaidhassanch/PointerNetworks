@@ -33,21 +33,47 @@ def train(pNet, optimizer, epoch, clip=1.):
       start = time.time()
 
 
-def computeSentenceAccuracy(text, v_ref, v_out):
-
+def computeSentenceAccuracy(accuracyStats, text, v_ref, v_out):
+    sentenceLength = len(v_ref);
+    
+    accStats = accuracyStats[sentenceLength];
+    accStats["sentenceCount"] += 1;
+    
     print("DIFF = [", end="")
-    for index in range(len(v_ref)):
+    sentenceMatch = True
+    for index in range(sentenceLength):
+      accStats["wordCount"] += 1;
       refTxt = text[v_ref[index]];
       outTxt = text[v_out[index]];
       if( refTxt == outTxt):
         flag = 0;
+        accStats["correctWords"] += 1;
       else:
         flag = 1
+        sentenceMatch = False
+
       print(str(flag)+" ", end="")
       #print(+" ", end="")
     print("]")
 
-def compareBatchAccuracy(text_in, y_ref, y_out):
+    if(sentenceMatch == True): accStats["correctSentences"] += 1;
+    
+def printAccStats(accuracyStats):
+  
+  print("====================================================")
+  for i in range(20):
+    stats = accuracyStats[i]
+    wordAccuracy = 0.0
+    sentenceAccuracy = 0.0
+    if (stats["wordCount"]) != 0:
+      
+      wordAccuracy = stats["correctWords"]/stats["wordCount"]*100 
+      sentenceAccuracy = stats["correctSentences"]/stats["sentenceCount"]*100
+    print('[{}] wordAcc [{:.2f}] SentenceAcc: {:.2f}  sentences = {}'\
+      .format(i, wordAccuracy, sentenceAccuracy,stats["sentenceCount"]))
+  print("====================================================")
+
+def compareBatchAccuracy(accuracyStats, text_in, y_ref, y_out):
   for i in range(y_out.size(0)):
     print("=============================================")
     print("yref", y_ref[i], y_out[i], y_ref[i] - y_out[i])
@@ -70,20 +96,22 @@ def compareBatchAccuracy(text_in, y_ref, y_out):
     print("]")
 
     text = text_in[i];
-    computeSentenceAccuracy(text, v_ref, v_out)
+    computeSentenceAccuracy(accuracyStats, text, v_ref, v_out)
 
-def evaluateWordSort(model, epoch):
+  printAccStats(accuracyStats);
+
+def evaluateWordSort(accuracyStats, model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
   x_val, y_ref, text_in = batch(sentenceData, 8)
   y_out, _ = model(x_val, y_ref, teacher_force_ratio=0.)
   y_out = y_out.permute(1, 0)
-  compareBatchAccuracy(text_in, y_ref, y_out)
+  compareBatchAccuracy(accuracyStats, text_in, y_ref, y_out)
 
 
 
-def modelTrain(PATH):
+def modelTrain(accuracyStats, PATH):
   if config.GPU == True:
     ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
   else:
@@ -93,7 +121,7 @@ def modelTrain(PATH):
   program_starts = time.time()
   for epoch in range(EPOCHS):
     train(ptrNet, optimizer, epoch + 1)
-    evaluateWordSort(ptrNet, epoch + 1)
+    evaluateWordSort(accuracyStats, ptrNet, epoch + 1)
   # Save
   torch.save(ptrNet.state_dict(), PATH)
 
@@ -116,11 +144,20 @@ def loadPickle(fileName):
   return sentenceData
 
 
+
+accuracyStats = []
+for i in range(20):
+  accuracyStats.append(
+    {"sentenceCount" : 0,
+    "wordCount"     : 0,
+    "correctSentences": 0,
+    "correctWords" : 0}
+    )
 #createPickles()
 modelPath = "state_dict_model_10.pt"
 
 sentenceData = loadPickle("../data/englishSentences_train.pkl")
-modelTrain(modelPath)
+modelTrain(accuracyStats, modelPath)
 
 # sentenceData = loadPickle("../data/englishSentences_test.pkl")
 # modelEvaluate(modelPath)

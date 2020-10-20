@@ -1,3 +1,20 @@
+
+
+accStruct = [
+	{
+		sentenceCount : 267,
+		wordCount     : 2623,
+		correctSentences: 260,
+		correctWords : 2422
+	},
+
+
+
+]
+
+
+
+
 sentenceDict has the following structure:
 
 {
