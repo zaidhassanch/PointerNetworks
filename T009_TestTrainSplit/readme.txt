@@ -1,4 +1,7 @@
 
+- print batch accuracy
+- Full test set accuracy
+- Demo program
 
 ------------------------------------------------------------------
 
@@ -49,8 +52,13 @@
 - Future Work
 	> Play with Network Architecture to increase accuracy
 	> Tune other Hyper parameters
-	> Can probably modify network to make sure Pointer Network does not repeat an input index
-	
+	> Modify network to make sure Pointer Network does not repeat an input index
+	> Currently, choosing the sentences from test set randomly during testing, 
+		- can make sure all sentences are processed
+	> Compute BLEU score
+	> Compute 2 consecutive word score (as sugggested by Dr. Pascal)
+
+	> Different models for different lengths of words
 
 sentenceDict has the following structure:
 {
