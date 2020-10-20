@@ -32,42 +32,42 @@ def train(pNet, optimizer, epoch, clip=1.):
       print('Epoch [{}] loss: {}  time:{:.2f}'.format(epoch, loss.item(), duration))
       start = time.time()
 
-# def compareAccuracy(text_val, y_val, y):
+# def compareAccuracy(text_in, y_ref, y_out):
 
 
 def evaluateWordSort(model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
-  x_val, y_val, text_val = batch(sentenceData, 8)
-  y_out, _ = model(x_val, y_val, teacher_force_ratio=0.)
+  x_val, y_ref, text_in = batch(sentenceData, 8)
+  y_out, _ = model(x_val, y_ref, teacher_force_ratio=0.)
   y_out = y_out.permute(1, 0)
 
   for i in range(y_out.size(0)):
     print("=============================================")
-    print("yref", y_val[i], y_out[i], y_val[i] - y_out[i])
+    print("yref", y_ref[i], y_out[i], y_ref[i] - y_out[i])
 
-    print("input", text_val[i])
+    print("input", text_in[i])
 
-    # print("orig", text_val[y_val[i]])
+    # print("orig", text_in[y_ref[i]])
     v_out = torch.Tensor.cpu(y_out[i]).numpy()
-    v_ref = torch.Tensor.cpu(y_val[i]).numpy()
+    v_ref = torch.Tensor.cpu(y_ref[i]).numpy()
 
     print("ORIG = [", end="")
     for index in v_ref:
-      print(text_val[i][index]+" ", end="")
+      print(text_in[i][index]+" ", end="")
     print("]")
 
 
     print("OUR = [", end="")
     for index in v_out:
-      print(text_val[i][index]+" ", end="")
+      print(text_in[i][index]+" ", end="")
     print("]")
 
     print("DIFF = [", end="")
     for index in range(len(v_ref)):
-      refTxt = text_val[i][v_ref[index]];
-      outTxt = text_val[i][v_out[index]];
+      refTxt = text_in[i][v_ref[index]];
+      outTxt = text_in[i][v_out[index]];
       if( refTxt == outTxt):
         flag = 0;
       else:
