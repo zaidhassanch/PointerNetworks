@@ -32,6 +32,21 @@ def train(pNet, optimizer, epoch, clip=1.):
       print('Epoch [{}] loss: {}  time:{:.2f}'.format(epoch, loss.item(), duration))
       start = time.time()
 
+
+def computeSentenceAccuracy(text, v_ref, v_out):
+
+    print("DIFF = [", end="")
+    for index in range(len(v_ref)):
+      refTxt = text[v_ref[index]];
+      outTxt = text[v_out[index]];
+      if( refTxt == outTxt):
+        flag = 0;
+      else:
+        flag = 1
+      print(str(flag)+" ", end="")
+      #print(+" ", end="")
+    print("]")
+
 def compareBatchAccuracy(text_in, y_ref, y_out):
   for i in range(y_out.size(0)):
     print("=============================================")
@@ -54,18 +69,8 @@ def compareBatchAccuracy(text_in, y_ref, y_out):
       print(text_in[i][index]+" ", end="")
     print("]")
 
-    print("DIFF = [", end="")
-    for index in range(len(v_ref)):
-      refTxt = text_in[i][v_ref[index]];
-      outTxt = text_in[i][v_out[index]];
-      if( refTxt == outTxt):
-        flag = 0;
-      else:
-        flag = 1
-      print(str(flag)+" ", end="")
-      #print(+" ", end="")
-    print("]")
-
+    text = text_in[i];
+    computeSentenceAccuracy(text, v_ref, v_out)
 
 def evaluateWordSort(model, epoch):
   """Evaluate after a train epoch"""
