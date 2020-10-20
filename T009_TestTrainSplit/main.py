@@ -8,7 +8,7 @@ import torch.nn as nn
 import time
 import pickle
 
-BATCH_SIZE = 64
+BATCH_SIZE = 128
 EPOCHS = 30
 STEPS_PER_EPOCH = 100
 
@@ -33,13 +33,14 @@ def train(pNet, optimizer, epoch, clip=1.):
       start = time.time()
 
 
-def computeSentenceAccuracy(accuracyStats, text, v_ref, v_out):
+def computeSentenceAccuracy(accStats, text, v_ref, v_out):
+
     sentenceLength = len(v_ref);
     
-    accStats = accuracyStats[sentenceLength];
+    #accStats = accuracyStats[sentenceLength];
     accStats["sentenceCount"] += 1;
     
-    print("DIFF = [", end="")
+    # print("DIFF = [", end="")
     sentenceMatch = True
     for index in range(sentenceLength):
       accStats["wordCount"] += 1;
@@ -52,12 +53,20 @@ def computeSentenceAccuracy(accuracyStats, text, v_ref, v_out):
         flag = 1
         sentenceMatch = False
 
-      print(str(flag)+" ", end="")
+      # print(str(flag)+" ", end="")
       #print(+" ", end="")
-    print("]")
+    # print("]")
 
     if(sentenceMatch == True): accStats["correctSentences"] += 1;
     
+
+def printStats(i, stats):
+  if (stats["wordCount"]) != 0:
+    wordAccuracy = stats["correctWords"]/stats["wordCount"]*100 
+    sentenceAccuracy = stats["correctSentences"]/stats["sentenceCount"]*100
+    print('[{}] wordAcc [{:.2f}] SentenceAcc: {:.2f}  sentences = {}'\
+      .format(i, wordAccuracy, sentenceAccuracy,stats["sentenceCount"]))
+
 def printAccStats(accuracyStats):
   
   print("====================================================")
@@ -65,41 +74,54 @@ def printAccStats(accuracyStats):
     stats = accuracyStats[i]
     wordAccuracy = 0.0
     sentenceAccuracy = 0.0
-    if (stats["wordCount"]) != 0:
+    
+    printStats(i, stats)
       
-      wordAccuracy = stats["correctWords"]/stats["wordCount"]*100 
-      sentenceAccuracy = stats["correctSentences"]/stats["sentenceCount"]*100
-    print('[{}] wordAcc [{:.2f}] SentenceAcc: {:.2f}  sentences = {}'\
-      .format(i, wordAccuracy, sentenceAccuracy,stats["sentenceCount"]))
   print("====================================================")
 
 def compareBatchAccuracy(accuracyStats, text_in, y_ref, y_out):
+  stat = {
+      "sentenceCount" : 0,
+      "wordCount"     : 0,
+      "correctSentences": 0,
+      "correctWords" : 0
+  }
   for i in range(y_out.size(0)):
-    print("=============================================")
-    print("yref", y_ref[i], y_out[i], y_ref[i] - y_out[i])
+    # print("=============================================")
+    # print("yref", y_ref[i], y_out[i], y_ref[i] - y_out[i])
 
-    print("input", text_in[i])
+    # print("input", text_in[i])
 
     # print("orig", text_in[y_ref[i]])
     v_out = torch.Tensor.cpu(y_out[i]).numpy()
     v_ref = torch.Tensor.cpu(y_ref[i]).numpy()
 
-    print("ORIG = [", end="")
-    for index in v_ref:
-      print(text_in[i][index]+" ", end="")
-    print("]")
+    # print("ORIG = [", end="")
+    # for index in v_ref:
+    #   print(text_in[i][index]+" ", end="")
+    # print("]")
 
 
-    print("OUR = [", end="")
-    for index in v_out:
-      print(text_in[i][index]+" ", end="")
-    print("]")
+    # print("OUR = [", end="")
+    # for index in v_out:
+    #   print(text_in[i][index]+" ", end="")
+    # print("]")
 
     text = text_in[i];
-    computeSentenceAccuracy(accuracyStats, text, v_ref, v_out)
+    
 
-  printAccStats(accuracyStats);
+    computeSentenceAccuracy(stat, text, v_ref, v_out)
+    length = len(text)
+    statX = accuracyStats[length]
+    statX["sentenceCount"] += stat["sentenceCount"]
+    statX["wordCount"] += stat["wordCount"]
+    statX["correctSentences"] += stat["correctSentences"]
+    statX["correctWords"] += stat["correctWords"]
 
+  printStats(length, stat)
+  
+
+  #
 def evaluateWordSort(accuracyStats, model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
@@ -108,8 +130,6 @@ def evaluateWordSort(accuracyStats, model, epoch):
   y_out, _ = model(x_val, y_ref, teacher_force_ratio=0.)
   y_out = y_out.permute(1, 0)
   compareBatchAccuracy(accuracyStats, text_in, y_ref, y_out)
-
-
 
 def modelTrain(accuracyStats, PATH):
   if config.GPU == True:
@@ -123,19 +143,23 @@ def modelTrain(accuracyStats, PATH):
     train(ptrNet, optimizer, epoch + 1)
     evaluateWordSort(accuracyStats, ptrNet, epoch + 1)
   # Save
+  printAccStats(accuracyStats);
+
   torch.save(ptrNet.state_dict(), PATH)
 
   now = time.time()
   print("It has been {0} seconds since the loop started".format(now - program_starts))
 
-def modelEvaluate(path):
+def modelEvaluate(accuracyStats, path):
   if config.GPU == True:
     ptrNet = PointerNetwork(config.HIDDEN_SIZE).cuda()
   else:
     ptrNet = PointerNetwork(config.HIDDEN_SIZE)
 
   ptrNet.load_state_dict(torch.load(path))
-  evaluateWordSort(ptrNet, 1)
+  for epoch in range(EPOCHS):
+    evaluateWordSort(accuracyStats, ptrNet, 1)
+  printAccStats(accuracyStats);
 
 
 def loadPickle(fileName):
@@ -154,10 +178,10 @@ for i in range(20):
     "correctWords" : 0}
     )
 #createPickles()
-modelPath = "state_dict_model_10.pt"
+modelPath = "state_dict_model.pt"
 
 sentenceData = loadPickle("../data/englishSentences_train.pkl")
 modelTrain(accuracyStats, modelPath)
 
 # sentenceData = loadPickle("../data/englishSentences_test.pkl")
-# modelEvaluate(modelPath)
+# modelEvaluate(accuracyStats, modelPath)
