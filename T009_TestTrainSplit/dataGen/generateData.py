@@ -31,12 +31,14 @@ def printSDict(sentenceDict):
 
 def makeSentenceDict(nlp, sentence):
     sentDict = dict()
-    sentenceArray = sentence.split(" ");
     sentence = sentence.strip();
+    sentenceArray = sentence.split(" ");
     
     tokens = [];
     for word in sentenceArray:
         tokens.append(nlp(word))
+
+    #print(sentence)
 
     if(len(tokens) != len(sentenceArray)):
         print(len(tokens))
