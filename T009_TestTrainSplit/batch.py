@@ -7,7 +7,7 @@ import config
 
 
 def batch(sentenceData, batchSize):
-    sentenceLength = random.randint(10,10)
+    sentenceLength = random.randint(4,6)
     sentVectN = sentenceData[sentenceLength]
     length = len(sentVectN)
     xx = []

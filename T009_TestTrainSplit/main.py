@@ -8,9 +8,8 @@ import torch.nn as nn
 import time
 import pickle
 
-
 BATCH_SIZE = 64
-EPOCHS = 60
+EPOCHS = 30
 STEPS_PER_EPOCH = 100
 
 def train(pNet, optimizer, epoch, clip=1.):
@@ -33,25 +32,50 @@ def train(pNet, optimizer, epoch, clip=1.):
       print('Epoch [{}] loss: {}  time:{:.2f}'.format(epoch, loss.item(), duration))
       start = time.time()
 
+# def compareAccuracy(text_val, y_val, y):
+
+
 def evaluateWordSort(model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
   x_val, y_val, text_val = batch(sentenceData, 8)
-  out, _ = model(x_val, y_val, teacher_force_ratio=0.)
-  out = out.permute(1, 0)
+  y_out, _ = model(x_val, y_val, teacher_force_ratio=0.)
+  y_out = y_out.permute(1, 0)
 
-  for i in range(out.size(0)):
+  for i in range(y_out.size(0)):
     print("=============================================")
-    print("yref", y_val[i], out[i], y_val[i] - out[i])
+    print("yref", y_val[i], y_out[i], y_val[i] - y_out[i])
 
-    print("orig", text_val[i])
-    v = torch.Tensor.cpu(out[i]).numpy()
-    print("[", end="")
-    for index in v:
+    print("input", text_val[i])
+
+    # print("orig", text_val[y_val[i]])
+    v_out = torch.Tensor.cpu(y_out[i]).numpy()
+    v_ref = torch.Tensor.cpu(y_val[i]).numpy()
+
+    print("ORIG = [", end="")
+    for index in v_ref:
       print(text_val[i][index]+" ", end="")
-
     print("]")
+
+
+    print("OUR = [", end="")
+    for index in v_out:
+      print(text_val[i][index]+" ", end="")
+    print("]")
+
+    print("DIFF = [", end="")
+    for index in range(len(v_ref)):
+      refTxt = text_val[i][v_ref[index]];
+      outTxt = text_val[i][v_out[index]];
+      if( refTxt == outTxt):
+        flag = 0;
+      else:
+        flag = 1
+      print(str(flag)+" ", end="")
+      #print(+" ", end="")
+    print("]")
+
 
 
 def modelTrain(PATH):
@@ -87,12 +111,11 @@ def loadPickle(fileName):
   return sentenceData
 
 
-
 #createPickles()
 modelPath = "state_dict_model_10.pt"
 
-# sentenceData = loadPickle("../data/englishSentences_train.pkl")
-# modelTrain(modelPath)
+sentenceData = loadPickle("../data/englishSentences_train.pkl")
+modelTrain(modelPath)
 
-sentenceData = loadPickle("../data/englishSentences_test.pkl")
-modelEvaluate(modelPath)
+# sentenceData = loadPickle("../data/englishSentences_test.pkl")
+# modelEvaluate(modelPath)
