@@ -32,17 +32,7 @@ def train(pNet, optimizer, epoch, clip=1.):
       print('Epoch [{}] loss: {}  time:{:.2f}'.format(epoch, loss.item(), duration))
       start = time.time()
 
-# def compareAccuracy(text_in, y_ref, y_out):
-
-
-def evaluateWordSort(model, epoch):
-  """Evaluate after a train epoch"""
-  print('Epoch [{}] -- Evaluate'.format(epoch))
-
-  x_val, y_ref, text_in = batch(sentenceData, 8)
-  y_out, _ = model(x_val, y_ref, teacher_force_ratio=0.)
-  y_out = y_out.permute(1, 0)
-
+def compareBatchAccuracy(text_in, y_ref, y_out):
   for i in range(y_out.size(0)):
     print("=============================================")
     print("yref", y_ref[i], y_out[i], y_ref[i] - y_out[i])
@@ -75,6 +65,16 @@ def evaluateWordSort(model, epoch):
       print(str(flag)+" ", end="")
       #print(+" ", end="")
     print("]")
+
+
+def evaluateWordSort(model, epoch):
+  """Evaluate after a train epoch"""
+  print('Epoch [{}] -- Evaluate'.format(epoch))
+
+  x_val, y_ref, text_in = batch(sentenceData, 8)
+  y_out, _ = model(x_val, y_ref, teacher_force_ratio=0.)
+  y_out = y_out.permute(1, 0)
+  compareBatchAccuracy(text_in, y_ref, y_out)
 
 
 
