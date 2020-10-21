@@ -8,9 +8,9 @@ import torch.nn as nn
 import time
 import pickle
 
-BATCH_SIZE = 128
-EPOCHS = 30
-STEPS_PER_EPOCH = 100
+BATCH_SIZE = 256
+EPOCHS = 10
+STEPS_PER_EPOCH = 500
 
 def train(pNet, optimizer, epoch, clip=1.):
   """Train single epoch"""
@@ -180,8 +180,8 @@ for i in range(20):
 #createPickles()
 modelPath = "state_dict_model.pt"
 
-sentenceData = loadPickle("../data/englishSentences_train.pkl")
-modelTrain(accuracyStats, modelPath)
+# sentenceData = loadPickle("../data/englishSentences_train.pkl")
+# modelTrain(accuracyStats, modelPath)
 
-# sentenceData = loadPickle("../data/englishSentences_test.pkl")
-# modelEvaluate(accuracyStats, modelPath)
+sentenceData = loadPickle("../data/englishSentences_test.pkl")
+modelEvaluate(accuracyStats, modelPath)
