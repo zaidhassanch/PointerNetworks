@@ -65,32 +65,15 @@ def processSingle(path):
 
   nlp = spacy.load("en_core_web_sm") 
   sentences  =[  
-    "Try to control yourselves",
-    "Twenty families live here",
-    "Two seats remained vacant",
-    "Wait until further notice",
-    "Watch out for pickpockets",
-    "We agreed among ourselves",
-    "We all agreed unanimously",
-    "We have people everywhere",
-    "We helped him financially",
-    "We must leave immediately",
-    "We started before sunrise",
-    "Wine helps with digestion",
-    "Write the address clearly",
-    "You are easily distracted",
-    "You must control yourself",
-    "You seem distracted today",
-    "You should eat vegetables",
-    "Your English is improving",
-    "Your boyfriend looks cute",
-    "Your house needs painting",
-    "Your plan seems excellent",
-    "It is really working",
-    "Let me start with a poem",
-    "He is sure to pass the exam",
-    "We are having a hard time",
-  ]
+    "your plan seems excellent",
+    "it is really working",
+    "let me start with a poem",
+    "he is sure to pass the exam",
+    "we meet every wednesday",
+    "we plan to do it tomorrow",
+    "this is definitely a difficult sentence",
+    "i like working on brain",
+    "development good is a this"  ]
 
   if True:
     for origLine in sentences:
@@ -102,7 +85,7 @@ def processSingle(path):
 
   else:
     lines = open("../data/englishSentences_test.dat").read().splitlines()
-    for i in range(5):
+    for i in range(7):
       print("\n")
       origLine = random.choice(lines)
       inputLine, outputLine = processSentence(nlp, ptrNet, origLine)

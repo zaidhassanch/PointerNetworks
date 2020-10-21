@@ -16,11 +16,11 @@ def splitFiles(fileName):
 	newLines = [];
 	for i in range(length):
 	  if i%12 < 7:
-	    f1.writelines(lines[i])
+	    f1.writelines(lines[i].lower())
 	  elif i%12 < 10:
-	    f2.writelines(lines[i])
+	    f2.writelines(lines[i].lower())
 	  else:
-	    f3.writelines(lines[i])
+	    f3.writelines(lines[i].lower())
 
 	f.close()
 	f1.close()
