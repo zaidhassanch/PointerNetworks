@@ -147,17 +147,26 @@ class PointerNetwork(nn.Module):
     # dec_in: (BATCH, 1, 1)
     if config.GPU == True:
       outputs = torch.zeros(out.size(1), out.size(0), dtype=torch.long, device = 'cuda')
+      masks = torch.ones(out.size(0), out.size(1), dtype=torch.long, device='cuda')
       dec_in = torch.zeros(out.size(0), 1, config.NUM_FEATURES, dtype=torch.float, device='cuda')
     else:
       outputs = torch.zeros(out.size(1), out.size(0), dtype=torch.long)
+      masks = torch.ones(out.size(0), out.size(1), dtype=torch.long)
       dec_in = torch.zeros(out.size(0), 1, config.NUM_FEATURES, dtype=torch.float)
 
 
     for t in range(out.size(1)):
       hs, att_w = self.decoder(dec_in, hs, out)
       #------------------------------------------------------------------------------------------------------
-      exit()
+
+      if train == False:
+        print(att_w.shape)
       predictions = F.softmax(att_w, dim=1).argmax(1)
+      if train == False:
+        print(att_w.shape)
+        indicesRange = torch.range(0 , out.size(0)-1, dtype=torch.int64, device="cuda")
+        indices = torch.cat((indicesRange.unsqueeze(1), predictions.unsqueeze(1)), 1)
+        masks[indicesRange, predictions] = torch.zeros(1,8,device="cuda", dtype=torch.int64)
 
       # Pick next index
       # If teacher force the next element will we the ground truth
