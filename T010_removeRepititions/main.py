@@ -127,7 +127,7 @@ def evaluateWordSort(accuracyStats, model, epoch):
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
   x_val, y_ref, text_in = batch(sentenceData, 8)
-  y_out, _ = model(x_val, y_ref, teacher_force_ratio=0.)
+  y_out, _ = model(x_val, y_ref, teacher_force_ratio=0., train=False)
   y_out = y_out.permute(1, 0)
   compareBatchAccuracy(accuracyStats, text_in, y_ref, y_out)
 
