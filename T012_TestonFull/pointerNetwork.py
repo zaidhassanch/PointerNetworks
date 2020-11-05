@@ -171,9 +171,14 @@ class PointerNetwork(nn.Module):
         print("pakro")
       if train == False:
         #print(att_w.shape)
-        indicesRange = torch.arange(0 , out.size(0), dtype=torch.int64, device="cuda")
-        indices = torch.cat((indicesRange.unsqueeze(1), predictions.unsqueeze(1)), 1)
-        masks[indicesRange, predictions] = -1 * torch.ones(1,out.size(0),device="cuda", dtype=torch.int64)
+        if config.GPU == True:
+          indicesRange = torch.arange(0 , out.size(0), dtype=torch.int64, device="cuda")
+          indices = torch.cat((indicesRange.unsqueeze(1), predictions.unsqueeze(1)), 1)
+          masks[indicesRange, predictions] = -1 * torch.ones(1,out.size(0),device="cuda", dtype=torch.int64)
+        else:
+          indicesRange = torch.arange(0 , out.size(0), dtype=torch.int64, device="cpu")
+          indices = torch.cat((indicesRange.unsqueeze(1), predictions.unsqueeze(1)), 1)
+          masks[indicesRange, predictions] = -1 * torch.ones(1,out.size(0),device="cpu", dtype=torch.int64)
 
       # Pick next index
       # If teacher force the next element will we the ground truth

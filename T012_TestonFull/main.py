@@ -1,5 +1,5 @@
 import torch.optim as optim
-from batch import batch
+from batch import batch, completeBatch
 import config
 import time
 from pointerNetwork import PointerNetwork
@@ -122,11 +122,11 @@ def compareBatchAccuracy(accuracyStats, text_in, y_ref, y_out):
   
 
   #
-def evaluateWordSort(accuracyStats, model, epoch):
+def evaluateWordSort(accuracyStats, model, sentenceLength):
   """Evaluate after a train epoch"""
-  print('Epoch [{}] -- Evaluate'.format(epoch))
+  print('Epoch [{}] -- Evaluate'.format(sentenceLength))
 
-  x_val, y_ref, text_in = batch(sentenceData, 200)
+  x_val, y_ref, text_in = completeBatch(sentenceData, sentenceLength)
   y_out, _ = model(x_val, y_ref, teacher_force_ratio=0., train=False)
   y_out = y_out.permute(1, 0)
   compareBatchAccuracy(accuracyStats, text_in, y_ref, y_out)
@@ -157,8 +157,9 @@ def modelEvaluate(accuracyStats, path):
     ptrNet = PointerNetwork(config.HIDDEN_SIZE)
 
   ptrNet.load_state_dict(torch.load(path))
-  for epoch in range(EPOCHS):
-    evaluateWordSort(accuracyStats, ptrNet, 1)
+  for sentenceLength in range(4,11):
+    print(sentenceLength)
+    evaluateWordSort(accuracyStats, ptrNet, sentenceLength)
   printAccStats(accuracyStats);
 
 
