@@ -91,7 +91,7 @@ def randomizeSentence(sentence):
         augmentedSentence.append([word, count])
         count += 1
 
-    random.shuffle(augmentedSentence)
+    #random.shuffle(augmentedSentence)
     count = 0
     for word in augmentedSentence:
         word.append(count)

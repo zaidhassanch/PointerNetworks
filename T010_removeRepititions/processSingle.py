@@ -12,7 +12,7 @@ def modelEvaluateSingle(x_val, y_val, text_val, ptrNet):
   #print('Epoch [{}] -- Evaluate'.format(epoch))
 
   #x_val, y_val, text_val = getBatch(sentenceData, 8)
-  out, _ = ptrNet(x_val, y_val, teacher_force_ratio=0.)
+  out, _ = ptrNet(x_val, y_val, teacher_force_ratio=0., train=False)
   out = out.permute(1, 0)
 
   outSent = ""
@@ -64,14 +64,14 @@ def processSingle(path):
 
 
   nlp = spacy.load("en_core_web_sm") 
-  sentences  =[  
+  sentences  =[
+    "this is definitely a difficult sentence",
     "your plan seems excellent",
     "it is really working",
     "let me start with a poem",
     "he is sure to pass the exam",
     "we meet every wednesday",
-    "we plan to do it tomorrow",
-    "this is definitely a difficult sentence",
+    "do plan to we it tomorrow",
     "i like working on brain",
     "development good is a this",
     "i am going to canada",

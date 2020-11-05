@@ -159,14 +159,21 @@ class PointerNetwork(nn.Module):
       hs, att_w = self.decoder(dec_in, hs, out)
       #------------------------------------------------------------------------------------------------------
 
+
       if train == False:
-        print(att_w.shape)
+        #print(att_w.shape)
+        minAttW = torch.min(att_w, 1)
+        att_w = torch.transpose(torch.transpose(att_w, 0, 1) - minAttW[0], 0, 1)
+        #print(torch.min(att_w, 1))
+        #att_w = att_w * masks
       predictions = F.softmax(att_w, dim=1).argmax(1)
+      if t==5:
+        print("pakro")
       if train == False:
-        print(att_w.shape)
+        #print(att_w.shape)
         indicesRange = torch.range(0 , out.size(0)-1, dtype=torch.int64, device="cuda")
         indices = torch.cat((indicesRange.unsqueeze(1), predictions.unsqueeze(1)), 1)
-        masks[indicesRange, predictions] = torch.zeros(1,8,device="cuda", dtype=torch.int64)
+        masks[indicesRange, predictions] = -1 * torch.ones(1,out.size(0),device="cuda", dtype=torch.int64)
 
       # Pick next index
       # If teacher force the next element will we the ground truth
