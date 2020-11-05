@@ -1,3 +1,4 @@
+.ipynb*
 *.pt
 *.dat
 *.pkl
