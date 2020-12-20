@@ -111,12 +111,12 @@ def compareBatchAccuracy(accuracyStats, text_in, y_ref, y_out):
     
 
     computeSentenceAccuracy(stat, text, v_ref, v_out)
-    length = len(text)
-    statX = accuracyStats[length]
-    statX["sentenceCount"] += stat["sentenceCount"]
-    statX["wordCount"] += stat["wordCount"]
-    statX["correctSentences"] += stat["correctSentences"]
-    statX["correctWords"] += stat["correctWords"]
+  length = len(text)
+  statX = accuracyStats[length]
+  statX["sentenceCount"] += stat["sentenceCount"]
+  statX["wordCount"] += stat["wordCount"]
+  statX["correctSentences"] += stat["correctSentences"]
+  statX["correctWords"] += stat["correctWords"]
 
   printStats(length, stat)
   

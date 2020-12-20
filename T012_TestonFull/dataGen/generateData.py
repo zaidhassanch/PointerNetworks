@@ -1,5 +1,9 @@
 import random
 
+#random.seed(50)
+
+#is this sentence difficult definitely a
+
 def filterSentences(fileName):
     sentences = [];
     for i in range(0, 20):   #max 20length sentences
@@ -87,15 +91,20 @@ def prepareDataVect(nlp, sents):
 def randomizeSentence(sentence):
     augmentedSentence = []
     count = 0
+
+
     for word in sentence:
         augmentedSentence.append([word, count])
         count += 1
+    # print(augmentedSentence)
 
     random.shuffle(augmentedSentence)
+
     count = 0
     for word in augmentedSentence:
         word.append(count)
         count += 1
+
     return augmentedSentence
 
 def prepareInputForPtrNet(list):
@@ -113,5 +122,8 @@ def prepareInputForPtrNet(list):
 #         pass
 # printSDict(sentence)
 
+# sent = ["is", "this", "sentence", "difficult", "definitely", "a"]
 
+# s2 = randomizeSentence(sent)
+# print(s2)
 

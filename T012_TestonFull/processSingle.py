@@ -6,6 +6,8 @@ from pointerNetwork import PointerNetwork
 import torch
 import torch.nn as nn
 
+# random.seed(50)
+
 def modelEvaluateSingle(x_val, y_val, text_val, ptrNet):
   
   """Evaluate after a train epoch"""

@@ -23,7 +23,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
-from data import sample, batch
+from data import sample, batch, SENT_LEN
 
 HIDDEN_SIZE = 256
 
@@ -32,15 +32,20 @@ STEPS_PER_EPOCH = 500
 EPOCHS = 10
 
 
-# class Encoder(nn.Module):
-#   def __init__(self, hidden_size: int):
-#     super(Encoder, self).__init__()
-#     self.lstm = nn.LSTM(1, hidden_size, batch_first=True)
-#
-#   def forward(self, x: torch.Tensor):
-#     # x: (BATCH, ARRAY_LEN, 1)
-#     xx = self.lstm(x)
-#     return xx
+class Encoder(nn.Module):
+  def __init__(self, hidden_size: int):
+    super(Encoder, self).__init__()
+    self.lstm = nn.LSTM(1, hidden_size, batch_first=True)
+
+    self.encoder_layer = nn.TransformerEncoderLayer(d_model=1, nhead=1,dim_feedforward=256)
+    self.transformer_encoder = nn.TransformerEncoder(self.encoder_layer, num_layers=2)
+  
+  def forward(self, x: torch.Tensor):
+    # x: (BATCH, ARRAY_LEN, 1)
+    lstmEncoderOutput = self.lstm(x)
+    transformerEncoderOutput = self.transformer_encoder(x)
+    return lstmEncoderOutput
+
 
 class Attention(nn.Module):
   def __init__(self, hidden_size, units):
@@ -114,10 +119,12 @@ class Decoder(nn.Module):
 
 
 class PointerNetwork(nn.Module):
-  def __init__(self):
+  def __init__(self, 
+               encoder: nn.Module, 
+               decoder: nn.Module):
     super(PointerNetwork, self).__init__()
-    self.encoder = nn.LSTM(1, HIDDEN_SIZE, batch_first=True)
-    self.decoder = Decoder(HIDDEN_SIZE)
+    self.encoder = encoder
+    self.decoder = decoder
 
   def forward(self, 
               x: torch.Tensor, 
@@ -132,7 +139,7 @@ class PointerNetwork(nn.Module):
 
     # out: (BATCH, ARRAY_LEN, HIDDEN_SIZE)
     # hs: tuple of (NUM_LAYERS, BATCH, HIDDEN_SIZE)
-    out, hs = self.encoder(encoder_in)
+    out, hs = encoder(encoder_in)
 
     # Accum loss throughout timesteps
     loss = 0
@@ -146,7 +153,7 @@ class PointerNetwork(nn.Module):
     dec_in = torch.zeros(out.size(0), 1, 1, dtype=torch.float)
     
     for t in range(out.size(1)):
-      hs, att_w = self.decoder(dec_in, hs, out)
+      hs, att_w = decoder(dec_in, hs, out)
       predictions = F.softmax(att_w, dim=1).argmax(1)
 
       # Pick next index
@@ -205,11 +212,9 @@ def evaluate(model, epoch):
     ))
 
 
-# encoder = Encoder(HIDDEN_SIZE)
-# encoder = nn.LSTM(1, HIDDEN_SIZE, batch_first=True)
-# decoder = Decoder(HIDDEN_SIZE)
-# ptr_net = PointerNetwork(encoder, decoder)
-ptr_net = PointerNetwork()
+encoder = Encoder(HIDDEN_SIZE)
+decoder = Decoder(HIDDEN_SIZE)
+ptr_net = PointerNetwork(encoder, decoder)
 
 optimizer = optim.Adam(ptr_net.parameters())
 
