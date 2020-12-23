@@ -1,81 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# ##### Copyright 2019 The TensorFlow Authors.
-
-# In[ ]:
-
-
-#@title Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-
-# # Transformer model for language understanding
-
-# <table class="tfo-notebook-buttons" align="left">
-#   <td>
-#     <a target="_blank" href="https://www.tensorflow.org/tutorials/text/transformer">
-#     <img src="https://www.tensorflow.org/images/tf_logo_32px.png" />
-#     View on TensorFlow.org</a>
-#   </td>
-#   <td>
-#     <a target="_blank" href="https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/text/transformer.ipynb">
-#     <img src="https://www.tensorflow.org/images/colab_logo_32px.png" />
-#     Run in Google Colab</a>
-#   </td>
-#   <td>
-#     <a target="_blank" href="https://github.com/tensorflow/docs/blob/master/site/en/tutorials/text/transformer.ipynb">
-#     <img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png" />
-#     View source on GitHub</a>
-#   </td>
-#   <td>
-#     <a href="https://storage.googleapis.com/tensorflow_docs/docs/site/en/tutorials/text/transformer.ipynb"><img src="https://www.tensorflow.org/images/download_logo_32px.png" />Download notebook</a>
-#   </td>
-# </table>
-
-# This tutorial trains a <a href="https://arxiv.org/abs/1706.03762" class="external">Transformer model</a> to translate Portuguese to English. This is an advanced example that assumes knowledge of [text generation](text_generation.ipynb) and [attention](nmt_with_attention.ipynb).
-# 
-# The core idea behind the Transformer model is *self-attention*—the ability to attend to different positions of the input sequence to compute a representation of that sequence. Transformer creates stacks of self-attention layers and is explained below in the sections *Scaled dot product attention* and *Multi-head attention*.
-# 
-# A transformer model handles variable-sized input using stacks of self-attention layers instead of [RNNs](text_classification_rnn.ipynb) or [CNNs](../images/intro_to_cnns.ipynb). This general architecture has a number of advantages:
-# 
-# * It make no assumptions about the temporal/spatial relationships across the data. This is ideal for processing a set of objects (for example, [StarCraft units](https://deepmind.com/blog/alphastar-mastering-real-time-strategy-game-starcraft-ii/#block-8)).
-# * Layer outputs can be calculated in parallel, instead of a series like an RNN.
-# * Distant items can affect each other's output without passing through many RNN-steps, or convolution layers (see [Scene Memory Transformer](https://arxiv.org/pdf/1903.03878.pdf) for example).
-# * It can learn long-range dependencies. This is a challenge in many sequence tasks.
-# 
-# The downsides of this architecture are:
-# 
-# * For a time-series, the output for a time-step is calculated from the *entire history* instead of only the inputs and current hidden-state. This _may_ be less efficient.   
-# * If the input *does* have a  temporal/spatial relationship, like text, some positional encoding must be added or the model will effectively see a bag of words. 
-# 
-# After training the model in this notebook, you will be able to input a Portuguese sentence and return the English translation.
-# 
-# <img src="https://www.tensorflow.org/images/tutorials/transformer/attention_map_portuguese.png" width="800" alt="Attention heatmap">
-
-# In[ ]:
-
-
-get_ipython().system('pip install -q tfds-nightly')
-
-# Pin matplotlib version to 3.2.2 since in the latest version
-# transformer.ipynb fails with the following error:
-# https://stackoverflow.com/questions/62953704/valueerror-the-number-of-fixedlocator-locations-5-usually-from-a-call-to-set
-get_ipython().system('pip install matplotlib==3.2.2')
-
-
-# In[1]:
-
-
 import tensorflow_datasets as tfds
 import tensorflow as tf
 
@@ -84,269 +9,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from platform import python_version
 
+tf.random.set_seed(50)
 print(python_version())
 
-
-# ## Setup input pipeline
-
-# Use [TFDS](https://www.tensorflow.org/datasets) to load the [Portugese-English translation dataset](https://github.com/neulab/word-embeddings-for-nmt) from the [TED Talks Open Translation Project](https://www.ted.com/participate/translate).
-# 
-# This dataset contains approximately 50000 training examples, 1100 validation examples, and 2000 test examples.
-
-# In[2]:
-
-
-examples, metadata = tfds.load('ted_hrlr_translate/pt_to_en', with_info=True,
-                               as_supervised=True)
-train_examples, val_examples = examples['train'], examples['validation']
-
-
-# Create a custom subwords tokenizer from the training dataset. 
-
-# In[3]:
-
-
-tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
-    (en.numpy() for pt, en in train_examples), target_vocab_size=2**13)
-
-tokenizer_pt = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
-    (pt.numpy() for pt, en in train_examples), target_vocab_size=2**13)
-
-
-# In[5]:
-
-
-sample_string = 'Transformer is awesome.'
-
-tokenized_string = tokenizer_en.encode(sample_string)
-print ('Tokenized string is {}'.format(tokenized_string))
-
-original_string = tokenizer_en.decode(tokenized_string)
-print ('The original string: {}'.format(original_string))
-
-assert original_string == sample_string
-
-
-# The tokenizer encodes the string by breaking it into subwords if the word is not in its dictionary.
-
-# In[6]:
-
-
-for ts in tokenized_string:
-  print ('{} ----> {}'.format(ts, tokenizer_en.decode([ts])))
-
-
-# In[7]:
-
-
-BUFFER_SIZE = 20000
-BATCH_SIZE = 64
-
-
-# Add a start and end token to the input and target. 
-
-# In[8]:
-
-
-def encode(lang1, lang2):
-  lang1 = [tokenizer_pt.vocab_size] + tokenizer_pt.encode(
-      lang1.numpy()) + [tokenizer_pt.vocab_size+1]
-
-  lang2 = [tokenizer_en.vocab_size] + tokenizer_en.encode(
-      lang2.numpy()) + [tokenizer_en.vocab_size+1]
-  
-  return lang1, lang2
-
-
-# You want to use `Dataset.map` to apply this function to each element of the dataset.  `Dataset.map` runs in graph mode.
-# 
-# * Graph tensors do not have a value. 
-# * In graph mode you can only use TensorFlow Ops and functions. 
-# 
-# So you can't `.map` this function directly: You need to wrap it in a `tf.py_function`. The `tf.py_function` will pass regular tensors (with a value and a `.numpy()` method to access it), to the wrapped python function.
-
-# In[9]:
-
-
-def tf_encode(pt, en):
-  result_pt, result_en = tf.py_function(encode, [pt, en], [tf.int64, tf.int64])
-  result_pt.set_shape([None])
-  result_en.set_shape([None])
-
-  return result_pt, result_en
-
-
-# Note: To keep this example small and relatively fast, drop examples with a length of over 40 tokens.
-
-# In[10]:
-
-
-MAX_LENGTH = 40
-
-
-# In[11]:
-
-
-def filter_max_length(x, y, max_length=MAX_LENGTH):
-  return tf.logical_and(tf.size(x) <= max_length,
-                        tf.size(y) <= max_length)
-
-
-# In[12]:
-
-
-train_dataset = train_examples.map(tf_encode)
-train_dataset = train_dataset.filter(filter_max_length)
-# cache the dataset to memory to get a speedup while reading from it.
-train_dataset = train_dataset.cache()
-train_dataset = train_dataset.shuffle(BUFFER_SIZE).padded_batch(BATCH_SIZE)
-train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
-
-
-val_dataset = val_examples.map(tf_encode)
-val_dataset = val_dataset.filter(filter_max_length).padded_batch(BATCH_SIZE)
-
-
-# In[13]:
-
-
-pt_batch, en_batch = next(iter(val_dataset))
-pt_batch, en_batch
-
-
-# ## Positional encoding
-# 
-# Since this model doesn't contain any recurrence or convolution, positional encoding is added to give the model some information about the relative position of the words in the sentence. 
-# 
-# The positional encoding vector is added to the embedding vector. Embeddings represent a token in a d-dimensional space where tokens with similar meaning will be closer to each other. But the embeddings do not encode the relative position of words in a sentence. So after adding the positional encoding, words will be closer to each other based on the *similarity of their meaning and their position in the sentence*, in the d-dimensional space.
-# 
-# See the notebook on [positional encoding](https://github.com/tensorflow/examples/blob/master/community/en/position_encoding.ipynb) to learn more about it. The formula for calculating the positional encoding is as follows:
-# 
-# $$\Large{PE_{(pos, 2i)} = sin(pos / 10000^{2i / d_{model}})} $$
-# $$\Large{PE_{(pos, 2i+1)} = cos(pos / 10000^{2i / d_{model}})} $$
-
-# In[14]:
-
-
-def get_angles(pos, i, d_model):
-  angle_rates = 1 / np.power(10000, (2 * (i//2)) / np.float32(d_model))
-  return pos * angle_rates
-
-
-# In[15]:
-
-
-def positional_encoding(position, d_model):
-  angle_rads = get_angles(np.arange(position)[:, np.newaxis],
-                          np.arange(d_model)[np.newaxis, :],
-                          d_model)
-  
-  # apply sin to even indices in the array; 2i
-  angle_rads[:, 0::2] = np.sin(angle_rads[:, 0::2])
-  
-  # apply cos to odd indices in the array; 2i+1
-  angle_rads[:, 1::2] = np.cos(angle_rads[:, 1::2])
-    
-  pos_encoding = angle_rads[np.newaxis, ...]
-    
-  return tf.cast(pos_encoding, dtype=tf.float32)
-
-
-# In[16]:
-
-
-pos_encoding = positional_encoding(50, 512)
-print (pos_encoding.shape)
-
-plt.pcolormesh(pos_encoding[0], cmap='RdBu')
-plt.xlabel('Depth')
-plt.xlim((0, 512))
-plt.ylabel('Position')
-plt.colorbar()
-plt.show()
-
-
-# ## Masking
-
-# Mask all the pad tokens in the batch of sequence. It ensures that the model does not treat padding as the input. The mask indicates where pad value `0` is present: it outputs a `1` at those locations, and a `0` otherwise.
-
-# In[17]:
-
-
-def create_padding_mask(seq):
-  seq = tf.cast(tf.math.equal(seq, 0), tf.float32)
-  
-  # add extra dimensions to add the padding
-  # to the attention logits.
-  return seq[:, tf.newaxis, tf.newaxis, :]  # (batch_size, 1, 1, seq_len)
-
-
-# In[18]:
-
-
-x = tf.constant([[7, 6, 0, 0, 1], [1, 2, 3, 0, 0], [0, 0, 0, 4, 5]])
-create_padding_mask(x)
-
-
-# The look-ahead mask is used to mask the future tokens in a sequence. In other words, the mask indicates which entries should not be used.
-# 
-# This means that to predict the third word, only the first and second word will be used. Similarly to predict the fourth word, only the first, second and the third word will be used and so on.
-
-# In[19]:
-
-
-def create_look_ahead_mask(size):
-  mask = 1 - tf.linalg.band_part(tf.ones((size, size)), -1, 0)
-  return mask  # (seq_len, seq_len)
-
-
-# In[20]:
-
-
-x = tf.random.uniform((1, 3))
-temp = create_look_ahead_mask(x.shape[1])
-temp
-
-
-# ## Scaled dot product attention
-
-# <img src="https://www.tensorflow.org/images/tutorials/transformer/scaled_attention.png" width="500" alt="scaled_dot_product_attention">
-# 
-# The attention function used by the transformer takes three inputs: Q (query), K (key), V (value). The equation used to calculate the attention weights is:
-# 
-# $$\Large{Attention(Q, K, V) = softmax_k(\frac{QK^T}{\sqrt{d_k}}) V} $$
-# 
-# The dot-product attention is scaled by a factor of square root of the depth. This is done because for large values of depth, the dot product grows large in magnitude pushing the softmax function where it has small gradients resulting in a very hard softmax. 
-# 
-# For example, consider that `Q` and `K` have a mean of 0 and variance of 1. Their matrix multiplication will have a mean of 0 and variance of `dk`. Hence, *square root of `dk`* is used for scaling (and not any other number) because the matmul of `Q` and `K` should have a mean of 0 and variance of 1, and you get a gentler softmax.
-# 
-# The mask is multiplied with -1e9 (close to negative infinity). This is done because the mask is summed with the scaled matrix multiplication of Q and K and is applied immediately before a softmax. The goal is to zero out these cells, and large negative inputs to softmax are near zero in the output.
-
-# In[21]:
-
-
 def scaled_dot_product_attention(q, k, v, mask):
-  """Calculate the attention weights.
-  q, k, v must have matching leading dimensions.
-  k, v must have matching penultimate dimension, i.e.: seq_len_k = seq_len_v.
-  The mask has different shapes depending on its type(padding or look ahead) 
-  but it must be broadcastable for addition.
-  
-  Args:
-    q: query shape == (..., seq_len_q, depth)
-    k: key shape == (..., seq_len_k, depth)
-    v: value shape == (..., seq_len_v, depth_v)
-    mask: Float tensor with shape broadcastable 
-          to (..., seq_len_q, seq_len_k). Defaults to None.
-    
-  Returns:
-    output, attention_weights
-  """
-
   matmul_qk = tf.matmul(q, k, transpose_b=True)  # (..., seq_len_q, seq_len_k)
-  
+
   # scale matmul_qk
+  # this line gets the value of dk
+  # the integer shape length is cast into float variable
   dk = tf.cast(tf.shape(k)[-1], tf.float32)
+  scaled
   scaled_attention_logits = matmul_qk / tf.math.sqrt(dk)
 
   # add the mask to the scaled tensor.
@@ -451,31 +124,34 @@ class MultiHeadAttention(tf.keras.layers.Layer):
     super(MultiHeadAttention, self).__init__()
     self.num_heads = num_heads
     self.d_model = d_model
-    
+
+    # why is this line found here?
     assert d_model % self.num_heads == 0
-    
+
     self.depth = d_model // self.num_heads
-    
+
     self.wq = tf.keras.layers.Dense(d_model)
     self.wk = tf.keras.layers.Dense(d_model)
     self.wv = tf.keras.layers.Dense(d_model)
-    
+
     self.dense = tf.keras.layers.Dense(d_model)
-        
+
   def split_heads(self, x, batch_size):
-    """Split the last dimension into (num_heads, depth).
+    """ Split the last dimension into (num_heads,depth)
     Transpose the result such that the shape is (batch_size, num_heads, seq_len, depth)
     """
     x = tf.reshape(x, (batch_size, -1, self.num_heads, self.depth))
-    return tf.transpose(x, perm=[0, 2, 1, 3])
-    
+    return tf.transpose(x, perm-[0, 2, 1, 3])
+
   def call(self, v, k, q, mask):
     batch_size = tf.shape(q)[0]
-    
+
+    # why pass q,k,v again through weights
+    # should'nt these weights be used for making them
     q = self.wq(q)  # (batch_size, seq_len, d_model)
     k = self.wk(k)  # (batch_size, seq_len, d_model)
     v = self.wv(v)  # (batch_size, seq_len, d_model)
-    
+
     q = self.split_heads(q, batch_size)  # (batch_size, num_heads, seq_len_q, depth)
     k = self.split_heads(k, batch_size)  # (batch_size, num_heads, seq_len_k, depth)
     v = self.split_heads(v, batch_size)  # (batch_size, num_heads, seq_len_v, depth)

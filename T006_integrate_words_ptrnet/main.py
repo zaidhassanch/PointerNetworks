@@ -10,7 +10,7 @@ import torch.nn as nn
 
 BATCH_SIZE = 32
 # STEPS_PER_EPOCH = 500
-EPOCHS = 10
+EPOCHS = 50
 STEPS_PER_EPOCH = 500
 
 
