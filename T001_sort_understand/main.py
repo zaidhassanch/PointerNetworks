@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
-from train import train, evaluate
+from train import train, evaluate, BATCH_SIZE
 
 HIDDEN_SIZE = 256
 EPOCHS = 10
@@ -41,6 +41,8 @@ class Decoder(nn.Module):
     super(Decoder, self).__init__()
     self.lstm = nn.LSTM(hidden_size + 1, hidden_size, batch_first=True)
     self.attention = Attention(hidden_size, attention_units)
+    self.hs = torch.zeros(BATCH_SIZE, HIDDEN_SIZE, dtype=torch.float)
+
     return
 
   def forward(self, 
@@ -51,6 +53,7 @@ class Decoder(nn.Module):
     di, att_w = self.attention(encoder_out, hidden)
     x = torch.cat([di.unsqueeze(1), x], dim=2)
     _, hidden = self.lstm(x)
+    # self.hs =
     return hidden[0][0], att_w
 
 
