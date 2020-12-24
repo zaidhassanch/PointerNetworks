@@ -67,7 +67,7 @@ def convertIntsToAlphabets(intArray):
 def batch(batchSize):
     xx = [];
     yy = [];
-    n = random.randint(2,11);
+    n = random.randint(8,8);
     for i in range(batchSize):
 
         origList = generateWords(n, 6, 6)

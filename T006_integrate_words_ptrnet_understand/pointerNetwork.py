@@ -1,19 +1,10 @@
 """
 Module implementing the pointer network proposed at: https://arxiv.org/abs/1506.03134
 
-The implementation try to follows the variables naming conventions
-
 ei: Encoder hidden state
 
 di: Decoder hidden state
 di_prime: Attention aware decoder state
-
-W1: Learnable matrix (Attention layer)
-W2: Learnable matrix (Attention layer)
-V: Learnable parameter (Attention layer)
-
-uj: Energy vector (Attention Layer)
-aj: Attention mask over the input
 """
 import random
 from typing import Tuple
@@ -26,7 +17,7 @@ import torch.nn.functional as F
 #from data import  batch
 import config
 import time
-
+from test import computeAttn
 
 BATCH_SIZE = 32
 
@@ -52,7 +43,9 @@ class Attention(nn.Module):
               encoder_out: torch.Tensor, 
               decoder_hidden: torch.Tensor):
     # encoder_out: (BATCH, ARRAY_LEN, HIDDEN_SIZE)
+    # encoder_out: (32, 8, 256)
     # decoder_hidden: (BATCH, HIDDEN_SIZE)
+    # decoder_hidden: (32, 256)
 
     # Add time axis to decoder hidden state
     # in order to make operations compatible with encoder_out
@@ -61,21 +54,38 @@ class Attention(nn.Module):
 
     # uj: (BATCH, ARRAY_LEN, ATTENTION_UNITS)
     # Note: we can add the both linear outputs thanks to broadcasting
-    uj = self.W1(encoder_out) + self.W2(decoder_hidden_time)
-    uj = torch.tanh(uj)
+    # ve: 32 x 8 x 10
+    ve = self.W1(encoder_out);
+    # vd: 32 x 1 x 10
+    vd = self.W2(decoder_hidden_time)
+
+    # uj1: (32 x 8 x 10)
+    uj1 = ve + vd
+
+
+    # uj1: (32 x 8 x 10)
+    uj2 = torch.relu(uj1)
+    #::: ve (32 x 8 x 10)
+    #::: vd (32 x 1 x 10)
+    #::: uj2 (32 x 8 x 10)
 
     # uj: (BATCH, ARRAY_LEN, 1)
-    uj = self.V(uj)
+    # uj3: (32 x 8 x 1)
+    uj3 = self.V(uj2)
 
     # Attention mask over inputs
     # aj: (BATCH, ARRAY_LEN, 1)
-    aj = F.softmax(uj, dim=1)
+    # aj = F.softmax(uj3, dim=1)
 
     # di_prime: (BATCH, HIDDEN_SIZE)
-    di_prime = aj * encoder_out
-    di_prime = di_prime.sum(1)
-    
-    return di_prime, uj.squeeze(-1)
+    # di_prime = aj * encoder_out
+    # di_prime = di_prime.sum(1)
+
+    di_prime = computeAttn(encoder_out, decoder_hidden_time)
+
+    # uj4: (32 x 8) out for loss comparision
+    uj4 = uj3.squeeze(-1)
+    return di_prime, uj4
     
 
 class Decoder(nn.Module):
@@ -84,31 +94,42 @@ class Decoder(nn.Module):
                attention_units: int = 10):
     super(Decoder, self).__init__()
     self.lstm = nn.LSTM(hidden_size + config.NUM_FEATURES, hidden_size, batch_first=True)
+    # self.lstm = nn.LSTM(10, hidden_size, batch_first=True)
+
     self.attention = Attention(hidden_size, attention_units)
 
   def forward(self, 
-              x: torch.Tensor, 
+              dec_in: torch.Tensor,
               hidden: Tuple[torch.Tensor], 
               encoder_out: torch.Tensor):
-    # x: (BATCH, 1, 1) 
+    #::: ####################
+    #:::   DECODER
+    #::: ####################
+    # x: (BATCH, 1, 1)
     # hidden: (1, BATCH, HIDDEN_SIZE)
     # encoder_out: (BATCH, ARRAY_LEN, HIDDEN_SIZE)
     # For a better understanding about hidden shapes read: https://pytorch.org/docs/stable/nn.html#lstm
     
     # Get hidden states (not cell states) 
     # from the first and unique LSTM layer 
+    # hidden = 2 x 32 x 256                                                                 : ZHC
+    #   the first dim is of tuple h0, c0, basically it is decoder hidden state of dim = 256 : ZHC
     ht = hidden[0][0]  # ht: (BATCH, HIDDEN_SIZE)
 
-    # di: Attention aware hidden state -> (BATCH, HIDDEN_SIZE)
-    # att_w: Not 'softmaxed', torch will take care of it -> (BATCH, ARRAY_LEN)
+    #::: di: Attention aware encoder output state based on all encoder hidden states as K, V,  : ZHC
+    #:::     and decoder hidden state as query. All of dimension 256                           : ZHC
+    #::: att_w: Not 'softmaxed', torch will take care of it in crossEntropy -> (32 x 8)
     di, att_w = self.attention(encoder_out, ht)
-    
+    #::: di (32 x 256)
     # Append attention aware hidden state to our input
     # x: (BATCH, 1, 1 + HIDDEN_SIZE)
-    x = torch.cat([di.unsqueeze(1), x], dim=2)
+    #::: dec_in (32 x 1 x 6)
+    #::: lstm_in (32 x 1 x 262)
+
+    lstm_in = torch.cat([di.unsqueeze(1), dec_in], dim=2)
     
     # Generate the hidden state for next timestep
-    _, hidden = self.lstm(x, hidden)
+    _, hidden = self.lstm(lstm_in, hidden)
     return hidden, att_w
 
 
@@ -124,48 +145,51 @@ class PointerNetwork(nn.Module):
               x: torch.Tensor, 
               y: torch.Tensor, 
               teacher_force_ratio=.5):
-    # x: (BATCH_SIZE, ARRAY_LEN)
-    # y: (BATCH_SIZE, ARRAY_LEN)
 
-    # Array elements as features
-    # encoder_in: (BATCH, ARRAY_LEN, 1)
-    #encoder_in = x.unsqueeze(-1).type(torch.float)
+    #:::####################
+    #::: Encoder
+    #:::####################
 
-    encoder_in = x.type(torch.float)
+    #::: x = (32 x 8 x 6), (BATCH x SEQ_LEN x NUM_FEATURES), we have 6 lettered words, each alphabet is a feature
+    #::: y = (32 x 8), (BATCH x SEQ_LEN), The desired order of the indices
 
-    # out: (BATCH, ARRAY_LEN, HIDDEN_SIZE)
-    # hs: tuple of (NUM_LAYERS, BATCH, HIDDEN_SIZE)
-    out, hs = self.encoder(encoder_in)
+    encoder_in = x.type(torch.float)  #convert integers to floats
 
-    # Accum loss throughout timesteps
+    #::: out: (32 x 8 x 256) (BATCH, SEQ_LEN, HIDDEN_SIZE)
+    out, _ = self.encoder(encoder_in)
+
     loss = 0
 
     # Save outputs at each timestep
-    # outputs: (ARRAY_LEN, BATCH)
+    #::: outputs: (8 x 32)(SEQ_LEN, BATCH), EACH COLUMN GIVES US THE DESIRED SEQ, we will update one column in each time-step
     outputs = torch.zeros(out.size(1), out.size(0), dtype=torch.long)
     
-    # First decoder input is always 0
-    # dec_in: (BATCH, 1, 1)
+    #::: dec_in: (32 x 1 x 6) (BATCH, 1, NUM_FEATURES), should be start of sentence token
     dec_in = torch.zeros(out.size(0), 1, config.NUM_FEATURES, dtype=torch.float)
-    
+    hsa = torch.zeros(1, out.size(0), out.size(2), dtype=torch.float)
+    hs = (hsa, hsa)
+    #::: hsa: (1 x 32 x 256) (BATCH, 1, NUM_FEATURES)
+
     for t in range(out.size(1)):
       hs, att_w = self.decoder(dec_in, hs, out)
+      loss += F.cross_entropy(att_w, y[:, t])
+
       predictions = F.softmax(att_w, dim=1).argmax(1)
 
-      # Pick next index
-      # If teacher force the next element will we the ground truth
-      # otherwise will be the predicted value at current timestep
       teacher_force = random.random() < teacher_force_ratio
       idx = y[:, t] if teacher_force else predictions
-      dec_in = torch.stack([x[b, idx[b].item()] for b in range(x.size(0))])
+
+      #::: v is (32 x 6)  (x is 32 x 8 x 6)
+      v = [];
+      for b in range(x.size(0)):
+        v.append(x[b, idx[b].item()])
+
+      dec_in = torch.stack(v)
+
       dec_in = dec_in.view(out.size(0), 1, config.NUM_FEATURES).type(torch.float)
 
-      # Add cross entropy loss (F.log_softmax + nll_loss)
-      loss += F.cross_entropy(att_w, y[:, t])
       outputs[t] = predictions
 
-    # Weight losses, so every element in the batch 
-    # has the same 'importance' 
     batch_loss = loss / y.size(0)
 
     return outputs, batch_loss
