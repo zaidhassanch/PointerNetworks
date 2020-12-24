@@ -1,3 +1,17 @@
+#ssh -N -f -L localhost:7774:localhost:7777 ahmad@chiisb1.nayatel.net -p8989
+
+
+#ssh -L localhost:7773:localhost:7777 ahmad@chiisb1.nayatel.net -p8989
+
+on remote: jupyter notebook --no-browser --port=7777
+
+get the token from server, eg: ?token=538d89603dd0cfc477d14c97d13ead3b386d17523d2dee70
+
+on local: ssh -N -f -L localhost:7773:localhost:7777 ahmad@chiisb1.nayatel.net -p8989
+
+
+open : localhost:7773/?token=538d89603dd0cfc477d14c97d13ead3b386d17523d2dee70
+sftp://chiisb1.nayatel.net:8989/
 
 
 

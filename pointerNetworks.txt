@@ -1,0 +1,58 @@
+
+1. What does Pointer Networks do:
+
+- They reorder the inputs
+  e.g. if input is A, D, B, L, the output could be  B, D, A
+- Finding convex Hull
+- Doing Triangulization
+- Travelling sales man
+
+2. My Observation
+   - In the examples mentioned above, the input "node" order was irrelevant.
+     so probably might not very suitable for Above examples were taken from literature. And, I thought of my own examples.
+
+  - We have a list of students with properties (features): name, DOB, height, etc
+  - We can train a network which gives the first 3 names ordered alphabetically
+  - We can train another network which arranges all the students in order of their height. 
+
+
+3. Model
+  Comparision of Pointer Networks and Sequence to Sequence
+
+  - In sequence, input and output dictionary is 'primarily' decoupled
+    A good example is translation for seq2seq models
+
+  - In Pointer Networks, the input and output dictionaries are strictly coupled
+    (we can only choose "words" from the input "sentence")
+
+4. Seq2Seq Encoders convert variable length seq to fixed length output
+   Decoders take fixed length input and convert to variable length output.
+
+Attention models can't do parallel processing, we need to input one word and get output and feed that it, so process is sequential. 
+
+
+Therefore, attention mechanisms have become critical for sequence modeling in various tasks, allowing modeling of dependencies without caring too much about their distance in the input or output sequences.
+
+5. Seq2Seq Encoders usually "remember" things recently told to them.
+   IDEA (modify the states of the encoder by a smaller factor for recent input)
+
+
+At each step focus on most likely word
+
+Alignment: Word sense discovery and disambiguation (aligning input with output words)
+
+This week, we achieve alignment with a system for retrieving information step by step by scoring it.
+
+decoders needs to identify relationships among words in order to make accurate predictions in case words 
+are out of order or not exact translations (eg. two words for one word)
+
+Decoders need a mechanism / layer to identify which inputs are more important for each (output) prediction
+
+Attention layer does that, it takes all input words and assigns it more weight than others, thus
+decoder's output is heavily influenced by this input word (my own: or words). 
+
+So, we now want to give each word vector a score.
+
+
+
+
