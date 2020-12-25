@@ -74,7 +74,11 @@ class Transformer(nn.Module):
             .to(self.device)
         )
 
-        embed_src = self.dropout(self.src_word_embedding(src) + self.src_position_embedding(src_positions))
+        src_embed_word = self.src_word_embedding(src)
+        src_embed_pos = self.src_position_embedding(src_positions)
+
+        embed_src = self.dropout(src_embed_word + src_embed_pos)
+        print("src.shape", src.shape)
         embed_trg = self.dropout(self.trg_word_embedding(trg) + self.trg_position_embedding(trg_positions))
         src_padding_mask = self.make_src_mask(src)
         trg_mask = self.transformer.generate_square_subsequent_mask(trg_seq_length).to(self.device)
