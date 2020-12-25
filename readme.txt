@@ -1,3 +1,15 @@
+
+- LSTM based pointer network block diagram
+- What is our plan to replace
+- Understood tranformers to quite an extent, '
+    > how parallelism is used instead of sequential processing of LSTMs
+    > why / how causal masking is used in its decoder
+    > got some translation examples working, and understood the code.
+
+
+
+
+===============================================================
 #ssh -N -f -L localhost:7774:localhost:7777 ahmad@chiisb1.nayatel.net -p8989
 
 
