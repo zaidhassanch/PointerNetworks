@@ -9,6 +9,16 @@ german, english, train_data, valid_data, test_data = getData()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 batch_size = 32
 
+data = train_data[0:3]
+
+for example in data:
+    src = example.src
+    trg = example.trg
+    print(dir(example))
+    print(">> ", src)
+    print("   ", trg)
+
+    # exit()
 # Model hyperparameters
 src_vocab_size = len(german.vocab)
 trg_vocab_size = len(english.vocab)
@@ -34,9 +44,7 @@ if load_model:
 #     model, sentence, german, english, device, max_length=50
 # )
 sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
-translated_sentence = translate_sentence(
-    model, sentence1, german, english, device, max_length=50
-)
+translated_sentence = translate_sentence(model, sentence1, german, english, device, max_length=50)
 # exit()
 # print(f"Translated1 example sentence: \n {sentence}")
 # print(f"Translated1 example sentence: \n {translated_sentence}")
@@ -45,8 +53,5 @@ translated_sentence = translate_sentence(
 
 train(model, device, load_model, save_model, german, english, train_data, valid_data, test_data, batch_size)
 # running on entire test data takes a while
-score = bleu(train_data[1:100], model, german, english, device)
-print(f"Final Train Bleu score {score * 100:.2f}")
 
-score = bleu(test_data[1:100], model, german, english, device)
-print(f"Final Test Bleu score {score * 100:.2f}")
+

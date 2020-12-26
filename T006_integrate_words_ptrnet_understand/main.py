@@ -1,5 +1,6 @@
 import torch.optim as optim
 from dataGen.dataGenerator import batch, convertToWordSingle
+from transfomer import Transformer
 
 #from data import batch
 import config
@@ -70,8 +71,15 @@ def evaluateWordSort(model, epoch):
 
     print("]")
 
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = "cpu"
+embedding_size = 6
+src_pad_idx = 2
 
-ptrNet = PointerNetwork(config.HIDDEN_SIZE)
+ptrNet = Transformer(device, embedding_size, src_pad_idx).to(device)
+
+
+# ptrNet = PointerNetwork(config.HIDDEN_SIZE)
 optimizer = optim.Adam(ptrNet.parameters())
 
 program_starts = time.time()

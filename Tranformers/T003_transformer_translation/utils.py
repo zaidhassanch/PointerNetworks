@@ -26,23 +26,24 @@ def translate_sentence(model, sentence, german, english, device, max_length=50):
     sentence_tensor = torch.LongTensor(text_to_indices).unsqueeze(1).to(device)
 
     outputs = [english.vocab.stoi["<sos>"]]
-    print("input = ")
-    for word in sentence:
-        print(word, end=" ")
-    print()
+    # print("input = ")
+    # for word in sentence:
+    #     print(word, end=" ")
+    # print()
     for i in range(max_length):
         trg_tensor = torch.LongTensor(outputs).unsqueeze(1).to(device)
 
         with torch.no_grad():
             output = model(sentence_tensor, trg_tensor)
 
-        best_guess = output.argmax(2)[-1, :].item()
+        best_guess1 = output.argmax(2)
+        best_guess =  best_guess1[-1, :].item()
         outputs.append(best_guess)
-        print(english.vocab.itos[best_guess], end=" ")
+        # print(english.vocab.itos[best_guess], end=" ")
 
         if best_guess == english.vocab.stoi["<eos>"]:
             break
-    print()
+    # print()
     translated_sentence = [english.vocab.itos[idx] for idx in outputs]
     # remove start token
     return translated_sentence[1:]
@@ -55,6 +56,7 @@ def bleu(data, model, german, english, device):
     for example in data:
         src = vars(example)["src"]
         trg = vars(example)["trg"]
+
 
         prediction = translate_sentence(model, src, german, english, device)
         prediction = prediction[:-1]  # remove <eos> token

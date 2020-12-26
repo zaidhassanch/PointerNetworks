@@ -8,6 +8,16 @@ import torch.optim as optim
 num_epochs = 10000
 learning_rate = 3e-4
 
+def printSentences(tokens, lang):
+    print()
+    size = tokens.shape
+    for j in range(size[1]):
+        print("j = ", j, end=">> ")
+        for i in range(size[0]):
+            print(lang.vocab.itos[tokens[i][j]], end=" ")
+        print()
+    print()
+
 def train(model, device, load_model, save_model, german, english, train_data, valid_data, test_data, batch_size):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -73,6 +83,9 @@ def train(model, device, load_model, save_model, german, english, train_data, va
             target = batch.trg.to(device)
 
             # Forward prop
+            # print(target)
+            # printSentences(inp_data, german)
+            # printSentences(target, english)
             trg = target[:-1, :]
             # print(trg.shape)
             output = model(inp_data, trg)
