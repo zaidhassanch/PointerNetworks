@@ -35,7 +35,7 @@ class Transformer(nn.Module):
         self.src_word_embedding = nn.Embedding(src_vocab_size, embedding_size)  # 7854 x 512
         self.src_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
         self.trg_word_embedding = nn.Embedding(trg_vocab_size, embedding_size)  # 5893 x 512
-        self.trg_position_embedding = nn.Embedding(max_len, embedding_size)
+        self.trg_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
 
         self.device = device
         self.transformer = nn.Transformer(
@@ -56,38 +56,44 @@ class Transformer(nn.Module):
         # (N, src_len)
         return src_mask.to(self.device)
 
+    def computePosArray(self, seqLen, N):
+        positions = (
+            torch.arange(0, seqLen)
+                .unsqueeze(1)
+                .expand(seqLen, N)
+                .to(self.device)
+        )
+        return positions
+
     def forward(self, src, trg):
-        src_seq_length, N = src.shape
-        trg_seq_length, N = trg.shape
+        src_seq_length, N = src.shape  #::: 17
+        trg_seq_length, N = trg.shape  #::: 9
+        #::: src (17x1)
+        #::: trg (1x1, 2x1, ... 9x1, ...).. till end of sentence
 
-        src_positions = (
-            torch.arange(0, src_seq_length)
-            .unsqueeze(1)
-            .expand(src_seq_length, N)
-            .to(self.device)
-        )
+        #::: src_positions ([[0], [1], [2], ..., [15], [16] )
+        src_positions = self.computePosArray(src_seq_length, N)
+        #::: trg_positions ([[0], [1], [2], ..., [7], [8])
+        trg_positions = self.computePosArray(trg_seq_length, N)
 
-        trg_positions = (
-            torch.arange(0, trg_seq_length)
-            .unsqueeze(1)
-            .expand(trg_seq_length, N)
-            .to(self.device)
-        )
-
+        #::: src (17x1), src_embed_word (17x1x512), src_embed_pos (17x1x512), embed_src (17x1x512)
         src_embed_word = self.src_word_embedding(src)
         src_embed_pos = self.src_position_embedding(src_positions)
-
         embed_src = self.dropout(src_embed_word + src_embed_pos)
-        print("src.shape", src.shape)
-        embed_trg = self.dropout(self.trg_word_embedding(trg) + self.trg_position_embedding(trg_positions))
+
+        #::: trg (9x1x512), trg_word_embedding (9x1x512), trg_positions (9x1x512), embed_trg (9x1x512)
+        trg_word_embedding = self.trg_word_embedding(trg)
+        trg_positions = self.trg_position_embedding(trg_positions)
+        embed_trg = self.dropout(trg_word_embedding + trg_positions)
+
+        #::: src_padding_mask (1x17) [True, False, False,..... False]
         src_padding_mask = self.make_src_mask(src)
+        #::: src_positions (9x9) [upper triangular matrix of -inf]
         trg_mask = self.transformer.generate_square_subsequent_mask(trg_seq_length).to(self.device)
 
-        out = self.transformer(
-            embed_src,
-            embed_trg,
-            src_key_padding_mask=src_padding_mask,
-            tgt_mask=trg_mask,
-        )
-        out = self.fc_out(out)
-        return out
+        #::: out1 (9x1x512) = embed_src(17x1x512), embed_trg(9x1x512)
+        out1 = self.transformer(embed_src, embed_trg, src_key_padding_mask=src_padding_mask, tgt_mask=trg_mask)
+
+        #::: out2 (9x1x5893)
+        out2 = self.fc_out(out1)
+        return out2

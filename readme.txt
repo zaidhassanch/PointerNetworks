@@ -1,10 +1,23 @@
 
 - LSTM based pointer network block diagram
 - What is our plan to replace
-- Understood tranformers to quite an extent, '
+
+
+- Exploring Transformer implementation to find the right match to our problem
+    - language modeling
+    - machine translation
+- Understood transformer architecture to quite an extent,
+    Plan:
+    - So probably take two days to complete my understanding
+    - probably another 2-3 days to use transformer to order a sequence
+    - I hope, training would be easier / faster on Transformers due to Parallism.
+    - Then will work on Srabundy dataset.
+
     > how parallelism is used instead of sequential processing of LSTMs
     > why / how causal masking is used in its decoder
-    > got some translation examples working, and understood the code.
+    > got some translation examples working,
+
+
 
 
 
