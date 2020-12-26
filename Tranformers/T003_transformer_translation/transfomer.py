@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim 
-
+from transformer2 import Transformer2
 
 num_heads = 8
 num_encoder_layers = 3
@@ -38,14 +38,30 @@ class Transformer(nn.Module):
         self.trg_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
 
         self.device = device
-        self.transformer = nn.Transformer(
-            embedding_size,
-            num_heads,
-            num_encoder_layers,
-            num_decoder_layers,
-            forward_expansion,
-            dropout,
-        )
+        flag = True
+        if flag:
+            self.transformer = nn.Transformer(
+                embedding_size,
+                num_heads,
+                num_encoder_layers,
+                num_decoder_layers,
+                forward_expansion,
+                dropout,
+            )
+        else:
+            self.transformer = Transformer2(
+                    src_vocab_size,
+                    trg_vocab_size,
+                    src_pad_idx,
+                    src_pad_idx,
+                    embedding_size,
+                    num_encoder_layers,
+                    forward_expansion,
+                    num_heads,
+                    dropout,
+                    device="cuda",
+                    max_length=100,
+            )
         self.fc_out = nn.Linear(embedding_size, trg_vocab_size)
         self.dropout = nn.Dropout(dropout)
         self.src_pad_idx = src_pad_idx
@@ -94,6 +110,7 @@ class Transformer(nn.Module):
 
         #::: out1 (9x1x512) = embed_src(17x1x512), embed_trg(9x1x512)
         out1 = self.transformer(embed_src, embed_trg, src_key_padding_mask=src_padding_mask, tgt_mask=trg_mask)
+        # out1 = self.transformer(embed_src, embed_trg)
 
         #::: out2 (9x1x5893)
         out2 = self.fc_out(out1)
