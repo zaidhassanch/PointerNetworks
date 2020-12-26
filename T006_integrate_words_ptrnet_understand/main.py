@@ -1,5 +1,5 @@
 import torch.optim as optim
-from dataGen.dataGenerator import batch, convertToWordSingle
+from dataGen.dataGenerator import batch, convertToWordSingle, convertToWordsBatch
 from transfomer import Transformer
 
 #from data import batch
@@ -18,12 +18,26 @@ STEPS_PER_EPOCH = 500
 def train(pNet, optimizer, epoch, clip=1.):
   """Train single epoch"""
   print('Epoch [{}] -- Train'.format(epoch))
+  criterion = nn.CrossEntropyLoss()
   for step in range(STEPS_PER_EPOCH):
     optimizer.zero_grad()
 
     # Forward
-    x, y = batch(BATCH_SIZE)
-    out, loss = pNet(x, y)
+    x, y = batch(1)
+    w = convertToWordsBatch(x)
+
+    output = pNet(x, y)
+    best_guess = output.argmax(2).transpose(0,1)
+    # [-1, :].item()
+    output = output.reshape(-1, output.shape[2])
+    target = y.reshape(-1)
+
+    print(target, best_guess)
+
+
+    optimizer.zero_grad()
+
+    loss = criterion(output, target)
 
     # Backward
     loss.backward()
@@ -54,8 +68,28 @@ def evaluateWordSort(model, epoch):
   """Evaluate after a train epoch"""
   print('Epoch [{}] -- Evaluate'.format(epoch))
 
-  x_val, y_val = batch(4)
-  out, _ = model(x_val, y_val, teacher_force_ratio=0.)
+  x_val, y_val = batch(1)
+
+  batch_size, trg_seq_len = y_val.shape
+
+  sentence_tensor = x_val
+
+  #outputs = [30]
+  outputs = list(y_val[0][:3].numpy())
+
+  for i in range(trg_seq_len):
+    trg_tensor = torch.LongTensor(outputs).unsqueeze(1).to(device)
+    trg_tensor = trg_tensor.permute(1, 0)
+
+    with torch.no_grad():
+      output = model(sentence_tensor, trg_tensor)
+
+    best_guess = output.argmax(2)[-1, :].item()
+    outputs.append(best_guess)
+
+    print(outputs, y_val)
+  """
+  out, _ = model(x_val, y_val)
   out = out.permute(1, 0)
 
   for i in range(out.size(0)):
@@ -70,6 +104,7 @@ def evaluateWordSort(model, epoch):
       print(xv[index] + ", ", end="")
 
     print("]")
+  """
 
 # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 device = "cpu"
@@ -80,7 +115,7 @@ ptrNet = Transformer(device, embedding_size, src_pad_idx).to(device)
 
 
 # ptrNet = PointerNetwork(config.HIDDEN_SIZE)
-optimizer = optim.Adam(ptrNet.parameters())
+optimizer = optim.Adam(ptrNet.parameters(), lr=0.01)
 
 program_starts = time.time()
 for epoch in range(EPOCHS):

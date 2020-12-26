@@ -78,7 +78,7 @@ def batch(batchSize):
         # print(x)
         # print(y)
         # print(xa)
-
+        y.insert(0, 30);
         xx.append(x)
         yy.append(y)
     xx = torch.FloatTensor(xx)
