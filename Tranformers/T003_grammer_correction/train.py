@@ -26,7 +26,8 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
         load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
     # sentence = "ein pferd geht unter einer brücke neben einem boot."
-    sentence = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
+    # sentence = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
+    sentence = ['The', 'study’s', 'questions', 'are', 'carefully', 'worded', 'and', 'chosen', '.']
     # sentence = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, factor=0.1, patience=10, verbose=True

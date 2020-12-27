@@ -23,6 +23,8 @@ data = train_data[0:3]
 # Model hyperparameters
 src_vocab_size = len(german_vocab)
 trg_vocab_size = len(english_vocab)
+print("src vocabulary size: ", src_vocab_size)
+print("trg vocabulary size: ", trg_vocab_size)
 embedding_size = 512
 src_pad_idx = english_vocab.stoi["<pad>"]
 print(src_pad_idx)
@@ -44,9 +46,9 @@ if load_model:
 # translated_sentence = translate_sentence(
 #     model, sentence, german, english, device, max_length=50
 # )
-sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
+#sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
 # sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
-translated_sentence = translate_sentence(model, sentence1, german_vocab, english_vocab, device, max_length=50)
+#translated_sentence = translate_sentence(model, sentence1, german_vocab, english_vocab, device, max_length=50)
 # exit()
 # print(f"Translated1 example sentence: \n {sentence}")
 # print(f"Translated1 example sentence: \n {translated_sentence}")

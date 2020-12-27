@@ -44,18 +44,8 @@ def getData():
     #     test='test_2016_flickr',
     #     path = '.data'
     # )
-    # The
-    # study’s
-    # questions
-    # are
-    # carefully
-    # worded and chosen.
-    # The
-    # study
-    # questions
-    # were
-    # carefully
-    # worded and chosen.
+    #The study’s questions are carefully worded and chosen.
+    # The study questions were carefully worded and chosen.
     print("===============================before ")
     train_data, valid_data, test_data = Multi30k.splits(
         exts=(".src", ".tgt"), fields=(german, english),
