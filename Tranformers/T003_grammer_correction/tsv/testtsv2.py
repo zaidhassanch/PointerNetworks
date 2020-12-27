@@ -22,11 +22,12 @@ fields = [
 test_ds = data.TabularDataset.splits(
 #   path = '/data/chaudhryz/uwstudent1/2017-data/',
    path ='.',
-   test = '2017.tsv',
+   test = 'test2.tsv',
    format = 'tsv',
    fields = fields,
    skip_header = True
 )
 
 print(test_ds[0].examples[1].original_sentence)
-print(dir(test_ds[0].examples[1]))
+print(test_ds[0].examples[1].edited_sentence)
+#print(dir(test_ds[0].examples[1]))

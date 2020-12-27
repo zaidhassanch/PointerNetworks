@@ -1,5 +1,5 @@
 import spacy
-from torchtext.data import Field, BucketIterator
+from torchtext.data import Field
 from torchtext.datasets import Multi30k
 
 """
@@ -8,7 +8,7 @@ python -m spacy download en
 python -m spacy download de
 """
 
-spacy_ger = spacy.load("de") 
+spacy_ger = spacy.load("en")
 spacy_eng = spacy.load("en")
 
 
@@ -30,7 +30,7 @@ def getData():
 
 
     train_data, valid_data, test_data = Multi30k.splits(
-        exts=(".de", ".en"), fields=(german, english)
+        exts=(".en", ".en"), fields=(german, english)
     )
     
     german.build_vocab(train_data, max_size=10000, min_freq=2)

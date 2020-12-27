@@ -1,5 +1,5 @@
 
-from utils import translate_sentence, bleu, load_checkpoint, printSent
+from utils import translate_sentence, load_checkpoint
 import torch
 from data import getData
 from train import train
@@ -18,7 +18,7 @@ for example in data:
     print(">> ", src)
     print("   ", trg)
 
-    # exit()
+# exit()
 # Model hyperparameters
 src_vocab_size = len(german.vocab)
 trg_vocab_size = len(english.vocab)
@@ -44,6 +44,7 @@ if load_model:
 #     model, sentence, german, english, device, max_length=50
 # )
 sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
+sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
 translated_sentence = translate_sentence(model, sentence1, german, english, device, max_length=50)
 # exit()
 # print(f"Translated1 example sentence: \n {sentence}")

@@ -1,7 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim 
-from transformer2 import Transformer2
 
 num_heads = 8
 num_encoder_layers = 3
