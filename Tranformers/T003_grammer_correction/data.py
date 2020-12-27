@@ -11,7 +11,7 @@ python -m spacy download de
 """
 from torchtext.data.utils import get_tokenizer
 
-spacy_ger = spacy.load("de")
+spacy_ger = spacy.load("en")
 spacy_eng = spacy.load("en")
 
 
@@ -56,6 +56,7 @@ def getData():
     # were
     # carefully
     # worded and chosen.
+    print("===============================before ")
     train_data, valid_data, test_data = Multi30k.splits(
         exts=(".src", ".tgt"), fields=(german, english),
         # root='.data',
