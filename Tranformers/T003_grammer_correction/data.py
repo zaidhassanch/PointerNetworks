@@ -36,25 +36,25 @@ def getData():
     )
 
     print("===============================before ")
-    train_data, valid_data, test_data = Multi30k.splits(
-        exts=(".de", ".en"), fields=(german, english),
-        # root='.data',
-        train='train',
-        validation='val',
-        test='test2016',
-        path = '.data/multi30k'
-    )
+    # train_data, valid_data, test_data = Multi30k.splits(
+    #     exts=(".de", ".en"), fields=(german, english),
+    #     # root='.data',
+    #     train='train',
+    #     validation='val',
+    #     test='test2016',
+    #     path = '.data/multi30k'
+    # )
     #The study’s questions are carefully worded and chosen.
     # The study questions were carefully worded and chosen.
 
-    # train_data, valid_data, test_data = Multi30k.splits(
-    #     exts=(".src", ".tgt"), fields=(german, english),
-    #     # root='.data',
-    #     train='test',
-    #     validation='valid',
-    #     test='valid',
-    #     path = '/data/chaudhryz/uwstudent1/data'
-    # )
+    train_data, valid_data, test_data = Multi30k.splits(
+        exts=(".src", ".tgt"), fields=(german, english),
+        # root='.data',
+        train='train',
+        validation='valid',
+        test='test',
+        path = '/data/chaudhryz/uwstudent1/data'
+    )
 
 
     
