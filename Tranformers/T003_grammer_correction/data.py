@@ -36,14 +36,36 @@ def getData():
     )
 
 
+    # train_data, valid_data, test_data = Multi30k.splits(
+    #     exts=(".de", ".en"), fields=(german, english),
+    #     # root='.data',
+    #     train='train',
+    #     validation='val',
+    #     test='test_2016_flickr',
+    #     path = '.data'
+    # )
+    # The
+    # study’s
+    # questions
+    # are
+    # carefully
+    # worded and chosen.
+    # The
+    # study
+    # questions
+    # were
+    # carefully
+    # worded and chosen.
     train_data, valid_data, test_data = Multi30k.splits(
-        exts=(".de", ".en"), fields=(german, english),
+        exts=(".src", ".tgt"), fields=(german, english),
         # root='.data',
-        train='train',
-        validation='val',
-        test='test_2016_flickr',
-        path = '.data'
+        train='test',
+        validation='valid',
+        test='valid',
+        path = '/data/chaudhryz/uwstudent1/data'
     )
+
+
     
     german.build_vocab(train_data, max_size=10000, min_freq=2)
     english.build_vocab(train_data, max_size=10000, min_freq=2)
