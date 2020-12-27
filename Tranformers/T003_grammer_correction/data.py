@@ -11,7 +11,7 @@ python -m spacy download de
 """
 from torchtext.data.utils import get_tokenizer
 
-spacy_ger = spacy.load("en")
+spacy_ger = spacy.load("de")
 spacy_eng = spacy.load("en")
 
 
@@ -35,26 +35,26 @@ def getData():
         tokenize=tokenize_eng, lower=True, init_token="<sos>", eos_token="<eos>"
     )
 
-
-    # train_data, valid_data, test_data = Multi30k.splits(
-    #     exts=(".de", ".en"), fields=(german, english),
-    #     # root='.data',
-    #     train='train',
-    #     validation='val',
-    #     test='test_2016_flickr',
-    #     path = '.data'
-    # )
-    #The study’s questions are carefully worded and chosen.
-    # The study questions were carefully worded and chosen.
     print("===============================before ")
     train_data, valid_data, test_data = Multi30k.splits(
-        exts=(".src", ".tgt"), fields=(german, english),
+        exts=(".de", ".en"), fields=(german, english),
         # root='.data',
-        train='test',
-        validation='valid',
-        test='valid',
-        path = '/data/chaudhryz/uwstudent1/data'
+        train='train',
+        validation='val',
+        test='test2016',
+        path = '.data/multi30k'
     )
+    #The study’s questions are carefully worded and chosen.
+    # The study questions were carefully worded and chosen.
+
+    # train_data, valid_data, test_data = Multi30k.splits(
+    #     exts=(".src", ".tgt"), fields=(german, english),
+    #     # root='.data',
+    #     train='test',
+    #     validation='valid',
+    #     test='valid',
+    #     path = '/data/chaudhryz/uwstudent1/data'
+    # )
 
 
     
