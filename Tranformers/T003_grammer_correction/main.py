@@ -1,22 +1,23 @@
 
 from utils import translate_sentence, load_checkpoint
 import torch
-from data import getData
+from data import getData, getData_newMethod
 from train import train
 from transfomer import Transformer
 
+#german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod()
 german_vocab, english_vocab, train_data, valid_data, test_data = getData()
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 batch_size = 32
 
 data = train_data[0:3]
 
-for example in data:
-    src = example[0]
-    trg = example[1]
-    # print(dir(example))
-    # print(">> ", src)
-    # print("   ", trg)
+# for example in data:
+#     src = example.src
+#     trg = example.trg
+#     print(">> ", src)
+#     print("   ", trg)
 
 # exit()
 # Model hyperparameters

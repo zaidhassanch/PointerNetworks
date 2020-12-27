@@ -1,6 +1,8 @@
+import os
+
 import spacy
 from torchtext.data import Field
-from torchtext.datasets import Multi30k
+from torchtext.datasets import Multi30k, TranslationDataset
 from atext import getData2
 """
 To install spacy languages do:
@@ -9,7 +11,7 @@ python -m spacy download de
 """
 from torchtext.data.utils import get_tokenizer
 
-spacy_ger = spacy.load("en")
+spacy_ger = spacy.load("de")
 spacy_eng = spacy.load("en")
 
 
@@ -20,12 +22,13 @@ def tokenize_ger(text):
 def tokenize_eng(text):
     return [tok.text for tok in spacy_eng.tokenizer(text)]
 
-def getData():
+def getData_newMethod():
     g_tok = get_tokenizer('spacy', language='de')
     e_tok = get_tokenizer('spacy', language='en')
     return getData2(g_tok, e_tok)
 
-def getData1():
+
+def getData():
     german = Field(tokenize=tokenize_ger, lower=True, init_token="<sos>", eos_token="<eos>")
 
     english = Field(
@@ -34,7 +37,12 @@ def getData1():
 
 
     train_data, valid_data, test_data = Multi30k.splits(
-        exts=(".en", ".en"), fields=(german, english)
+        exts=(".de", ".en"), fields=(german, english),
+        # root='.data',
+        train='train',
+        validation='val',
+        test='test_2016_flickr',
+        path = '.data'
     )
     
     german.build_vocab(train_data, max_size=10000, min_freq=2)

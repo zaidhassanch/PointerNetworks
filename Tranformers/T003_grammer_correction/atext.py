@@ -16,7 +16,7 @@ def build_vocab(filepath, tokenizer):
     for string_ in f:
       counter.update(tokenizer(string_))
 
-  vocab = Vocab(counter, specials=['<unk>', '<pad>', '<sos>', '<eos>']);
+  vocab = Vocab(counter, specials=['<unk>', '<pad>', '<sos>', '<eos>'], max_size=10000, min_freq=2);
   vocab.init_token = '<sos>'
   vocab.eos_token = '<eos>'
   return vocab
@@ -87,3 +87,5 @@ def Batcher(train_data, val_data, test_data):
 
 # for i, (src, trg) in enumerate(train_iter):
 #   print(i, src.shape, trg.shape)
+
+print("here<<<<<<<<<<<<<<<<<<<<<<")

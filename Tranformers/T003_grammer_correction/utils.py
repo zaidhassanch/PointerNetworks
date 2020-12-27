@@ -57,7 +57,6 @@ def bleu(data, model, german, english, device):
         src = vars(example)["src"]
         trg = vars(example)["trg"]
 
-
         prediction = translate_sentence(model, src, german, english, device)
         prediction = prediction[:-1]  # remove <eos> token
 

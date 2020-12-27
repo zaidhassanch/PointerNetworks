@@ -34,14 +34,14 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
     pad_idx = english_vocab.stoi["<pad>"]
     criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
 
-    train_iterator, valid_iterator, test_iterator = Batcher(train_data, valid_data, test_data)
-    # train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
-    #     (train_data, valid_data, test_data),
-    #     batch_size=batch_size,
-    #     sort_within_batch=True,
-    #     sort_key=lambda x: len(x[0]),
-    #     device=device,
-    #     )
+    # train_iterator, valid_iterator, test_iterator = Batcher(train_data, valid_data, test_data)
+    train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
+        (train_data, valid_data, test_data),
+        batch_size=batch_size,
+        sort_within_batch=True,
+        sort_key=lambda x: len(x.src),
+        device=device,
+        )
 
     step = 0
 
@@ -82,9 +82,10 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
 
         for batch_idx, batch in enumerate(train_iterator):
             # Get input and targets and get to cuda
-            inp_data = batch[0].to(device)
-            target = batch[1].to(device)
-
+            inp_data = batch.src.to(device)
+            target = batch.trg.to(device)
+            # inp_data = batch[0].to(device)
+            # target = batch[1].to(device)
             # Forward prop
             # print(target)
             # printSentences(inp_data, german_vocab)
