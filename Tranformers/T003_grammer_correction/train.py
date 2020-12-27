@@ -14,11 +14,11 @@ def printSentences(tokens, lang):
     for j in range(size[1]):
         print("j = ", j, end=">> ")
         for i in range(size[0]):
-            print(lang.vocab.itos[tokens[i][j]], end=" ")
+            print(lang.itos[tokens[i][j]], end=" ")
         print()
     print()
 
-def train(model, device, load_model, save_model, german, english, train_data, valid_data, test_data, batch_size):
+def train(model, device, load_model, save_model, german_vocab, english_vocab, train_data, valid_data, test_data, batch_size):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     if load_model:
@@ -31,7 +31,7 @@ def train(model, device, load_model, save_model, german, english, train_data, va
         optimizer, factor=0.1, patience=10, verbose=True
     )
 
-    pad_idx = english.vocab.stoi["<pad>"]
+    pad_idx = english_vocab.stoi["<pad>"]
     criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
 
     train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
@@ -59,7 +59,7 @@ def train(model, device, load_model, save_model, german, english, train_data, va
         # sentence = "Frankreich wird wohl Deutschland angreifen"
 
         translated_sentence = translate_sentence(
-            model, sentence, german, english, device, max_length=50
+            model, sentence, german_vocab, english_vocab, device, max_length=50
         )
 
         print(f"Translated example sentence: \n {sentence}")
@@ -68,11 +68,11 @@ def train(model, device, load_model, save_model, german, english, train_data, va
 
         # running on entire test data takes a while
         print("here1")
-        score = bleu(train_data[1:10], model, german, english, device)
+        score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
         print(f"Train Bleu score {score * 100:.2f}")
 
         print("here2")
-        score = bleu(test_data[1:10], model, german, english, device)
+        score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
         print(f"Test Bleu score {score * 100:.2f}")
 
         model.train()
@@ -85,8 +85,8 @@ def train(model, device, load_model, save_model, german, english, train_data, va
 
             # Forward prop
             # print(target)
-            # printSentences(inp_data, german)
-            # printSentences(target, english)
+            # printSentences(inp_data, german_vocab)
+            # printSentences(target, english_vocab)
             trg = target[:-1, :]
             # print(trg.shape)
             output = model(inp_data, trg)

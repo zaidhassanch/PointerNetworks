@@ -6,7 +6,7 @@ import sys
 spacy_ger = spacy.load("de")
 
 
-def translate_sentence(model, sentence, german, english, device, max_length=50):
+def translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50):
     # Load german tokenizer
 
     # Create tokens using spacy and everything in lower case (which is what our vocab is)
@@ -16,16 +16,16 @@ def translate_sentence(model, sentence, german, english, device, max_length=50):
         tokens = [token.lower() for token in sentence]
 
     # Add <SOS> and <EOS> in beginning and end respectively
-    tokens.insert(0, german.init_token)
-    tokens.append(german.eos_token)
+    tokens.insert(0, german_vocab.init_token)
+    tokens.append(german_vocab.eos_token)
 
     # Go through each german token and convert to an index
-    text_to_indices = [german.vocab.stoi[token] for token in tokens]
+    text_to_indices = [german_vocab.stoi[token] for token in tokens]
 
     # Convert to Tensor
     sentence_tensor = torch.LongTensor(text_to_indices).unsqueeze(1).to(device)
 
-    outputs = [english.vocab.stoi["<sos>"]]
+    outputs = [english_vocab.stoi["<sos>"]]
     # print("input = ")
     # for word in sentence:
     #     print(word, end=" ")
@@ -41,10 +41,10 @@ def translate_sentence(model, sentence, german, english, device, max_length=50):
         outputs.append(best_guess)
         # print(english.vocab.itos[best_guess], end=" ")
 
-        if best_guess == english.vocab.stoi["<eos>"]:
+        if best_guess == english_vocab.stoi["<eos>"]:
             break
     # print()
-    translated_sentence = [english.vocab.itos[idx] for idx in outputs]
+    translated_sentence = [english_vocab.itos[idx] for idx in outputs]
     # remove start token
     return translated_sentence[1:]
 

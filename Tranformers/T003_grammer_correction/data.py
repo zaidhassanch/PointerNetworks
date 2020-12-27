@@ -36,6 +36,11 @@ def getData():
     german.build_vocab(train_data, max_size=10000, min_freq=2)
     english.build_vocab(train_data, max_size=10000, min_freq=2)
 
+    german.vocab.init_token = "<sos>"
+    german.vocab.eos_token = "<eos>"
+
+    english.vocab.init_token = "<sos>"
+    english.vocab.eos_token = "<eos>"
     # print("Train")
     # for i in range(10):
     #     #print(train_data[i].src, train_data[i].trg)
@@ -50,4 +55,4 @@ def getData():
     # exit()
 
 
-    return german, english, train_data, valid_data, test_data
+    return german.vocab, english.vocab, train_data, valid_data, test_data

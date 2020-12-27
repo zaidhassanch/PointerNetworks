@@ -5,7 +5,7 @@ from data import getData
 from train import train
 from transfomer import Transformer
 
-german, english, train_data, valid_data, test_data = getData()
+german_vocab, english_vocab, train_data, valid_data, test_data = getData()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 batch_size = 32
 
@@ -20,12 +20,12 @@ for example in data:
 
 # exit()
 # Model hyperparameters
-src_vocab_size = len(german.vocab)
-trg_vocab_size = len(english.vocab)
+src_vocab_size = len(german_vocab)
+trg_vocab_size = len(english_vocab)
 embedding_size = 512
-src_pad_idx = english.vocab.stoi["<pad>"]
+src_pad_idx = english_vocab.stoi["<pad>"]
 print(src_pad_idx)
-print(english.vocab.itos[src_pad_idx])
+print(english_vocab.itos[src_pad_idx])
 
 model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 
@@ -45,14 +45,14 @@ if load_model:
 # )
 sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
 sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
-translated_sentence = translate_sentence(model, sentence1, german, english, device, max_length=50)
+translated_sentence = translate_sentence(model, sentence1, german_vocab, english_vocab, device, max_length=50)
 # exit()
 # print(f"Translated1 example sentence: \n {sentence}")
 # print(f"Translated1 example sentence: \n {translated_sentence}")
 
 # exit()
 
-train(model, device, load_model, save_model, german, english, train_data, valid_data, test_data, batch_size)
+train(model, device, load_model, save_model, german_vocab, english_vocab, train_data, valid_data, test_data, batch_size)
 # running on entire test data takes a while
 
 
