@@ -3,7 +3,8 @@ from torchtext.data import Field, BucketIterator
 import torch
 import torch.nn as nn
 import torch.optim as optim 
-from atext import Batcher
+
+#from atext import Batcher
 # Training hyperparameters
 num_epochs = 10000
 learning_rate = 3e-4
