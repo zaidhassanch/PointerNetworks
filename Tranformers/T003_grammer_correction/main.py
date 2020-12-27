@@ -12,11 +12,11 @@ batch_size = 32
 data = train_data[0:3]
 
 for example in data:
-    src = example.src
-    trg = example.trg
-    print(dir(example))
-    print(">> ", src)
-    print("   ", trg)
+    src = example[0]
+    trg = example[1]
+    # print(dir(example))
+    # print(">> ", src)
+    # print("   ", trg)
 
 # exit()
 # Model hyperparameters
@@ -29,7 +29,7 @@ print(english_vocab.itos[src_pad_idx])
 
 model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 
-load_model = True
+load_model = False
 save_model = True
 learning_rate = 3e-4
 
@@ -44,7 +44,7 @@ if load_model:
 #     model, sentence, german, english, device, max_length=50
 # )
 sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
-sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
+# sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
 translated_sentence = translate_sentence(model, sentence1, german_vocab, english_vocab, device, max_length=50)
 # exit()
 # print(f"Translated1 example sentence: \n {sentence}")

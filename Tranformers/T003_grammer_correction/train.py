@@ -3,7 +3,7 @@ from torchtext.data import Field, BucketIterator
 import torch
 import torch.nn as nn
 import torch.optim as optim 
-
+from atext import Batcher
 # Training hyperparameters
 num_epochs = 10000
 learning_rate = 3e-4
@@ -25,8 +25,8 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
         load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
     # sentence = "ein pferd geht unter einer brücke neben einem boot."
-    #sentence = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
-    sentence = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
+    sentence = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
+    # sentence = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, factor=0.1, patience=10, verbose=True
     )
@@ -34,13 +34,14 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
     pad_idx = english_vocab.stoi["<pad>"]
     criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
 
-    train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
-        (train_data, valid_data, test_data),
-        batch_size=batch_size,
-        sort_within_batch=True,
-        sort_key=lambda x: len(x.src),
-        device=device,
-        )
+    train_iterator, valid_iterator, test_iterator = Batcher(train_data, valid_data, test_data)
+    # train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
+    #     (train_data, valid_data, test_data),
+    #     batch_size=batch_size,
+    #     sort_within_batch=True,
+    #     sort_key=lambda x: len(x[0]),
+    #     device=device,
+    #     )
 
     step = 0
 
@@ -59,7 +60,8 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
         # sentence = "Frankreich wird wohl Deutschland angreifen"
 
         translated_sentence = translate_sentence(
-            model, sentence, german_vocab, english_vocab, device, max_length=50
+            model,
+            sentence, german_vocab, english_vocab, device, max_length=50
         )
 
         print(f"Translated example sentence: \n {sentence}")
@@ -67,21 +69,21 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
         # exit()
 
         # running on entire test data takes a while
-        print("here1")
-        score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
-        print(f"Train Bleu score {score * 100:.2f}")
-
-        print("here2")
-        score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
-        print(f"Test Bleu score {score * 100:.2f}")
+        # print("here1")
+        # score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
+        # print(f"Train Bleu score {score * 100:.2f}")
+        #
+        # print("here2")
+        # score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
+        # print(f"Test Bleu score {score * 100:.2f}")
 
         model.train()
         losses = []
 
         for batch_idx, batch in enumerate(train_iterator):
             # Get input and targets and get to cuda
-            inp_data = batch.src.to(device)
-            target = batch.trg.to(device)
+            inp_data = batch[0].to(device)
+            target = batch[1].to(device)
 
             # Forward prop
             # print(target)
