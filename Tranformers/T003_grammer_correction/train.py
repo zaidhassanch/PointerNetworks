@@ -28,7 +28,7 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
     # sentence = "ein pferd geht unter einer brücke neben einem boot."
     # sentence = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
     #sentence = ['The', 'study’s', 'questions', 'are', 'carefully', 'worded', 'and', 'chosen', '.']
-    sentence = 'The study’s questions are carefully worded and chosen.'
+    sentence = 'The study questions are carefully worded and chosen.'
 
     # sentence = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
@@ -73,13 +73,13 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
         # exit()
 
         # running on entire test data takes a while
-        # print("here1")
-        # score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
-        # print(f"Train Bleu score {score * 100:.2f}")
-        #
-        # print("here2")
-        # score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
-        # print(f"Test Bleu score {score * 100:.2f}")
+        print("here1")
+        score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
+        print(f"Train Bleu score {score * 100:.2f}")
+
+        print("here2")
+        score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
+        print(f"Test Bleu score {score * 100:.2f}")
 
         model.train()
         losses = []
