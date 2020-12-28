@@ -35,7 +35,7 @@ print("===============================after loading ")
 
 model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 
-load_model = True
+load_model = False
 save_model = True
 learning_rate = 3e-4
 
@@ -44,12 +44,12 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 if load_model:
     load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
-# sentence = "ein pferd geht unter einer brücke neben einem boot."
+sentence = "ein pferd geht unter einer brücke neben einem boot."
 #
 # translated_sentence = translate_sentence(
 #     model, sentence, german, english, device, max_length=50
 # )
-sentence = 'The study questions are carefully worded and chosen.'
+# sentence = 'The study questions are carefully worded and chosen.'
 
 #sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
 # sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
