@@ -53,7 +53,7 @@ def getData():
         train='train',
         validation='valid',
         test='test',
-        path = '/data/chaudhryz/uwstudent1/data'
+        path = '/data/chaudhryz/uwstudent1/GDATA'
     )
 
 
