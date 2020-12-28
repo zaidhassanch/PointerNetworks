@@ -43,11 +43,11 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 if load_model:
     load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
-srcFile = open("/data/chaudhryz/uwstudent1/GDATA/test.src", "r")
-tgtFile = open("/data/chaudhryz/uwstudent1/GDATA/test.tgt", "r")
+# srcFile = open("/data/chaudhryz/uwstudent1/GDATA/test.src", "r")
+# tgtFile = open("/data/chaudhryz/uwstudent1/GDATA/test.tgt", "r")
 
-# srcFile = open(".data/multi30k/test2016.ens", "r")
-# tgtFile = open(".data/multi30k/test2016.en", "r")
+srcFile = open(".data/multi30k/test2016.ens", "r")
+tgtFile = open(".data/multi30k/test2016.en", "r")
 
 for i in range(30):
     srcLine = srcFile.readline()

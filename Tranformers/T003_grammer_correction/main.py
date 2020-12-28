@@ -50,6 +50,9 @@ sentence = "ein pferd geht unter einer brücke neben einem boot."
 #     model, sentence, german, english, device, max_length=50
 # )
 # sentence = 'The study questions are carefully worded and chosen.'
+# sentence = 'a little girl climbing into a wooden playhouse.'
+
+# sentence = "is man lion a stuffed A at smiling."
 
 #sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
 # sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']

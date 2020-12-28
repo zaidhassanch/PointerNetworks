@@ -1,4 +1,13 @@
 
+T003_grammer_correction : it is basically the translation model.
+        We can configure it for translation or word reordering
+
+T005_reorder_words: we shuffled the words using tsv/fileshuffle.py
+        and gave it the correct order english words. Did a good job
+
+T006_reorder_pointer:
+        - make *.ens as well as *.idx  (desired indexes)
+
 - LSTM based pointer network block diagram
 - What is our plan to replace
 

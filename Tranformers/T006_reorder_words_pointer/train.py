@@ -25,9 +25,9 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
     if load_model:
         load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
-    sentence = "ein pferd geht unter einer brücke neben einem boot."
+    # sentence = "ein pferd geht unter einer brücke neben einem boot."
     # sentence = 'a little girl climbing into a wooden playhouse.'
-    # sentence = "is man lion a stuffed A at smiling."
+    sentence = "is man lion a stuffed A at smiling."
 
     # sentence = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
     #sentence = ['The', 'study’s', 'questions', 'are', 'carefully', 'worded', 'and', 'chosen', '.']

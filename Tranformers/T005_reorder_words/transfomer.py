@@ -93,7 +93,7 @@ class Transformer(nn.Module):
         #::: src (17x1), src_embed_word (17x1x512), src_embed_pos (17x1x512), embed_src (17x1x512)
         src_embed_word = self.src_word_embedding(src)
         src_embed_pos = self.src_position_embedding(src_positions)
-        embed_src = self.dropout(src_embed_word + src_embed_pos)
+        embed_src = self.dropout(src_embed_word + 0*src_embed_pos)
 
         #::: trg (9x1x512), trg_word_embedding (9x1x512), trg_positions (9x1x512), embed_trg (9x1x512)
         trg_word_embedding = self.trg_word_embedding(trg)
