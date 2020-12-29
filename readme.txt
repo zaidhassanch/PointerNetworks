@@ -7,6 +7,15 @@ T005_reorder_words: we shuffled the words using tsv/fileshuffle.py
 
 T006_reorder_pointer:
         - make *.ens as well as *.idx  (desired indexes)
+        - 12:03-12:18 - search for code
+        - 12:18-12:33 - tokenize sentence and check if size is the same
+        - Ahmad I am
+            2   0  1
+            0   1  2
+        -   I am Ahmad
+            0  1   2
+            1  2   0
+
 
 - LSTM based pointer network block diagram
 - What is our plan to replace
