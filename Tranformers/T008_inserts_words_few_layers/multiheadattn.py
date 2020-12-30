@@ -37,52 +37,43 @@ def multi_head_attention_forward(query: Tensor,
                                  num_heads: int,
                                  in_proj_weight: Tensor,
                                  in_proj_bias: Tensor,
-
                                  out_proj_weight: Tensor,
                                  out_proj_bias: Tensor,
 
                                  key_padding_mask: Optional[Tensor] = None,
                                  need_weights: bool = True,
                                  attn_mask: Optional[Tensor] = None,
-                                 use_separate_proj_weight: bool = False,
                                  ):
 
     tgt_len, bsz, embed_dim = query.size()
     head_dim = embed_dim // num_heads
     scaling = float(head_dim) ** -0.5
 
-    if not use_separate_proj_weight:
-        if torch.equal(query, key) and torch.equal(key, value):
-            # self-attention
-            q, k, v = linear(query, in_proj_weight, in_proj_bias).chunk(3, dim=-1)
+    if torch.equal(query, key) and torch.equal(key, value):
+        q, k, v = linear(query, in_proj_weight, in_proj_bias).chunk(3, dim=-1)
 
-        elif torch.equal(key, value):
-            # encoder-decoder attention
-            # This is inline in_proj function with in_proj_weight and in_proj_bias
-            _b = in_proj_bias
-            _start = 0
-            _end = embed_dim
-            _w = in_proj_weight[_start:_end, :]
-            if _b is not None:
-                _b = _b[_start:_end]
-            q = linear(query, _w, _b)
+    elif torch.equal(key, value):
 
-            # This is inline in_proj function with in_proj_weight and in_proj_bias
-            _b = in_proj_bias
-            _start = embed_dim
-            _end = None
-            _w = in_proj_weight[_start:, :]
-            if _b is not None:
-                _b = _b[_start:]
-            k, v = linear(key, _w, _b).chunk(2, dim=-1)
+        _b = in_proj_bias
+        _start = 0
+        _end = embed_dim
+        _w = in_proj_weight[_start:_end, :]
+        if _b is not None:
+            _b = _b[_start:_end]
+        q = linear(query, _w, _b)
+
+        # This is inline in_proj function with in_proj_weight and in_proj_bias
+        _b = in_proj_bias
+        _start = embed_dim
+        _w = in_proj_weight[_start:, :]
+        if _b is not None:
+            _b = _b[_start:]
+        k, v = linear(key, _w, _b).chunk(2, dim=-1)
 
     q = q * scaling
-
     q = q.contiguous().view(tgt_len, bsz * num_heads, head_dim).transpose(0, 1)
-    if k is not None:
-        k = k.contiguous().view(-1, bsz * num_heads, head_dim).transpose(0, 1)
-    if v is not None:
-        v = v.contiguous().view(-1, bsz * num_heads, head_dim).transpose(0, 1)
+    k = k.contiguous().view(-1, bsz * num_heads, head_dim).transpose(0, 1)
+    v = v.contiguous().view(-1, bsz * num_heads, head_dim).transpose(0, 1)
 
     src_len = k.size(1)
 
@@ -123,8 +114,6 @@ class MultiheadAttentionZ(nn.Module):
         self.num_heads = num_heads
         self.dropout = dropout
         self.head_dim = embed_dim // num_heads
-        assert self.head_dim * num_heads == self.embed_dim, "embed_dim must be divisible by num_heads"
-
 
         self.in_proj_weight = Parameter(torch.empty(3 * embed_dim, embed_dim))
         self.register_parameter('q_proj_weight', None)
@@ -156,7 +145,7 @@ class MultiheadAttentionZ(nn.Module):
                 need_weights=True, attn_mask=None):
 
         return multi_head_attention_forward(
-            query, key, value, self.embed_dim, self.num_heads,
+            query, key, value, self.num_heads,
             self.in_proj_weight, self.in_proj_bias,
             self.out_proj.weight, self.out_proj.bias,
 
