@@ -5,7 +5,7 @@ import torch
 from torch import Tensor
 from torch.nn import functional as F
 import torch.nn as nn
-from torch.nn.modules import MultiheadAttention
+from multiheadattn import MultiheadAttentionZ
 from torch.nn.modules.container import ModuleList
 from torch.nn.init import xavier_uniform_
 from torch.nn.modules.dropout import Dropout
@@ -125,7 +125,7 @@ class TransformerEncoderLayer(nn.Module):
 
     def __init__(self, d_model, nhead, dim_feedforward=2048, dropout=0.0):
         super(TransformerEncoderLayer, self).__init__()
-        self.self_attn = MultiheadAttention(d_model, nhead, dropout=dropout)
+        self.self_attn = MultiheadAttentionZ(d_model, nhead, dropout=dropout)
         # Implementation of Feedforward model
         self.linear1 = Linear(d_model, dim_feedforward)
         self.dropout = Dropout(dropout)
@@ -178,8 +178,8 @@ class TransformerDecoderLayer(nn.Module):
 
     def __init__(self, d_model, nhead, dim_feedforward=2048, dropout=0.0):
         super(TransformerDecoderLayer, self).__init__()
-        self.self_attn = MultiheadAttention(d_model, nhead, dropout=dropout)
-        self.multihead_attn = MultiheadAttention(d_model, nhead, dropout=dropout)
+        self.self_attn = MultiheadAttentionZ(d_model, nhead, dropout=dropout)
+        self.multihead_attn = MultiheadAttentionZ(d_model, nhead, dropout=dropout)
         # Implementation of Feedforward model
         self.linear1 = Linear(d_model, dim_feedforward)
         self.dropout = Dropout(dropout)
