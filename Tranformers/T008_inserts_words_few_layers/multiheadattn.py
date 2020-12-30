@@ -26,25 +26,14 @@ def softmax(input, dim=None, _stacklevel=3, dtype=None):
 
 def linear(input, weight, bias=None):
     output = input.matmul(weight.t())
-    if bias is not None:
-        output += bias
+    output += bias
     ret = output
     return ret
 
-def multi_head_attention_forward(query: Tensor,
-                                 key: Tensor,
-                                 value: Tensor,
-                                 num_heads: int,
-                                 in_proj_weight: Tensor,
-                                 in_proj_bias: Tensor,
-                                 out_proj_weight: Tensor,
-                                 out_proj_bias: Tensor,
-
-                                 key_padding_mask: Optional[Tensor] = None,
-                                 need_weights: bool = True,
-                                 attn_mask: Optional[Tensor] = None,
+def multi_head_attention_forward(query, key, value, num_heads,
+    in_proj_weight, in_proj_bias,  out_proj_weight, out_proj_bias,
+    key_padding_mask, need_weights, attn_mask
                                  ):
-
     tgt_len, bsz, embed_dim = query.size()
     head_dim = embed_dim // num_heads
     scaling = float(head_dim) ** -0.5
@@ -53,7 +42,6 @@ def multi_head_attention_forward(query: Tensor,
         q, k, v = linear(query, in_proj_weight, in_proj_bias).chunk(3, dim=-1)
 
     elif torch.equal(key, value):
-
         _b = in_proj_bias
         _start = 0
         _end = embed_dim
@@ -62,7 +50,6 @@ def multi_head_attention_forward(query: Tensor,
             _b = _b[_start:_end]
         q = linear(query, _w, _b)
 
-        # This is inline in_proj function with in_proj_weight and in_proj_bias
         _b = in_proj_bias
         _start = embed_dim
         _w = in_proj_weight[_start:, :]
@@ -74,7 +61,6 @@ def multi_head_attention_forward(query: Tensor,
     q = q.contiguous().view(tgt_len, bsz * num_heads, head_dim).transpose(0, 1)
     k = k.contiguous().view(-1, bsz * num_heads, head_dim).transpose(0, 1)
     v = v.contiguous().view(-1, bsz * num_heads, head_dim).transpose(0, 1)
-
     src_len = k.size(1)
 
     attn_output_weights = torch.bmm(q, k.transpose(1, 2))
@@ -91,9 +77,7 @@ def multi_head_attention_forward(query: Tensor,
         attn_output_weights = attn_output_weights.view(bsz * num_heads, tgt_len, src_len)
 
     attn_output_weights = softmax(attn_output_weights, dim=-1)
-
     attn_output = torch.bmm(attn_output_weights, v)
-
     attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(attn_output, out_proj_weight, out_proj_bias)
 
@@ -120,16 +104,13 @@ class MultiheadAttentionZ(nn.Module):
 
         self.in_proj_bias = Parameter(torch.empty(3 * embed_dim))
         self.out_proj = _LinearWithBias(embed_dim, embed_dim)
-        self.bias_k = self.bias_v = None
 
         self._reset_parameters()
 
     def _reset_parameters(self):
         xavier_uniform_(self.in_proj_weight)
-
-        if self.in_proj_bias is not None:
-            constant_(self.in_proj_bias, 0.)
-            constant_(self.out_proj.bias, 0.)
+        constant_(self.in_proj_bias, 0.)
+        constant_(self.out_proj.bias, 0.)
 
     def forward(self, query, key, value, key_padding_mask=None,
                 need_weights=True, attn_mask=None):
@@ -138,7 +119,5 @@ class MultiheadAttentionZ(nn.Module):
             query, key, value, self.num_heads,
             self.in_proj_weight, self.in_proj_bias,
             self.out_proj.weight, self.out_proj.bias,
-
             key_padding_mask=key_padding_mask, need_weights=need_weights,
             attn_mask=attn_mask)
-
