@@ -24,11 +24,11 @@ class Transformer(nn.Module):
         src_vocab_size,
         trg_vocab_size,
         src_pad_idx,
-        num_heads = 8,
-        num_encoder_layers = 3,
-        num_decoder_layers = 3,
+        num_heads = 2,
+        num_encoder_layers = 1,
+        num_decoder_layers = 1,
         forward_expansion = 4,
-        dropout = 0.10,
+        dropout = 0.0,
         max_len = 100,
     ):
         super(Transformer, self).__init__()
@@ -79,13 +79,15 @@ class Transformer(nn.Module):
 
         #::: src (17x1), src_embed_word (17x1x512), src_embed_pos (17x1x512), embed_src (17x1x512)
         src_embed_word = self.src_word_embedding(src)
-        src_embed_pos = self.src_position_embedding(src_positions)
-        embed_src = self.dropout(src_embed_word + 0*src_embed_pos)
+        # src_embed_pos = self.src_position_embedding(src_positions)
+        # embed_src = self.dropout(src_embed_word + 0*src_embed_pos)
+        embed_src = self.dropout(src_embed_word)
 
         #::: trg (9x1x512), trg_word_embedding (9x1x512), trg_positions (9x1x512), embed_trg (9x1x512)
         trg_word_embedding = self.trg_word_embedding(trg)
-        trg_positions = self.trg_position_embedding(trg_positions)
-        embed_trg = self.dropout(trg_word_embedding + trg_positions)
+        # trg_positions = self.trg_position_embedding(trg_positions)
+        # embed_trg = self.dropout(trg_word_embedding + 0*trg_positions)
+        embed_trg = self.dropout(trg_word_embedding)
 
         #::: src_padding_mask (1x17) [True, False, False,..... False]
         src_padding_mask = self.make_src_mask(src)
