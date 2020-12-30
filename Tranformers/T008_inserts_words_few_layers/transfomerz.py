@@ -29,13 +29,8 @@ class TransformerZ(nn.Module):
                  dim_feedforward = 2048, dropout: float = 0.1, activation = "relu"):
         super(TransformerZ, self).__init__()
 
-        encoder_layer = TransformerEncoderLayer(d_model, nhead, dim_feedforward)
-        encoder_norm = LayerNorm(d_model)
-        self.encoder = TransformerEncoder(encoder_layer, num_encoder_layers, encoder_norm)
-
-        decoder_layer = TransformerDecoderLayer(d_model, nhead, dim_feedforward)
-        decoder_norm = LayerNorm(d_model)
-        self.decoder = TransformerDecoder(decoder_layer, num_decoder_layers, decoder_norm)
+        self.encoder = TransformerEncoderLayer(d_model, nhead, dim_feedforward)
+        self.decoder = TransformerDecoderLayer(d_model, nhead, dim_feedforward)
 
         self._reset_parameters()
 
@@ -112,102 +107,6 @@ class TransformerZ(nn.Module):
                 xavier_uniform_(p)
 
 
-class TransformerEncoder(nn.Module):
-    r"""TransformerEncoder is a stack of N encoder layers
-
-    Args:
-        encoder_layer: an instance of the TransformerEncoderLayer() class (required).
-        num_layers: the number of sub-encoder-layers in the encoder (required).
-        norm: the layer normalization component (optional).
-
-    Examples::
-        >> encoder_layer = nn.TransformerEncoderLayer(d_model=512, nhead=8)
-        >> transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=6)
-        >> src = torch.rand(10, 32, 512)
-        >> out = transformer_encoder(src)
-    """
-    __constants__ = ['norm']
-
-    def __init__(self, encoder_layer, num_layers, norm=None):
-        super(TransformerEncoder, self).__init__()
-        self.layers = _get_clones(encoder_layer, num_layers)
-        self.num_layers = num_layers
-        self.norm = norm
-
-    def forward(self, src: Tensor, mask: Optional[Tensor] = None, src_key_padding_mask: Optional[Tensor] = None) -> Tensor:
-        r"""Pass the input through the encoder layers in turn.
-
-        Args:
-            src: the sequence to the encoder (required).
-            mask: the mask for the src sequence (optional).
-            src_key_padding_mask: the mask for the src keys per batch (optional).
-
-        Shape:
-            see the docs in Transformer class.
-        """
-        output = src
-
-        for mod in self.layers:
-            output = mod(output, src_mask=mask, src_key_padding_mask=src_key_padding_mask)
-
-        if self.norm is not None:
-            output = self.norm(output)
-
-        return output
-
-
-class TransformerDecoder(nn.Module):
-    r"""TransformerDecoder is a stack of N decoder layers
-
-    Args:
-        decoder_layer: an instance of the TransformerDecoderLayer() class (required).
-        num_layers: the number of sub-decoder-layers in the decoder (required).
-        norm: the layer normalization component (optional).
-
-    Examples::
-        >> decoder_layer = nn.TransformerDecoderLayer(d_model=512, nhead=8)
-        >> transformer_decoder = nn.TransformerDecoder(decoder_layer, num_layers=6)
-        >> memory = torch.rand(10, 32, 512)
-        >> tgt = torch.rand(20, 32, 512)
-        >> out = transformer_decoder(tgt, memory)
-    """
-    __constants__ = ['norm']
-
-    def __init__(self, decoder_layer, num_layers, norm=None):
-        super(TransformerDecoder, self).__init__()
-        self.layers = _get_clones(decoder_layer, num_layers)
-        self.num_layers = num_layers
-        self.norm = norm
-
-    def forward(self, tgt: Tensor, memory: Tensor, tgt_mask: Optional[Tensor] = None,
-                memory_mask: Optional[Tensor] = None, tgt_key_padding_mask: Optional[Tensor] = None,
-                memory_key_padding_mask: Optional[Tensor] = None) -> Tensor:
-        r"""Pass the inputs (and mask) through the decoder layer in turn.
-
-        Args:
-            tgt: the sequence to the decoder (required).
-            memory: the sequence from the last layer of the encoder (required).
-            tgt_mask: the mask for the tgt sequence (optional).
-            memory_mask: the mask for the memory sequence (optional).
-            tgt_key_padding_mask: the mask for the tgt keys per batch (optional).
-            memory_key_padding_mask: the mask for the memory keys per batch (optional).
-
-        Shape:
-            see the docs in Transformer class.
-        """
-        output = tgt
-
-        for mod in self.layers:
-            output = mod(output, memory, tgt_mask=tgt_mask,
-                         memory_mask=memory_mask,
-                         tgt_key_padding_mask=tgt_key_padding_mask,
-                         memory_key_padding_mask=memory_key_padding_mask)
-
-        if self.norm is not None:
-            output = self.norm(output)
-
-        return output
-
 class TransformerEncoderLayer(nn.Module):
     r"""TransformerEncoderLayer is made up of self-attn and feedforward network.
 
@@ -234,8 +133,6 @@ class TransformerEncoderLayer(nn.Module):
 
         self.norm1 = LayerNorm(d_model)
         self.norm2 = LayerNorm(d_model)
-        # self.dropout1 = Dropout(dropout)
-        # self.dropout2 = Dropout(dropout)
 
         self.activation = F.relu #get_activation_fn(activation)
 
@@ -244,18 +141,15 @@ class TransformerEncoderLayer(nn.Module):
             state['activation'] = F.relu
         super(TransformerEncoderLayer, self).__setstate__(state)
 
-    def forward(self, src: Tensor, src_mask: Optional[Tensor] = None, src_key_padding_mask: Optional[Tensor] = None) -> Tensor:
+    def forward(self, src: Tensor, mask: Optional[Tensor] = None, src_key_padding_mask: Optional[Tensor] = None) -> Tensor:
         r"""Pass the input through the encoder layer.
 
         Args:
             src: the sequence to the encoder layer (required).
             src_mask: the mask for the src sequence (optional).
             src_key_padding_mask: the mask for the src keys per batch (optional).
-
-        Shape:
-            see the docs in Transformer class.
-        """
-        src2 = self.self_attn(src, src, src, attn_mask=src_mask,
+    """
+        src2 = self.self_attn(src, src, src, attn_mask=mask,
                               key_padding_mask=src_key_padding_mask)[0]
         src = src + src2
         src = self.norm1(src)
@@ -294,9 +188,6 @@ class TransformerDecoderLayer(nn.Module):
         self.norm1 = LayerNorm(d_model)
         self.norm2 = LayerNorm(d_model)
         self.norm3 = LayerNorm(d_model)
-        # self.dropout1 = Dropout(dropout)
-        # self.dropout2 = Dropout(dropout)
-        # self.dropout3 = Dropout(dropout)
 
         self.activation = F.relu
 
@@ -332,11 +223,3 @@ class TransformerDecoderLayer(nn.Module):
         tgt = tgt + tgt2
         tgt = self.norm3(tgt)
         return tgt
-
-
-def _get_clones(module, N):
-    return ModuleList([copy.deepcopy(module) for i in range(N)])
-
-
-
-    raise RuntimeError("activation should be relu/gelu, not {}".format(activation))
