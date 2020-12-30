@@ -16,19 +16,9 @@ from torch.nn.parameter import Parameter
 from torch.nn.modules.linear import _LinearWithBias
 from torch.nn.init import constant_
 
-from torch._jit_internal import boolean_dispatch, List, Optional, _overload, Tuple
-
-def softmax(input, dim=None, _stacklevel=3, dtype=None):
-    if dtype is None:
-        ret = input.softmax(dim)
-    return ret
-
-
-def linear(input, weight, bias=None):
-    output = input.matmul(weight.t())
-    output += bias
-    ret = output
-    return ret
+def linear(input, weight, bias):
+    output = input.matmul(weight.t()) + bias
+    return output
 
 def multi_head_attention_forward(query, key, value, num_heads,
     in_proj_weight, in_proj_bias,  out_proj_weight, out_proj_bias,
@@ -53,8 +43,7 @@ def multi_head_attention_forward(query, key, value, num_heads,
         _b = in_proj_bias
         _start = embed_dim
         _w = in_proj_weight[_start:, :]
-        if _b is not None:
-            _b = _b[_start:]
+        _b = _b[_start:]
         k, v = linear(key, _w, _b).chunk(2, dim=-1)
 
     q = q * scaling
@@ -76,15 +65,12 @@ def multi_head_attention_forward(query, key, value, num_heads,
         )
         attn_output_weights = attn_output_weights.view(bsz * num_heads, tgt_len, src_len)
 
-    attn_output_weights = softmax(attn_output_weights, dim=-1)
+    attn_output_weights = attn_output_weights.softmax(-1)
     attn_output = torch.bmm(attn_output_weights, v)
     attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(attn_output, out_proj_weight, out_proj_bias)
-
-    if need_weights:
-        # average attention weights over heads
-        attn_output_weights = attn_output_weights.view(bsz, num_heads, tgt_len, src_len)
-        return attn_output, attn_output_weights.sum(dim=1) / num_heads
+    attn_output_weights = attn_output_weights.view(bsz, num_heads, tgt_len, src_len)
+    return attn_output, attn_output_weights.sum(dim=1) / num_heads
 
 class MultiheadAttentionZ(nn.Module):
 
