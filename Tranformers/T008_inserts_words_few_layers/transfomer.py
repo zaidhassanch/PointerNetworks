@@ -1,14 +1,7 @@
 import torch
 import torch.nn as nn
 from transfomerz import TransformerZ
-# from torch.nn.
-
-num_heads = 8
-num_encoder_layers = 3
-num_decoder_layers = 3
-dropout = 0.10
-max_len = 100
-forward_expansion = 4
+# from torch.nn.modules.transformer import Transformer as TransformerZ
 
 # num_heads = 8
 # num_encoder_layers = 3
@@ -16,6 +9,7 @@ forward_expansion = 4
 # dropout = 0.10
 # max_len = 100
 # forward_expansion = 4
+
 class Transformer(nn.Module):
     def __init__(
         self,
@@ -24,18 +18,18 @@ class Transformer(nn.Module):
         src_vocab_size,
         trg_vocab_size,
         src_pad_idx,
-        num_heads = 2,
-        num_encoder_layers = 1,
-        num_decoder_layers = 1,
-        forward_expansion = 4,
+        num_heads = 8, #8
+        num_encoder_layers = 1, #3
+        num_decoder_layers = 1, #3
+        forward_expansion = 4,  #4,   1 also works, explore it.
         dropout = 0.0,
         max_len = 100,
     ):
         super(Transformer, self).__init__()
         self.src_word_embedding = nn.Embedding(src_vocab_size, embedding_size)  # 7854 x 512
-        self.src_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
+        # self.src_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
         self.trg_word_embedding = nn.Embedding(trg_vocab_size, embedding_size)  # 5893 x 512
-        self.trg_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
+        # self.trg_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
 
         self.device = device
 
@@ -78,16 +72,9 @@ class Transformer(nn.Module):
         trg_positions = self.computePosArray(trg_seq_length, N)
 
         #::: src (17x1), src_embed_word (17x1x512), src_embed_pos (17x1x512), embed_src (17x1x512)
-        src_embed_word = self.src_word_embedding(src)
-        # src_embed_pos = self.src_position_embedding(src_positions)
-        # embed_src = self.dropout(src_embed_word + 0*src_embed_pos)
-        embed_src = self.dropout(src_embed_word)
-
+        embed_src = self.src_word_embedding(src)
         #::: trg (9x1x512), trg_word_embedding (9x1x512), trg_positions (9x1x512), embed_trg (9x1x512)
-        trg_word_embedding = self.trg_word_embedding(trg)
-        # trg_positions = self.trg_position_embedding(trg_positions)
-        # embed_trg = self.dropout(trg_word_embedding + 0*trg_positions)
-        embed_trg = self.dropout(trg_word_embedding)
+        embed_trg = self.trg_word_embedding(trg)
 
         #::: src_padding_mask (1x17) [True, False, False,..... False]
         src_padding_mask = self.make_src_mask(src)

@@ -1,20 +1,8 @@
-import copy
-from typing import Optional, Any
-
 import torch
-from torch import Tensor
-from torch.nn import functional as F
 import torch.nn as nn
-from torch.nn.modules import MultiheadAttention
-from torch.nn.modules.container import ModuleList
-from torch.nn.init import xavier_uniform_
-from torch.nn.modules.dropout import Dropout
-from torch.nn.modules.linear import Linear
-from torch.nn.modules.normalization import LayerNorm
-
+from torch.nn.init import xavier_uniform_, constant_
 from torch.nn.parameter import Parameter
 from torch.nn.modules.linear import _LinearWithBias
-from torch.nn.init import constant_
 
 def linear(input, weight, bias):
     output = input.matmul(weight.t()) + bias
@@ -46,11 +34,7 @@ class MultiheadAttentionZ(nn.Module):
         if _b is not None:
             _b = _b[:embed_dim]
         q = linear(query, in_proj_weight[:embed_dim, :], _b)
-        _b = in_proj_bias
-        _start = embed_dim
-        _w = in_proj_weight[embed_dim:, :]
-
-        k, v = linear(key, in_proj_weight[embed_dim:, :], _b[embed_dim:]).chunk(2, dim=-1)
+        k, v = linear(key, in_proj_weight[embed_dim:, :], in_proj_bias[embed_dim:]).chunk(2, dim=-1)
 
         q = q * scaling
         q = q.contiguous().view(tgt_len, bsz * num_heads, head_dim).transpose(0, 1)

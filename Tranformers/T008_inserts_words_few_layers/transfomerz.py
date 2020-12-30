@@ -1,14 +1,11 @@
-import copy
-from typing import Optional, Any
-
+from typing import Optional
 import torch
 from torch import Tensor
 from torch.nn import functional as F
 import torch.nn as nn
 from multiheadattn import MultiheadAttentionZ
-from torch.nn.modules.container import ModuleList
+# from torch.nn.modules import MultiheadAttention as MultiheadAttentionZ
 from torch.nn.init import xavier_uniform_
-from torch.nn.modules.dropout import Dropout
 from torch.nn.modules.linear import Linear
 from torch.nn.modules.normalization import LayerNorm
 
@@ -126,9 +123,8 @@ class TransformerEncoderLayer(nn.Module):
     def __init__(self, d_model, nhead, dim_feedforward=2048, dropout=0.0):
         super(TransformerEncoderLayer, self).__init__()
         self.self_attn = MultiheadAttentionZ(d_model, nhead)
-        # Implementation of Feedforward model
+
         self.linear1 = Linear(d_model, dim_feedforward)
-        self.dropout = Dropout(dropout)
         self.linear2 = Linear(dim_feedforward, d_model)
 
         self.norm1 = LayerNorm(d_model)
@@ -136,10 +132,10 @@ class TransformerEncoderLayer(nn.Module):
 
         self.activation = F.relu #get_activation_fn(activation)
 
-    def __setstate__(self, state):
-        if 'activation' not in state:
-            state['activation'] = F.relu
-        super(TransformerEncoderLayer, self).__setstate__(state)
+    # def __setstate__(self, state):
+    #     if 'activation' not in state:
+    #         state['activation'] = F.relu
+    #     super(TransformerEncoderLayer, self).__setstate__(state)
 
     def forward(self, src: Tensor, mask: Optional[Tensor] = None, src_key_padding_mask: Optional[Tensor] = None) -> Tensor:
         r"""Pass the input through the encoder layer.
@@ -153,7 +149,7 @@ class TransformerEncoderLayer(nn.Module):
                               key_padding_mask=src_key_padding_mask)[0]
         src = src + src2
         src = self.norm1(src)
-        src2 = self.linear2(self.dropout(self.activation(self.linear1(src))))
+        src2 = self.linear2(self.activation(self.linear1(src)))
         src = src + src2
         src = self.norm2(src)
         return src
@@ -180,9 +176,7 @@ class TransformerDecoderLayer(nn.Module):
         super(TransformerDecoderLayer, self).__init__()
         self.self_attn = MultiheadAttentionZ(d_model, nhead)
         self.multihead_attn = MultiheadAttentionZ(d_model, nhead)
-        # Implementation of Feedforward model
         self.linear1 = Linear(d_model, dim_feedforward)
-        self.dropout = Dropout(dropout)
         self.linear2 = Linear(dim_feedforward, d_model)
 
         self.norm1 = LayerNorm(d_model)
@@ -219,7 +213,7 @@ class TransformerDecoderLayer(nn.Module):
                                    key_padding_mask=memory_key_padding_mask)[0]
         tgt = tgt + tgt2
         tgt = self.norm2(tgt)
-        tgt2 = self.linear2(self.dropout(self.activation(self.linear1(tgt))))
+        tgt2 = self.linear2(self.activation(self.linear1(tgt)))
         tgt = tgt + tgt2
         tgt = self.norm3(tgt)
         return tgt
