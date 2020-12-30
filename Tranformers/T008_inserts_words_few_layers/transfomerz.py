@@ -16,13 +16,7 @@ from torch.nn.modules.normalization import LayerNorm
 class TransformerZ(nn.Module):
     """
     Args:
-        d_model: the number of expected features in the encoder/decoder inputs (default=512).
-        nhead: the number of heads in the multiheadattention models (default=8).
-        num_encoder_layers: the number of sub-encoder-layers in the encoder (default=6).
-        num_decoder_layers: the number of sub-decoder-layers in the decoder (default=6).
         dim_feedforward: the dimension of the feedforward network model (default=2048).
-        dropout: the dropout value (default=0.1).
-        activation: the activation function of encoder/decoder intermediate layer, relu or gelu (default=relu).
 
     Examples::
         >> transformer_model = nn.Transformer(nhead=16, num_encoder_layers=12)
