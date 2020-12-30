@@ -25,17 +25,10 @@ class MultiheadAttentionZ(nn.Module):
     def __init__(self, embed_dim, num_heads):
         super(MultiheadAttentionZ, self).__init__()
         self.embed_dim = embed_dim
-        self.kdim = embed_dim
-        self.vdim =  embed_dim
-
         self.num_heads = num_heads
         self.head_dim = embed_dim // num_heads
 
         self.in_proj_weight = Parameter(torch.empty(3 * embed_dim, embed_dim))
-        # self.register_parameter('q_proj_weight', None)
-        # self.register_parameter('k_proj_weight', None)
-        # self.register_parameter('v_proj_weight', None)
-
         self.in_proj_bias = Parameter(torch.empty(3 * embed_dim))
         self.out_proj = _LinearWithBias(embed_dim, embed_dim)
         xavier_uniform_(self.in_proj_weight)
