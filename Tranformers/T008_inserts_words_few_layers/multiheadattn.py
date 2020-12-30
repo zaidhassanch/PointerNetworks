@@ -42,24 +42,15 @@ class MultiheadAttentionZ(nn.Module):
         tgt_len, bsz, embed_dim = query.size()
         head_dim = embed_dim // num_heads
         scaling = float(head_dim) ** -0.5
+        _b = in_proj_bias
+        if _b is not None:
+            _b = _b[:embed_dim]
+        q = linear(query, in_proj_weight[:embed_dim, :], _b)
+        _b = in_proj_bias
+        _start = embed_dim
+        _w = in_proj_weight[embed_dim:, :]
 
-        if torch.equal(query, key) and torch.equal(key, value):
-            q, k, v = linear(query, in_proj_weight, in_proj_bias).chunk(3, dim=-1)
-
-        elif torch.equal(key, value):
-            _b = in_proj_bias
-            _start = 0
-            _end = embed_dim
-            _w = in_proj_weight[_start:_end, :]
-            if _b is not None:
-                _b = _b[_start:_end]
-            q = linear(query, _w, _b)
-
-            _b = in_proj_bias
-            _start = embed_dim
-            _w = in_proj_weight[_start:, :]
-            _b = _b[_start:]
-            k, v = linear(key, _w, _b).chunk(2, dim=-1)
+        k, v = linear(key, in_proj_weight[embed_dim:, :], _b[embed_dim:]).chunk(2, dim=-1)
 
         q = q * scaling
         q = q.contiguous().view(tgt_len, bsz * num_heads, head_dim).transpose(0, 1)
