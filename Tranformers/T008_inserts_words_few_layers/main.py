@@ -27,7 +27,7 @@ src_vocab_size = len(german_vocab)
 trg_vocab_size = len(english_vocab)
 print("src vocabulary size: ", src_vocab_size)
 print("trg vocabulary size: ", trg_vocab_size)
-embedding_size = 512
+embedding_size = 128
 src_pad_idx = english_vocab.stoi["<pad>"]
 print(src_pad_idx)
 print(english_vocab.itos[src_pad_idx])

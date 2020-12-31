@@ -18,10 +18,10 @@ class Transformer(nn.Module):
         src_vocab_size,
         trg_vocab_size,
         src_pad_idx,
-        num_heads = 8, #8
+        num_heads = 2, #8
         num_encoder_layers = 1, #3
         num_decoder_layers = 1, #3
-        forward_expansion = 4,  #4,   1 also works, explore it.
+        forward_expansion = 1,  #4,   1 also works, explore it.
         dropout = 0.0,
         max_len = 100,
     ):
@@ -67,9 +67,9 @@ class Transformer(nn.Module):
         #::: trg (1x1, 2x1, ... 9x1, ...).. till end of sentence >> 21x32
 
         #::: src_positions ([[0,0,..], [1,1,..], [2,2...], ..., [15,15,..], [16,16,...] )
-        src_positions = self.computePosArray(src_seq_length, N)
+        #src_positions = self.computePosArray(src_seq_length, N)
         #::: trg_positions ([[0,0,..], [1,1,..], [2,2,.], ..., [7,7...], [8,8,8,])
-        trg_positions = self.computePosArray(trg_seq_length, N)
+        #trg_positions = self.computePosArray(trg_seq_length, N)
 
         #::: src (17x1), src_embed_word (17x1x512), src_embed_pos (17x1x512), embed_src (17x1x512)
         embed_src = self.src_word_embedding(src)
