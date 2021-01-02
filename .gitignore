@@ -1,3 +1,5 @@
+*.ennsw
+*.ens
 checkpoints
 *.tar
 *.gz

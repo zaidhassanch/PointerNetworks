@@ -42,7 +42,7 @@ def getData():
         train='train',
         validation='val',
         test='test2016',
-        path = '.data/multi30k'
+        path = '../../data/multi30k'
     )
     #The study’s questions are carefully worded and chosen.
     # The study questions were carefully worded and chosen.
@@ -79,5 +79,9 @@ def getData():
     #     printSent(test_data[i].trg)
     # exit()
 
+
+    print("train_data ", len(train_data.examples))
+    print("valid_data ", len(valid_data.examples))
+    print("test_data ", len(test_data.examples))
 
     return german.vocab, english.vocab, train_data, valid_data, test_data

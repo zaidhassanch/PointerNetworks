@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim 
 
-#from atext import Batcher
+from atext import Batcher
 # Training hyperparameters
 num_epochs = 10000
 learning_rate = 3e-4
@@ -18,7 +18,7 @@ def printSentences(tokens, lang):
             print(lang.itos[tokens[i][j]], end=" ")
         print()
     print()
-
+ 
 def train(model, device, load_model, save_model, german_vocab, english_vocab, train_data, valid_data, test_data, batch_size):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -41,14 +41,14 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
     pad_idx = english_vocab.stoi["<pad>"]
     criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
 
-    # train_iterator, valid_iterator, test_iterator = Batcher(train_data, valid_data, test_data)
-    train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
-        (train_data, valid_data, test_data),
-        batch_size=batch_size,
-        sort_within_batch=True,
-        sort_key=lambda x: len(x.src),
-        device=device,
-        )
+    train_iterator, valid_iterator, test_iterator = Batcher(train_data, valid_data, test_data)
+    # train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
+    #     (train_data, valid_data, test_data),
+    #     batch_size=batch_size,
+    #     sort_within_batch=True,
+    #     sort_key=lambda x: len(x.src),
+    #     device=device,
+    #     )
 
     step = 0
 

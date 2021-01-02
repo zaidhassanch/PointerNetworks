@@ -8,17 +8,17 @@ from transfomer import Transformer
 print("===============================before loading")
 german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod()
 # german_vocab, english_vocab, train_data, valid_data, test_data = getData()
-print("train_data ", len(train_data.examples))
-print("valid_data ", len(valid_data.examples))
-print("test_data ", len(test_data.examples))
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 batch_size = 32
 
 data = train_data[0:3]
 
 for example in data:
-    src = example.src
-    trg = example.trg
+    # src = example.src
+    # trg = example.trg
+    src = example[0]
+    trg = example[1]
     print(">> ", src)
     print("   ", trg)
 # exit()

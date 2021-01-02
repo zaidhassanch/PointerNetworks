@@ -53,6 +53,11 @@ def getData2(ger_tok, eng_tok):
   val_data = data_process('.data/multi30k/val.de', '.data/multi30k/val.en', ger_voc, eng_voc, ger_tok, eng_tok)
   test_data = data_process('.data/multi30k/test2016.de', '.data/multi30k/test2016.en', ger_voc, eng_voc, ger_tok, eng_tok)
 
+  print("train_data ", len(train_data))
+  print("valid_data ", len(val_data))
+  print("test_data ", len(test_data))
+
+
   return ger_voc, eng_voc, train_data, val_data, test_data
 
 
