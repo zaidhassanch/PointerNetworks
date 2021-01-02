@@ -5,9 +5,9 @@ from data import getData, getData_newMethod
 from train import train
 from transfomer import Transformer
 
-#german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod()
 print("===============================before loading")
-german_vocab, english_vocab, train_data, valid_data, test_data = getData()
+german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod()
+# german_vocab, english_vocab, train_data, valid_data, test_data = getData()
 print("train_data ", len(train_data.examples))
 print("valid_data ", len(valid_data.examples))
 print("test_data ", len(test_data.examples))

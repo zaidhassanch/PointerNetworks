@@ -76,23 +76,23 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
         # exit()
 
         # running on entire test data takes a while
-        print("here1")
-        score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
-        print(f"Train Bleu score {score * 100:.2f}")
-
-        print("here2")
-        score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
-        print(f"Test Bleu score {score * 100:.2f}")
+        # print("here1")
+        # score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
+        # print(f"Train Bleu score {score * 100:.2f}")
+        #
+        # print("here2")
+        # score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
+        # print(f"Test Bleu score {score * 100:.2f}")
 
         model.train()
         losses = []
 
         for batch_idx, batch in enumerate(train_iterator):
             # Get input and targets and get to cuda
-            inp_data = batch.src.to(device)
-            target = batch.trg.to(device)
-            # inp_data = batch[0].to(device)
-            # target = batch[1].to(device)
+            # inp_data = batch.src.to(device)
+            # target = batch.trg.to(device)
+            inp_data = batch[0].to(device)
+            target = batch[1].to(device)
             # Forward prop
             # print(target)
             # printSentences(inp_data, german_vocab)

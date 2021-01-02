@@ -22,7 +22,9 @@ if args.infile:
     if (n_lines < int(args.lines)):
         print(f"\n number of lines {n_lines} in file are less than desired: {args.lines}")
 
-outfile = args.outdir+"/"+args.infile
+inFileName = (args.infile).split("/")[-1]
+print(inFileName)
+outfile = args.outdir + "/" + inFileName
 fw = open(outfile, 'w')
 count = 0
 with open(args.infile) as fp:

@@ -3,7 +3,7 @@ import os
 import spacy
 from torchtext.data import Field
 from torchtext.datasets import Multi30k, TranslationDataset
-#from atext import getData2
+from atext import getData2
 """
 To install spacy languages do:
 python -m spacy download en
@@ -26,7 +26,6 @@ def getData_newMethod():
     g_tok = get_tokenizer('spacy', language='de')
     e_tok = get_tokenizer('spacy', language='en')
     return getData2(g_tok, e_tok)
-
 
 def getData():
     german = Field(tokenize=tokenize_ger, lower=True,
