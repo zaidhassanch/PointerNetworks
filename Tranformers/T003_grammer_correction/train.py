@@ -19,7 +19,8 @@ def printSentences(tokens, lang):
         print()
     print()
  
-def train(model, device, load_model, save_model, german_vocab, english_vocab, train_data, valid_data, test_data, batch_size):
+def train(model, device, load_model, save_model, 
+    german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     if load_model:
@@ -41,14 +42,16 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
     pad_idx = english_vocab.stoi["<pad>"]
     criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
 
-    train_iterator, valid_iterator, test_iterator = Batcher(train_data, valid_data, test_data)
-    # train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
-    #     (train_data, valid_data, test_data),
-    #     batch_size=batch_size,
-    #     sort_within_batch=True,
-    #     sort_key=lambda x: len(x.src),
-    #     device=device,
-    #     )
+    if LOAD_NEW_METHOD:
+        train_iterator, valid_iterator, test_iterator = Batcher(train_data, valid_data, test_data)
+    else:
+        train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
+            (train_data, valid_data, test_data),
+            batch_size=batch_size,
+            sort_within_batch=True,
+            sort_key=lambda x: len(x.src),
+            device=device,
+            )
 
     step = 0
 
@@ -75,24 +78,27 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
         print(f"Translated example sentence: \n {translated_sentence}")
         # exit()
 
+        if LOAD_NEW_METHOD == False:
         # running on entire test data takes a while
-        # print("here1")
-        # score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
-        # print(f"Train Bleu score {score * 100:.2f}")
-        #
-        # print("here2")
-        # score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
-        # print(f"Test Bleu score {score * 100:.2f}")
+            print("here1")
+            score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
+            print(f"Train Bleu score {score * 100:.2f}")
+            #
+            print("here2")
+            score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
+            print(f"Test Bleu score {score * 100:.2f}")
 
         model.train()
         losses = []
 
         for batch_idx, batch in enumerate(train_iterator):
             # Get input and targets and get to cuda
-            # inp_data = batch.src.to(device)
-            # target = batch.trg.to(device)
-            inp_data = batch[0].to(device)
-            target = batch[1].to(device)
+            if LOAD_NEW_METHOD:
+                inp_data = batch[0].to(device)
+                target = batch[1].to(device)
+            else:
+                inp_data = batch.src.to(device)
+                target = batch.trg.to(device)
             # Forward prop
             # print(target)
             # printSentences(inp_data, german_vocab)

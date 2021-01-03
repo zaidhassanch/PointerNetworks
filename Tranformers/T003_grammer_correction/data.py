@@ -22,12 +22,21 @@ def tokenize_ger(text):
 def tokenize_eng(text):
     return [tok.text for tok in spacy_eng.tokenizer(text)]
 
-def getData_newMethod():
+
+def getData(LOAD_NEW_METHOD):
+    if LOAD_NEW_METHOD:
+        return getData_new_method()
+    else:
+        return getData_old_method()
+
+def getData_new_method():
     g_tok = get_tokenizer('spacy', language='de')
     e_tok = get_tokenizer('spacy', language='en')
     return getData2(g_tok, e_tok)
 
-def getData():
+
+
+def getData_old_method():
     german = Field(tokenize=tokenize_ger, lower=True,
                    init_token="<sos>", eos_token="<eos>",  pad_token="<pad>", unk_token="<unk>")
 
