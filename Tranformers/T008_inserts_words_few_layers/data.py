@@ -43,7 +43,7 @@ def getData():
         train='train',
         validation='val',
         test='test2016',
-        path = '.data/multi30k'
+        path = '../../data/multi30k'
     )
     #The study’s questions are carefully worded and chosen.
     # The study questions were carefully worded and chosen.

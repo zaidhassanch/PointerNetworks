@@ -22,12 +22,21 @@ def tokenize_ger(text):
 def tokenize_eng(text):
     return [tok.text for tok in spacy_eng.tokenizer(text)]
 
-def getData_newMethod():
+
+def getData(LOAD_NEW_METHOD):
+    if LOAD_NEW_METHOD:
+        return getData_new_method()
+    else:
+        return getData_old_method()
+
+def getData_new_method():
     g_tok = get_tokenizer('spacy', language='de')
     e_tok = get_tokenizer('spacy', language='en')
     return getData2(g_tok, e_tok)
 
-def getData():
+
+
+def getData_old_method():
     german = Field(tokenize=tokenize_ger, lower=True,
                    init_token="<sos>", eos_token="<eos>",  pad_token="<pad>", unk_token="<unk>")
 
@@ -42,7 +51,7 @@ def getData():
         train='train',
         validation='val',
         test='test2016',
-        path = '.data/multi30k'
+        path = '../../data/multi30k'
     )
     #The study’s questions are carefully worded and chosen.
     # The study questions were carefully worded and chosen.
@@ -79,5 +88,9 @@ def getData():
     #     printSent(test_data[i].trg)
     # exit()
 
+
+    print("train_data ", len(train_data.examples))
+    print("valid_data ", len(valid_data.examples))
+    print("test_data ", len(test_data.examples))
 
     return german.vocab, english.vocab, train_data, valid_data, test_data

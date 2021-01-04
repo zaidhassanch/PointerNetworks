@@ -33,16 +33,16 @@ def data_process(ger_path, eng_path, ger_voc, eng_voc, ger_tok, eng_tok):
     data.append((de_tensor_, en_tensor_))
   return data
 
-def getData3(ger_tok, eng_tok):
+# def getData3(ger_tok, eng_tok):
 
-  ger_voc = build_vocab('.data/train.de', ger_tok) #vocab from training data
-  eng_voc = build_vocab('.data/train.en', eng_tok) #vocab from training data
+#   ger_voc = build_vocab('.data/train.de', ger_tok) #vocab from training data
+#   eng_voc = build_vocab('.data/train.en', eng_tok) #vocab from training data
 
-  train_data = data_process('.data/train.de', '.data/train.en', ger_voc, eng_voc, ger_tok, eng_tok)
-  val_data = data_process('.data/val.de', '.data/val.en', ger_voc, eng_voc, ger_tok, eng_tok)
-  test_data = data_process('.data/test_2016_flickr.de', '.data/test_2016_flickr.en', ger_voc, eng_voc, ger_tok, eng_tok)
+#   train_data = data_process('.data/train.de', '.data/train.en', ger_voc, eng_voc, ger_tok, eng_tok)
+#   val_data = data_process('.data/val.de', '.data/val.en', ger_voc, eng_voc, ger_tok, eng_tok)
+#   test_data = data_process('.data/test_2016_flickr.de', '.data/test_2016_flickr.en', ger_voc, eng_voc, ger_tok, eng_tok)
 
-  return ger_voc, eng_voc, train_data, val_data, test_data
+#   return ger_voc, eng_voc, train_data, val_data, test_data
 
 def getData2(ger_tok, eng_tok):
 
@@ -53,10 +53,20 @@ def getData2(ger_tok, eng_tok):
   val_data = data_process('.data/multi30k/val.de', '.data/multi30k/val.en', ger_voc, eng_voc, ger_tok, eng_tok)
   test_data = data_process('.data/multi30k/test2016.de', '.data/multi30k/test2016.en', ger_voc, eng_voc, ger_tok, eng_tok)
 
+  print("train_data ", len(train_data))
+  print("valid_data ", len(val_data))
+  print("test_data ", len(test_data))
+
   return ger_voc, eng_voc, train_data, val_data, test_data
 
-
 def generate_batch(data_batch):
+  # PAD_IDX = german_vocab['<pad>']
+  # SOS_IDX = german_vocab['<sos>']
+  # EOS_IDX = german_vocab['<eos>']
+  PAD_IDX = 1 #german_vocab['<pad>']
+  SOS_IDX = 2 #german_vocab['<sos>']
+  EOS_IDX = 3 #german_vocab['<eos>']
+
   de_batch, en_batch = [], []
   for (de_item, en_item) in data_batch:
     de_batch.append(torch.cat([torch.tensor([SOS_IDX]), de_item, torch.tensor([EOS_IDX])], dim=0))
@@ -65,18 +75,13 @@ def generate_batch(data_batch):
   en_batch = pad_sequence(en_batch, padding_value=PAD_IDX)
   return de_batch, en_batch
 
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 g_tok = get_tokenizer('spacy', language='de')
 e_tok = get_tokenizer('spacy', language='en')
 german_vocab, english_vocab, train_data, val_data, test_data = getData2(g_tok, e_tok)
 
-BATCH_SIZE = 32
-PAD_IDX = german_vocab['<pad>']
-SOS_IDX = german_vocab['<sos>']
-EOS_IDX = german_vocab['<eos>']
 
 def Batcher(train_data, val_data, test_data):
+  BATCH_SIZE = 32
   train_iter = DataLoader(train_data, batch_size=BATCH_SIZE,
                           shuffle=True, collate_fn=generate_batch)
   valid_iter = DataLoader(val_data, batch_size=BATCH_SIZE,
@@ -85,7 +90,6 @@ def Batcher(train_data, val_data, test_data):
                          shuffle=True, collate_fn=generate_batch)
   return train_iter, valid_iter, test_iter
 
-# for i, (src, trg) in enumerate(train_iter):
-#   print(i, src.shape, trg.shape)
 
 print("here<<<<<<<<<<<<<<<<<<<<<<")
+# exit()
