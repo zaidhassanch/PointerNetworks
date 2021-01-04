@@ -41,7 +41,7 @@ learning_rate = 3e-4
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 if load_model:
-    load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
+    load_checkpoint(torch.load("RSWI_checkpoint.pth.tar"), model, optimizer)
 
 # srcFile = open("/data/chaudhryz/uwstudent1/GDATA/test.src", "r")
 # tgtFile = open("/data/chaudhryz/uwstudent1/GDATA/test.tgt", "r")
