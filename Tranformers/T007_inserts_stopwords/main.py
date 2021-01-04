@@ -36,14 +36,14 @@ print("===============================after loading ")
 
 model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 
-load_model = False
+load_model = True
 save_model = True
 learning_rate = 3e-4
 
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 if load_model:
-    load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
+    load_checkpoint(torch.load("RSWI_checkpoint.pth.tar"), model, optimizer)
 
 # sentence = "ein pferd geht unter einer brücke neben einem boot."
 #

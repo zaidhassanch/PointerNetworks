@@ -1,6 +1,7 @@
 import os
 
 import spacy
+import pickle
 from torchtext.data import Field
 from torchtext.datasets import Multi30k, TranslationDataset
 #from atext import getData2
@@ -36,24 +37,24 @@ def getData():
         tokenize=tokenize_eng, lower=True,
         init_token="<sos>", eos_token="<eos>", pad_token="<pad>", unk_token="<unk>")
 
-    # print("===============================before ")
-    # train_data, valid_data, test_data = Multi30k.splits(
-    #     exts=(".ennsw", ".en"), fields=(german, english),
-    #     # root='.data',
-    #     train='train',
-    #     validation='val',
-    #     test='test2016',
-    #     path = '.data/multi30k'
-    # )
-
+    print("===============================before ")
     train_data, valid_data, test_data = Multi30k.splits(
-        exts=(".tgtnsw", ".tgt"), fields=(german, english),
+        exts=(".ennsw", ".en"), fields=(german, english),
         # root='.data',
         train='train',
-        validation='valid',
-        test='test',
-        path='/data/chaudhryz/uwstudent1/data_zaid_short'
+        validation='val',
+        test='test2016',
+        path = '.data/multi30k'
     )
+
+    # train_data, valid_data, test_data = Multi30k.splits(
+    #     exts=(".tgtnsw", ".tgt"), fields=(german, english),
+    #     # root='.data',
+    #     train='train',
+    #     validation='valid',
+    #     test='test',
+    #     path='/data/chaudhryz/uwstudent1/data_zaid_short'
+    # )
 
     #The study’s questions are carefully worded and chosen.
     # The study questions were carefully worded and chosen.
@@ -69,14 +70,14 @@ def getData():
 
 
     
-    german.build_vocab(train_data, max_size=10000, min_freq=2)
-    english.build_vocab(train_data, max_size=10000, min_freq=2)
+    #german.build_vocab(train_data, max_size=10000, min_freq=2)
+    #english.build_vocab(train_data, max_size=10000, min_freq=2)
 
-    german.vocab.init_token = "<sos>"
-    german.vocab.eos_token = "<eos>"
+    #german.vocab.init_token = "<sos>"
+    #german.vocab.eos_token = "<eos>"
 
-    english.vocab.init_token = "<sos>"
-    english.vocab.eos_token = "<eos>"
+    #english.vocab.init_token = "<sos>"
+    #english.vocab.eos_token = "<eos>"
     # print("Train")
     # for i in range(10):
     #     #print(train_data[i].src, train_data[i].trg)
@@ -90,5 +91,21 @@ def getData():
     #     printSent(test_data[i].trg)
     # exit()
 
+
+
+    # a = {'GermanVocab': german.vocab, 'EnglishVocab': english.vocab}
+
+    # with open('filename.pickle', 'wb') as handle:
+    #     pickle.dump(a, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    #
+    with open('filename.pickle', 'rb') as handle:
+        b = pickle.load(handle)
+
+    german.vocab = b['GermanVocab']
+    english.vocab = b['EnglishVocab']
+
+    #
+    # print
+    # a == b
 
     return german.vocab, english.vocab, train_data, valid_data, test_data

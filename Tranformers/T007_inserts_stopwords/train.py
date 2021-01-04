@@ -60,7 +60,7 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     if load_model:
-        load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
+        load_checkpoint(torch.load("RSWI_checkpoint.pth.tar"), model, optimizer)
 
     # sentence = "ein pferd geht unter einer brücke neben einem boot."
     # sentence = 'a little girl climbing into a wooden playhouse.'

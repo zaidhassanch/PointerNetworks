@@ -46,8 +46,8 @@ if load_model:
 # srcFile = open("/data/chaudhryz/uwstudent1/GDATA/test.src", "r")
 # tgtFile = open("/data/chaudhryz/uwstudent1/GDATA/test.tgt", "r")
 
-srcFile = open(".data/multi30k/test2016.ens", "r")
-tgtFile = open(".data/multi30k/test2016.en", "r")
+srcFile = open("/data/chaudhryz/uwstudent1/data_zaid_short/test.tgtnsw", "r")
+tgtFile = open("/data/chaudhryz/uwstudent1/data_zaid_short/test.tgt", "r")
 
 for i in range(30):
     srcLine = srcFile.readline()
