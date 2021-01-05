@@ -51,8 +51,8 @@ def getData():
         exts=(".con", ".tgt"), fields=(german, english),
         # root='.data',
         train='out300k',
-        validation='test10k',
-        test='test10k',
+        validation='out10k',
+        test='out10k',
         path='/data/chaudhryz/ank_data'
     )
 
