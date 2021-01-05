@@ -141,6 +141,7 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
             trg = target[:-1, :]
             # print(trg.shape)
             output = model(inp_data, trg)
+            # output = model(inp_data, trg, syntax_embedding, arch_flag)
 
             # Output is of shape (trg_len, batch_size, output_dim) but Cross Entropy Loss
             # doesn't take input in that form. For example if we have MNIST we want to have

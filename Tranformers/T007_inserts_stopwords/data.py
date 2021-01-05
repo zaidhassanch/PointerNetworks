@@ -38,23 +38,23 @@ def getData():
         init_token="<sos>", eos_token="<eos>", pad_token="<pad>", unk_token="<unk>")
 
     print("===============================before ")
-    train_data, valid_data, test_data = Multi30k.splits(
-        exts=(".ennsw", ".en"), fields=(german, english),
-        # root='.data',
-        train='train',
-        validation='val',
-        test='test2016',
-        path = '.data/multi30k'
-    )
-
     # train_data, valid_data, test_data = Multi30k.splits(
-    #     exts=(".tgtnsw", ".tgt"), fields=(german, english),
+    #     exts=(".ennsw", ".en"), fields=(german, english),
     #     # root='.data',
     #     train='train',
-    #     validation='valid',
-    #     test='test',
-    #     path='/data/chaudhryz/uwstudent1/data_zaid_short'
+    #     validation='val',
+    #     test='test2016',
+    #     path = '.data/multi30k'
     # )
+
+    train_data, valid_data, test_data = Multi30k.splits(
+        exts=(".con", ".tgt"), fields=(german, english),
+        # root='.data',
+        train='out300k',
+        validation='test10k',
+        test='test10k',
+        path='/data/chaudhryz/ank_data'
+    )
 
     #The study’s questions are carefully worded and chosen.
     # The study questions were carefully worded and chosen.
