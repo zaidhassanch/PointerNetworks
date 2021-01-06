@@ -16,7 +16,7 @@ import numpy as np
 
 args = object();
 MAX_LENGTH = 20
-infile = "test300k.tsv"
+infile = "train300k.tsv"
 
 src_lengths = np.zeros((20,))
 tgt_lengths = np.zeros((20,))
