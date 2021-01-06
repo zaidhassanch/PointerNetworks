@@ -12,7 +12,8 @@ german_vocab, english_vocab, train_data, valid_data, test_data = getData()
 print("train_data ", len(train_data.examples))
 print("valid_data ", len(valid_data.examples))
 print("test_data ", len(test_data.examples))
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = "cpu"
 batch_size = 32
 
 data = train_data[0:3]

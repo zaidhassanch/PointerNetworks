@@ -70,7 +70,8 @@ def getData():
 
 
     # build vocabulary
-    
+
+    # why is the vocabulary size the same for both datasets
     german.build_vocab(train_data, max_size=10000, min_freq=2)
     english.build_vocab(train_data, max_size=10000, min_freq=2)
 
