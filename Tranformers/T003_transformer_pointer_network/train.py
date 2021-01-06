@@ -75,6 +75,8 @@ def train(model, device, load_model, save_model, german, english, train_data, va
             inp_data = batch.src.to(device)
             target = batch.trg.to(device)
 
+            print(inp_data.shape)
+
             # Forward prop
             trg = target[:-1, :]
             # print(trg.shape)
