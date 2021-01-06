@@ -50,7 +50,7 @@ def getData():
     train_data, valid_data, test_data = Multi30k.splits(
         exts=(".con", ".tgt"), fields=(german, english),
         # root='.data',
-        train='out300k',
+        train='out10k',
         validation='out10k',
         test='out10k',
         path='/data/chaudhryz/ank_data'

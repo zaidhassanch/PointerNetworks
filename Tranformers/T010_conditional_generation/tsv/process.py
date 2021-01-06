@@ -36,7 +36,7 @@ count = 0
 for line in fp:
 
 
-    print(line)
+    #print(line)
     linearr = line.split("\t")
     if(len(linearr)<3):
         print("issue found", count)
