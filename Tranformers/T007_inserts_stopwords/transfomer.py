@@ -29,7 +29,7 @@ class Transformer(nn.Module):
         num_decoder_layers = 3,
         forward_expansion = 4,
         dropout = 0.10,
-        max_len = 150,
+        max_len = 100,
     ):
         super(Transformer, self).__init__()
         self.src_word_embedding = nn.Embedding(src_vocab_size, embedding_size)  # 7854 x 512
