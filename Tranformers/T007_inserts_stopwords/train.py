@@ -114,11 +114,11 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
 
         # running on entire test data takes a while
         print("here1")
-        score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
+        score = bleu(train_data[1:2], model, german_vocab, english_vocab, device)
         print(f"Train Bleu score {score * 100:.2f}")
 
         print("here2")
-        score = bleu(test_data[1:50], model, german_vocab, english_vocab, device)
+        score = bleu(test_data[1:2], model, german_vocab, english_vocab, device)
         print(f"Test Bleu score {score * 100:.2f}")
 
         model.train()
