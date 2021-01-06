@@ -15,7 +15,7 @@
 import numpy as np
 
 args = object();
-MAX_LENGTH = 50
+MAX_LENGTH = 20
 infile = "test10k.tsv"
 
 src_lengths = np.zeros((20,))
@@ -28,9 +28,9 @@ fp = open(infile)
 n_lines = len(open(infile).readlines())
 print(n_lines)
 # exit()
-fw_src = open("out10k.src", 'w')
-fw_tgt = open("out10k.tgt", 'w')
-fw_con = open("out10k.con", 'w')
+fw_src = open("shortout10k.src", 'w')
+fw_tgt = open("shortout10k.tgt", 'w')
+fw_con = open("shortout10k.con", 'w')
 
 count = 0
 for line in fp:
