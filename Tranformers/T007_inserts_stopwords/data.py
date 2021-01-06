@@ -69,15 +69,16 @@ def getData():
     # )
 
 
+    # build vocabulary
     
-    #german.build_vocab(train_data, max_size=10000, min_freq=2)
-    #english.build_vocab(train_data, max_size=10000, min_freq=2)
+    german.build_vocab(train_data, max_size=10000, min_freq=2)
+    english.build_vocab(train_data, max_size=10000, min_freq=2)
 
-    #german.vocab.init_token = "<sos>"
-    #german.vocab.eos_token = "<eos>"
+    german.vocab.init_token = "<sos>"
+    german.vocab.eos_token = "<eos>"
 
-    #english.vocab.init_token = "<sos>"
-    #english.vocab.eos_token = "<eos>"
+    english.vocab.init_token = "<sos>"
+    english.vocab.eos_token = "<eos>"
     # print("Train")
     # for i in range(10):
     #     #print(train_data[i].src, train_data[i].trg)
@@ -93,16 +94,20 @@ def getData():
 
 
 
+    # store multi30k vocabulary
+
     # a = {'GermanVocab': german.vocab, 'EnglishVocab': english.vocab}
 
     # with open('filename.pickle', 'wb') as handle:
     #     pickle.dump(a, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    #
-    with open('filename.pickle', 'rb') as handle:
-        b = pickle.load(handle)
 
-    german.vocab = b['GermanVocab']
-    english.vocab = b['EnglishVocab']
+    # use multi30k's vocabulary
+
+    # with open('filename.pickle', 'rb') as handle:
+    #     b = pickle.load(handle)
+    #
+    # german.vocab = b['GermanVocab']
+    # english.vocab = b['EnglishVocab']
 
     #
     # print
