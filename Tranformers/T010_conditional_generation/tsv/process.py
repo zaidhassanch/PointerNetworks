@@ -12,10 +12,15 @@
 # assert(args.infile)
 # assert(args.lines)
 # assert(args.outdir)
+import numpy as np
 
 args = object();
 MAX_LENGTH = 50
 infile = "test10k.tsv"
+
+src_lengths = np.zeros((20,))
+tgt_lengths = np.zeros((20,))
+
 # lines = 5
 
 count = 0
@@ -23,9 +28,9 @@ fp = open(infile)
 n_lines = len(open(infile).readlines())
 print(n_lines)
 # exit()
-fw_src = open("out.src", 'w')
-fw_tgt = open("out.tgt", 'w')
-fw_con = open("out.con", 'w')
+fw_src = open("out10k.src", 'w')
+fw_tgt = open("out10k.tgt", 'w')
+fw_con = open("out10k.con", 'w')
 
 count = 0
 for line in fp:
@@ -42,6 +47,12 @@ for line in fp:
     len_tgt = len(linearr[1].split(" "))
     len_con = len(linearr[2].split(" "))
 
+    bucket_src = np.int32(len_src / 10)
+    bucket_tgt = np.int32(len_tgt / 10)
+
+    src_lengths[bucket_src] += 1
+    tgt_lengths[bucket_tgt] += 1
+
     if len_src > MAX_LENGTH or len_tgt > MAX_LENGTH or len_con > MAX_LENGTH:
         print("alert")
     else:
@@ -52,6 +63,10 @@ for line in fp:
         fw_con.write(linearr[2]+"\n")
 
 print(count)
+
+print("src_lengths", src_lengths/np.sum(src_lengths))
+print("tgt_lengths", tgt_lengths/np.sum(tgt_lengths))
+
 fp.close()
 fw_src.close()
 fw_tgt.close()
