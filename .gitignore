@@ -1,3 +1,6 @@
+*.zip
+*.pickle
+tsv
 *.ennsw
 *.ens
 checkpoints

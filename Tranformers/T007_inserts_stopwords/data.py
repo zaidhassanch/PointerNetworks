@@ -47,10 +47,11 @@ def getData():
     #     path = '.data/multi30k'
     # )
 
+
     train_data, valid_data, test_data = Multi30k.splits(
         exts=(".con", ".tgt"), fields=(german, english),
         # root='.data',
-        train='shortout10k',
+        train='shortouttest300k',
         validation='shortout10k',
         test='shortout10k',
         path='/data/chaudhryz/ank_data'
