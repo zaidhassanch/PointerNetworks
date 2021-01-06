@@ -60,7 +60,7 @@ for line in fp:
         print("==========", count, end='')
         fw_src.write(linearr[0]+"\n")
         fw_tgt.write(linearr[1]+"\n")
-        fw_con.write(linearr[2]+"\n")
+        fw_con.write(linearr[2])
 
 print(count)
 
