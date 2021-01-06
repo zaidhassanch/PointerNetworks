@@ -14,6 +14,7 @@
 # assert(args.outdir)
 
 args = object();
+MAX_LENGTH = 50
 infile = "test10k.tsv"
 # lines = 5
 
@@ -22,15 +23,13 @@ fp = open(infile)
 n_lines = len(open(infile).readlines())
 print(n_lines)
 # exit()
-fw_src = open("in.src", 'w')
 fw_src = open("out.src", 'w')
 fw_tgt = open("out.tgt", 'w')
 fw_con = open("out.con", 'w')
 
 count = 0
 for line in fp:
-    count += 1
-    print("==========", count, end='')
+
 
     print(line)
     linearr = line.split("\t")
@@ -39,10 +38,20 @@ for line in fp:
         print(len(linearr))
         exit()
 
-    fw_src.write(linearr[0]+"\n")
-    fw_tgt.write(linearr[1]+"\n")
-    fw_con.write(linearr[2]+"\n")
+    len_src = len(linearr[0].split(" "))
+    len_tgt = len(linearr[1].split(" "))
+    len_con = len(linearr[2].split(" "))
 
+    if len_src > MAX_LENGTH or len_tgt > MAX_LENGTH or len_con > MAX_LENGTH:
+        print("alert")
+    else:
+        count += 1
+        print("==========", count, end='')
+        fw_src.write(linearr[0]+"\n")
+        fw_tgt.write(linearr[1]+"\n")
+        fw_con.write(linearr[2]+"\n")
+
+print(count)
 fp.close()
 fw_src.close()
 fw_tgt.close()
