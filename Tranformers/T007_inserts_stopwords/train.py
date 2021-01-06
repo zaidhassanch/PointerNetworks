@@ -132,6 +132,9 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
             target = batch.trg
             target = target.to(device)
 
+            print("inp_data", inp_data.shape)
+            print("target", target.shape)
+
             # inp_data = batch[0].to(device)
             # target = batch[1].to(device)
             # Forward prop
