@@ -1,3 +1,5 @@
+*.model
+test10k.tsv
 *.zip
 *.pickle
 tsv
