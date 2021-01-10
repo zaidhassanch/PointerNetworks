@@ -31,7 +31,9 @@ def getData_newMethod():
 
 
 def getData():
-    sp_gec = load_sp_model("BPE/GCEBPE30k.model")
+
+    #sp_gec = load_sp_model("BPE/GCEBPE30k.model")
+    sp_gec = load_sp_model("BPE/zaid_sp_model.model")
     print("print(len(sp_gec)) 1", len(sp_gec))
 
     bpe_field = Field(use_vocab = False, tokenize = sp_gec.encode, 

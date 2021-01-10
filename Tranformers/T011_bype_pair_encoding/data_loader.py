@@ -4,10 +4,21 @@
 # import pickle
 from torchtext.data import Field
 from torchtext.datasets import Multi30k #, TranslationDataset
-from torchtext.data.functional import load_sp_model
+from torchtext.data.functional import load_sp_model, generate_sp_model
 
 def getData():
-    sp_gec = load_sp_model("BPE/GCEBPE30k.model")
+    filename = '.data/multi30k/train.en'
+    generate_sp_model(filename, vocab_size=8000, model_type='unigram', model_prefix='zaid_sp_model')
+
+
+    #exit()
+    #sp_gec = load_sp_model("BPE/GCEBPE30k.model")
+    sp_gec = load_sp_model("zaid_sp_model.model")
+    print(dir(sp_gec))
+    # print(vars(sp_gec))
+    # exit()
+
+    
     print("print(len(sp_gec)) 1", len(sp_gec))
     print(vars(sp_gec))
     print(dir(sp_gec))
