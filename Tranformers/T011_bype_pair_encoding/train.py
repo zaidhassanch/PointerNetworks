@@ -42,15 +42,19 @@ def printSentences2(tokens, lang, token2, lang2):
     for j in range(size[1]):
         print("j = ", j, end=">> ")
         for i in range(size[0]):
-            v = lang.itos[tokens[i][j]]
-            if(v == '<sos>' or v == '<pad>' or v == '<eos>' or v == '<unk>'):
-                vii = v
-            else:
-                vi = int(v)+1
-                if(vi < len(arr[j])):
-                    vii = arr[j][vi]
-                else:
-                    vii = "<>"
+            # v = lang.itos[tokens[i][j]]
+            v1 = lang.decode(tokens[i][j])
+            v2 = lang.decode(token2[i][j])
+            
+            #if(v == '<sos>' or v == '<pad>' or v == '<eos>' or v == '<unk>'):
+            # if(v == lang.bos_id() or v == lang.pad_id() or v == lang.eos_id() or v == lang.unk_id()):
+            #     vii = v
+            # else:
+            #     vi = int(v)+1
+            #     if(vi < len(arr[j])):
+            #         vii = arr[j][vi]
+            #     else:
+            #         vii = "<>"
             print(vii, end=" ")
         print()
     print()

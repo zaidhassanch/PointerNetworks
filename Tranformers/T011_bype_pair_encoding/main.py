@@ -1,7 +1,7 @@
 
 from utils import translate_sentence, load_checkpoint
 import torch
-from data import getData, getData_newMethod
+from data_loader import getData #, getData_newMethod
 from train import train
 from transfomer import Transformer
 
@@ -60,7 +60,7 @@ sentence = "man stuffed smiling lion here"
 
 #sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
 # sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
-translated_sentence = translate_sentence(model, sentence, spe_dec, spe_dec, device, max_length=50)
+translated_sentence = translate_sentence(model, sentence, spe_dec, spe_dec, device, max_length=100)
 # exit()
 # print(f"Translated1 example sentence: \n {sentence}")
 # print(f"Translated1 example sentence: \n {translated_sentence}")
