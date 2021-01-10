@@ -5,18 +5,22 @@
 from torchtext.data import Field
 from torchtext.datasets import Multi30k #, TranslationDataset
 from torchtext.data.functional import load_sp_model, generate_sp_model
+import sentencepiece as spm
 
 def getData():
     filename = '.data/multi30k/train.en'
     generate_sp_model(filename, vocab_size=8000, model_type='bpe', model_prefix='zaid_sp_model')
 
 
+    # s = spm.SentencePieceProcessor(model_file='zaid_sp_model.model')
+    # print(vars(s))
+    # exit()
     #exit()
     #sp_gec = load_sp_model("BPE/GCEBPE30k.model")
     sp_gec = load_sp_model("zaid_sp_model.model")
-    # print(dir(sp_gec))
-    # print(vars(sp_gec))
-    # exit()
+    print(dir(sp_gec))
+    print(vars(sp_gec))
+    exit()
     src_pad_idx = sp_gec.pad_id()#english_vocab.stoi["<pad>"]
     print("pad_index = ", src_pad_idx)
     print("pad = ", sp_gec.decode(src_pad_idx))
