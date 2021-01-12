@@ -1,3 +1,4 @@
+*.vocab
 *.model
 test10k.tsv
 *.zip
