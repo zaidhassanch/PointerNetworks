@@ -1,4 +1,3 @@
-# coding=utf-8
 
 from utils import translate_sentence, load_checkpoint
 import torch
@@ -13,7 +12,6 @@ print("train_data ", len(train_data.examples))
 print("valid_data ", len(valid_data.examples))
 print("test_data ", len(test_data.examples))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# device = "cpu"
 batch_size = 32
 
 data = train_data[0:3]
@@ -23,7 +21,6 @@ for example in data:
     trg = example.trg
     print(">> ", src)
     print("   ", trg)
-# exit()
 
 src_vocab_size = len(german_vocab)
 trg_vocab_size = len(english_vocab)
@@ -44,29 +41,33 @@ learning_rate = 3e-4
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 if load_model:
-    load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
+    load_checkpoint(torch.load("RSWI_checkpoint.pth.tar"), model, optimizer)
 
-# sentence = "ein pferd geht unter einer brücke neben einem boot."
-#
-# translated_sentence = translate_sentence(
-#     model, sentence, german, english, device, max_length=50
-# )
-# sentence = 'The study questions are carefully worded and chosen.'
-# sentence = 'a little girl climbing into a wooden playhouse.'
+# srcFile = open("/data/chaudhryz/uwstudent1/GDATA/test.src", "r")
+# tgtFile = open("/data/chaudhryz/uwstudent1/GDATA/test.tgt", "r")
 
-sentence = "man stuffed smiling lion"
+srcFile = open("/data/chaudhryz/uwstudent1/data_zaid_short/test.tgtnsw", "r")
+tgtFile = open("/data/chaudhryz/uwstudent1/data_zaid_short/test.tgt", "r")
 
-#sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
-# sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
-translated_sentence = translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50)
-# exit()
-# print(f"Translated1 example sentence: \n {sentence}")
-# print(f"Translated1 example sentence: \n {translated_sentence}")
+for i in range(30):
+    srcLine = srcFile.readline()
+    srcLine = srcLine.strip()
+    tgtLine = tgtFile.readline()
+    tgtLine = tgtLine.strip()
 
-# exit()
-print("===============================going for training ")
+    print(i+1, "=", srcLine)
+    print(i+1, "=", tgtLine)
+    translated_sentence = translate_sentence(model, srcLine, german_vocab, english_vocab, device, max_length=50)
+    print(i+1, "===", translated_sentence)
+srcFile.close()
+tgtFile.close()
+# for line in fp:
+#     count += 1
+#     fw.write(line)
+#     if(count == int(args.lines)):
+#         print(f">>>>>>> output lines:{args.lines} written successfully to {outfile}")
+#         break
 
-train(model, device, load_model, save_model, german_vocab, english_vocab, train_data, valid_data, test_data, batch_size)
-# running on entire test data takes a while
+# translated_sentence = translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50)
 
 

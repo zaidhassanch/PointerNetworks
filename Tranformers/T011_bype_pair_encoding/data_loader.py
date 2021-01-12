@@ -9,7 +9,7 @@ import sentencepiece as spm
 
 def getData():
     filename = '.data/multi30k/train.en'
-    generate_sp_model(filename, vocab_size=8000, model_type='bpe', model_prefix='zaid_sp_model')
+    generate_sp_model(filename, vocab_size=8000, model_type='bpe',pad_token=3, model_prefix='zaid_sp_model')
 
 
     # s = spm.SentencePieceProcessor(model_file='zaid_sp_model.model')

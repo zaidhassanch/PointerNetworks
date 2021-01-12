@@ -108,8 +108,8 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
             sentence, german_vocab, english_vocab, device, max_length=50
         )
 
-        print(f"Translated example sentence: \n {sentence}")
-        print(f"Translated example sentence: \n {translated_sentence}")
+        # print(f"Translated example sentence: \n {sentence}")
+        # print(f"Translated example sentence: \n {translated_sentence}")
         # exit()
 
         # running on entire test data takes a while
@@ -132,8 +132,10 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
             target = batch.trg
             target = target.to(device)
 
-            #print("inp_data", inp_data.shape)
-            #print("target", target.shape)
+            syntax_embedding = torch.rand(inp_data.shape[1], 256).to(device)
+
+            # possible choices "MIDDLE", "END", "NONE"
+            arch_flag = "END"
 
             # inp_data = batch[0].to(device)
             # target = batch[1].to(device)
@@ -141,10 +143,14 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
             # print(target)
             # printSentences(inp_data, german_vocab)
             # printSentences2(target, english_vocab, inp_data, german_vocab)
+            # print(inp_data.shape)
+
             trg = target[:-1, :]
             # print(trg.shape)
-            output = model(inp_data, trg)
-            # output = model(inp_data, trg, syntax_embedding, arch_flag)
+            # print(trg.shape)
+
+            # output = model(inp_data, trg)
+            output = model(inp_data, trg, syntax_embedding)
 
             # Output is of shape (trg_len, batch_size, output_dim) but Cross Entropy Loss
             # doesn't take input in that form. For example if we have MNIST we want to have

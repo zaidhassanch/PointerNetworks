@@ -54,20 +54,27 @@ def bleu(data, model, german, english, device):
     targets = []
     outputs = []
 
+    count = 0;
     for example in data:
-        src = vars(example)["src"]
-        trg = vars(example)["trg"]
+        count += 1
+        src = example.src
+        trg = example.trg
 
         prediction = translate_sentence(model, src, german, english, device)
         prediction = prediction[:-1]  # remove <eos> token
 
-        print("src   :>>>", src)
+        print(count, "src   :>>>", src)
         print("target:   ", trg)
         print("pred  :   ", prediction)
         targets.append([trg])
         outputs.append(prediction)
 
-    return bleu_score(outputs, targets)
+    #print(outputs.shape, targets.shape)
+    # print(outputs)
+    # print(targets)
+    # exit()
+    blue = bleu_score(outputs, targets)
+    return blue
 
 
 def save_checkpoint(state, filename="my_checkpoint.pth.tar"):

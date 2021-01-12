@@ -35,16 +35,17 @@ print(src_pad_idx)
 print(english_vocab.itos[src_pad_idx])
 print("===============================after loading ")
 
-model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
+model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx,
+                    arch_flag = "END", syntax_embedding_size = 256).to(device)
 
-load_model = True
+load_model = False
 save_model = True
 learning_rate = 3e-4
 
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 if load_model:
-    load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
+    load_checkpoint(torch.load("RSWI_checkpoint.pth.tar"), model, optimizer)
 
 # sentence = "ein pferd geht unter einer brücke neben einem boot."
 #
@@ -58,7 +59,7 @@ sentence = "man stuffed smiling lion"
 
 #sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
 # sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
-translated_sentence = translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50)
+#translated_sentence = translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50)
 # exit()
 # print(f"Translated1 example sentence: \n {sentence}")
 # print(f"Translated1 example sentence: \n {translated_sentence}")
