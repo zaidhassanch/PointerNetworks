@@ -66,7 +66,7 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     if load_model:
-        load_checkpoint(torch.load("RSWI_checkpoint.pth.tar"), model, optimizer)
+        load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
     # sentence = "ein pferd geht unter einer brücke neben einem boot."
     # sentence = 'a little girl climbing into a wooden playhouse.'
@@ -122,15 +122,15 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
 
         # running on entire test data takes a while
         print("here1")
-        
+        # with torch.no_grad():
         score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
-        # print(f"Train Bleu score {score * 100:.2f}")
+        print(f"Train Bleu score {score * 100:.2f}")
         # exit()
         
         print("here2")
         score = bleu(test_data[1:50], model, german_vocab, english_vocab, device)
-        # print(f"Test Bleu score {score * 100:.2f}")
-
+        print(f"Test Bleu score {score * 100:.2f}")
+        # exit()
         model.train()
         losses = []
 
@@ -155,7 +155,8 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
             # printSentences2(target, english_vocab, inp_data, german_vocab)
             trg = target[:-1, :]
             # print(trg.shape)
-            output = model(inp_data, trg)
+            #exit()
+            output = model(inp_data, trg, 1)
             # output = model(inp_data, trg, syntax_embedding, arch_flag)
 
             # Output is of shape (trg_len, batch_size, output_dim) but Cross Entropy Loss
@@ -172,6 +173,8 @@ def train(model, device, load_model, save_model, german_vocab, english_vocab, tr
             loss = criterion(output, target)
             losses.append(loss.item())
 
+            if batch_idx % 100 == 0:
+                print(batch_idx, " Loss: ", loss)
             # Back prop
             loss.backward()
             # Clip to avoid exploding gradient issues, makes sure grads are

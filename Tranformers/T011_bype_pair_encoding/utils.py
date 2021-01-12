@@ -6,7 +6,7 @@ import sys
 spacy_ger = spacy.load("de")
 
 
-def translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50):
+def translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=100):
     # Load german tokenizer
     # return sentence
 
@@ -69,7 +69,9 @@ def bleu(data, model, german, english, device):
     targets = []
     outputs = []
 
+    count = 0
     for example in data:
+        count += 1
         src = vars(example)["src"]
         trg = vars(example)["trg"]
 
@@ -77,23 +79,22 @@ def bleu(data, model, german, english, device):
         prediction = prediction#[:-1]  # remove <eos> token
         src = german.decode(src)
         trg = english.decode(trg)
-        print("src   :>>>", src)
+        print(count, "src   :>>>" , src)
         print("target:   ", trg)
         print("pred  :   ", prediction)
-        targets.append([trg])
-        outputs.append([prediction])
+        targets.append([trg.split()])
+        outputs.append(prediction.split())
 
-    # print("calc blue 1")
-    # print(outputs)
-    # print("====================")
-    # print(targets)
-    print(outputs.shape)
-    print(targets .shape)
+    print("calc blue 1")
+    #print(outputs)
+    print("====================")
+    #print(targets)
+    #exit()
     blue = bleu_score(outputs, targets)
-    # blue = bleu_score(targets, targets)
+    #blue = bleu_score(targets, targets)
     
     print("calc blue 2")
-    return 0
+    return blue
 
 
 def save_checkpoint(state, filename="my_checkpoint.pth.tar"):

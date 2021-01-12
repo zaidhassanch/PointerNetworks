@@ -66,7 +66,7 @@ class Transformer(nn.Module):
         )
         return positions
 
-    def forward(self, src, trg):
+    def forward(self, src, trg, train = 0):
         src_seq_length, N = src.shape  #::: 17x 1 >> 17x32
         trg_seq_length, N = trg.shape  #::: 1,2,..9,.. >> 21x32
         #::: src (17x32)
@@ -91,6 +91,8 @@ class Transformer(nn.Module):
         src_padding_mask = self.make_src_mask(src)
         # print(src_padding_mask)
         #::: src_positions (9x9) [upper triangular matrix of -inf]
+        # if(train == 1):
+        #     print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> mask length : ", trg_seq_length)
         trg_mask = self.transformer.generate_square_subsequent_mask(trg_seq_length).to(self.device)
 
         #::: out1 (9x1x512) = embed_src(17x1x512), embed_trg(9x1x512)
