@@ -1,4 +1,4 @@
-# coding=utf-8
+# coding=utf-sdf
 
 from utils import translate_sentence, load_checkpoint
 import torch
