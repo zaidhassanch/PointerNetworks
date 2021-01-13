@@ -6,7 +6,7 @@ import sys
 spacy_ger = spacy.load("de")
 
 
-def translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=100):
+def translate_sentence(model, sentence, german_vocab, english_vocab, device, syntax_embedding_size, max_length=100):
     # Load german tokenizer
     # return sentence
 
@@ -47,7 +47,8 @@ def translate_sentence(model, sentence, german_vocab, english_vocab, device, max
         trg_tensor = torch.LongTensor(outputs).unsqueeze(1).to(device)
 
         with torch.no_grad():
-            output = model(sentence_tensor, trg_tensor)
+            syntax_embedding = torch.rand(1, syntax_embedding_size).to(device)
+            output = model(sentence_tensor, trg_tensor, 0, syntax_embedding)
 
         best_guess1 = output.argmax(2)
         best_guess =  best_guess1[-1, :].item()
@@ -66,7 +67,7 @@ def translate_sentence(model, sentence, german_vocab, english_vocab, device, max
     return translated_sentence #[1:]
 
 
-def bleu(data, model, german, english, device):
+def bleu(data, model, german, english, device, syntax_embedding_size):
     targets = []
     outputs = []
 
@@ -76,7 +77,7 @@ def bleu(data, model, german, english, device):
         src = vars(example)["src"]
         trg = vars(example)["trg"]
 
-        prediction = translate_sentence(model, src, german, english, device)
+        prediction = translate_sentence(model, src, german, english, device, syntax_embedding_size)
         prediction = prediction#[:-1]  # remove <eos> token
         src = german.decode(src)
         trg = english.decode(trg)
@@ -115,8 +116,8 @@ def printSent(arr):
     print()
 
 
-def computeBlue(train_data, test_data, model, german_vocab, english_vocab, device):
+def computeBlue(train_data, test_data, model, german_vocab, english_vocab, device, syntax_embedding_size):
 
-    score_train = bleu(train_data[1:50], model, german_vocab, english_vocab, device)
-    score_test = bleu(test_data[1:50], model, german_vocab, english_vocab, device)
+    score_train = bleu(train_data[1:50], model, german_vocab, english_vocab, device, syntax_embedding_size)
+    score_test = bleu(test_data[1:50], model, german_vocab, english_vocab, device, syntax_embedding_size)
     return score_train, score_test

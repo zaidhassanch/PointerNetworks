@@ -3,7 +3,7 @@ from utils import translate_sentence, load_checkpoint #abc
 import torch
 from data_loader import getData #, getData_newMethod
 from train import train
-from transfomer import Transformer
+from rswi_transformer import RSWITransformer
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -24,8 +24,8 @@ spe_dec, train_data, valid_data, test_data = getData(args.path, args.trainFile,
 print("train_data ", len(train_data.examples))
 print("valid_data ", len(valid_data.examples))
 print("test_data ", len(test_data.examples))
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device = "cpu"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = "cpu"
 
 
 # data = train_data[0:3]
@@ -46,14 +46,16 @@ embedding_size = 256
 src_pad_idx = spe_dec.pad_id()
 print("pad_index = ", src_pad_idx)
 print("===============================after loading")
-
-model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
-
-load_model = False
+syntax_embedding_size = 256
+# model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
+# arch_flag can be "FC" or "ENC_DEC"
+model = RSWITransformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx,
+                    arch_flag = "FC", syntax_embedding_size = syntax_embedding_size).to(device)
+load_model = True
 save_model = True
 learning_rate = 3e-4
 batch_size = 32
-train(learning_rate, model, device, load_model, save_model, spe_dec, spe_dec, train_data, valid_data, test_data, batch_size)
+train(syntax_embedding_size, learning_rate, model, device, load_model, save_model, spe_dec, spe_dec, train_data, valid_data, test_data, batch_size)
 # running on entire test data takes a while
 
 

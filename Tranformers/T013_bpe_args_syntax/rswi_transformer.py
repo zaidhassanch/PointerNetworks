@@ -16,7 +16,7 @@ forward_expansion = 4
 # dropout = 0.10
 # max_len = 100
 # forward_expansion = 4
-class Transformer(nn.Module):
+class RSWITransformer(nn.Module):
     def __init__(
         self,
         device,
@@ -24,6 +24,8 @@ class Transformer(nn.Module):
         src_vocab_size,
         trg_vocab_size,
         src_pad_idx,
+        arch_flag="END",
+        syntax_embedding_size=256,
         num_heads = 8,
         num_encoder_layers = 3,
         num_decoder_layers = 3,
@@ -31,7 +33,7 @@ class Transformer(nn.Module):
         dropout = 0.10,
         max_len = 100,
     ):
-        super(Transformer, self).__init__()
+        super(RSWITransformer, self).__init__()
         self.src_word_embedding = nn.Embedding(src_vocab_size, embedding_size)  # 7854 x 512
         self.src_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
         self.trg_word_embedding = nn.Embedding(trg_vocab_size, embedding_size)  # 5893 x 512
@@ -47,10 +49,16 @@ class Transformer(nn.Module):
             forward_expansion,
             dropout,
         )
+        if arch_flag == "FC":
+            self.fc_out = nn.Linear(syntax_embedding_size + embedding_size, trg_vocab_size)
+            # self.fc_out = nn.Linear(embedding_size, trg_vocab_size)
+        else:
+            self.fc_out = nn.Linear(embedding_size, trg_vocab_size)
 
-        self.fc_out = nn.Linear(embedding_size, trg_vocab_size)
         self.dropout = nn.Dropout(dropout)
         self.src_pad_idx = src_pad_idx
+        self.arch_flag = arch_flag
+        self.syntax_embedding_size = syntax_embedding_size #remove later
 
     def make_src_mask(self, src):
         src_mask = src.transpose(0, 1) == self.src_pad_idx
@@ -66,7 +74,8 @@ class Transformer(nn.Module):
         )
         return positions
 
-    def forward(self, src, trg, train = 0):
+    # arch_flag can be FC or ENC_DEC
+    def forward(self, src, trg, train = 0, syntax_embedding = False):
         src_seq_length, N = src.shape  #::: 17x 1 >> 17x32
         trg_seq_length, N = trg.shape  #::: 1,2,..9,.. >> 21x32
         #::: src (17x32)
@@ -101,5 +110,14 @@ class Transformer(nn.Module):
         # out1 = self.transformer(embed_src, embed_trg)
 
         #::: out2 (9x1x5893)
-        out2 = self.fc_out(out1)
+
+        if self.arch_flag == "FC":
+            size = out1.shape
+            syntax_embedding_unsqueeze = syntax_embedding.unsqueeze(0)
+            syntax_embedding_repeat = syntax_embedding_unsqueeze.repeat(size[0], 1, 1)
+            # print(out1.shape, syntax_embedding_repeat.shape)
+            concatenated_out = torch.cat((out1, syntax_embedding_repeat), axis=2)
+            out2 = self.fc_out(concatenated_out)
+        else:
+            out2 = self.fc_out(out1)
         return out2

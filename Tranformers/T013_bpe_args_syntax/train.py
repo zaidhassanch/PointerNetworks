@@ -58,7 +58,7 @@ def printSentences2(tokens, lang, token2, lang2):
     print()
 
 
-def train(learning_rate, model, device, load_model, save_model, german_vocab, english_vocab, train_data, valid_data, test_data, batch_size):
+def train(syntax_embedding_size, learning_rate, model, device, load_model, save_model, german_vocab, english_vocab, train_data, valid_data, test_data, batch_size):
     num_epochs = 10000
 
     
@@ -66,7 +66,7 @@ def train(learning_rate, model, device, load_model, save_model, german_vocab, en
 
     if load_model:
         load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
-        btrain1, btest1 = computeBlue(train_data, test_data, model, german_vocab, english_vocab, device)
+        btrain1, btest1 = computeBlue(train_data, test_data, model, german_vocab, english_vocab, device, syntax_embedding_size)
         print(f"Train Bleu score_train {btrain1 * 100:.2f},  {btest1 * 100:.2f}")
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, factor=0.1, patience=10, verbose=True
@@ -120,7 +120,9 @@ def train(learning_rate, model, device, load_model, save_model, german_vocab, en
             # print(trg.shape)
             #exit()
             optimizer.zero_grad()
-            output = model(inp_data, trg, 1)
+
+            syntax_embedding = torch.rand(inp_data.shape[1], 256).to(device)
+            output = model(inp_data, trg, 1, syntax_embedding)
             # output = model(inp_data, trg, syntax_embedding, arch_flag)
 
             # Output is of shape (trg_len, batch_size, output_dim) but Cross Entropy Loss
@@ -163,7 +165,7 @@ def train(learning_rate, model, device, load_model, save_model, german_vocab, en
             save_checkpoint(checkpoint)
 
         
-        btrain1, btest1 = computeBlue(train_data, test_data, model, german_vocab, english_vocab, device)
+        btrain1, btest1 = computeBlue(train_data, test_data, model, german_vocab, english_vocab, device, syntax_embedding_size)
         
         # load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
         # btrain2, btest2 = computeBlue(train_data, test_data, model, german_vocab, english_vocab, device)
