@@ -1,5 +1,5 @@
 
-from utils import translate_sentence, load_checkpoint, save_checkpoint
+from utils import translate_sentence, load_checkpoint
 import torch
 from data import getData, getData_newMethod
 from train import train
@@ -43,18 +43,11 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 if load_model:
     load_checkpoint(torch.load("RSWI_checkpoint.pth.tar"), model, optimizer)
 
-if save_model:
-    checkpoint = {
-        "state_dict": model.state_dict(),
-        "optimizer": optimizer.state_dict(),
-    }
-    save_checkpoint(checkpoint)
-
 # srcFile = open("/data/chaudhryz/uwstudent1/GDATA/test.src", "r")
 # tgtFile = open("/data/chaudhryz/uwstudent1/GDATA/test.tgt", "r")
 
-# srcFile = open("/data/chaudhryz/uwstudent1/data_zaid_short/test.tgtnsw", "r")
-# tgtFile = open("/data/chaudhryz/uwstudent1/data_zaid_short/test.tgt", "r")
+srcFile = open("/data/chaudhryz/uwstudent1/data_zaid_short/test.tgtnsw", "r")
+tgtFile = open("/data/chaudhryz/uwstudent1/data_zaid_short/test.tgt", "r")
 
 for i in range(30):
     srcLine = srcFile.readline()
