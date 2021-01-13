@@ -31,10 +31,11 @@ class TransformerZ(nn.Module):
         >> out = transformer_model(src, tgt)
     """
 
-    def __init__(self, d_model = 512, nhead = 8, num_encoder_layers = 6, num_decoder_layers = 6,
+    def __init__(self, arch_flag, d_model = 512, nhead = 8, num_encoder_layers = 6, num_decoder_layers = 6,
                  dim_feedforward = 2048, dropout: float = 0.1, activation = "relu"):
         super(TransformerZ, self).__init__()
 
+        self.arch_flag = arch_flag
         encoder_layer = TransformerEncoderLayer(d_model, nhead, dim_feedforward, dropout)
         encoder_norm = LayerNorm(d_model)
         self.encoder = TransformerEncoder(encoder_layer, num_encoder_layers, encoder_norm)
@@ -48,7 +49,7 @@ class TransformerZ(nn.Module):
         self.d_model = d_model
         self.nhead = nhead
 
-    def forward(self, src: Tensor, tgt: Tensor, src_mask: Optional[Tensor] = None, tgt_mask: Optional[Tensor] = None,
+    def forward(self, syntax_embedding, src: Tensor, tgt: Tensor, src_mask: Optional[Tensor] = None, tgt_mask: Optional[Tensor] = None,
                 memory_mask: Optional[Tensor] = None, src_key_padding_mask: Optional[Tensor] = None,
                 tgt_key_padding_mask: Optional[Tensor] = None, memory_key_padding_mask: Optional[Tensor] = None) -> Tensor:
         r"""Take in and process masked source/target sequences.
@@ -97,6 +98,11 @@ class TransformerZ(nn.Module):
         """
 
         memory = self.encoder(src, mask=src_mask, src_key_padding_mask=src_key_padding_mask)
+
+        if self.arch_flag == "ENC_DEC":
+            memory = memory
+
+
         output = self.decoder(tgt, memory, tgt_mask=tgt_mask, memory_mask=memory_mask,
                               tgt_key_padding_mask=tgt_key_padding_mask,
                               memory_key_padding_mask=memory_key_padding_mask)

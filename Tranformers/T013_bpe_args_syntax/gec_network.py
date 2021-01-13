@@ -21,7 +21,7 @@ class GECNetwork(nn.Module):
         super(GECNetwork, self).__init__()
         #embedding_size = 256
         self.rswi_trans = RSWITransformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx,
-                                arch_flag="FC", syntax_embedding_size=syntax_embedding_size).to(device)
+                                arch_flag=arch_flag, syntax_embedding_size=syntax_embedding_size).to(device)
 
     def forward(self, src, trg, train=0, syntax_embedding=False):
         #print("forward")

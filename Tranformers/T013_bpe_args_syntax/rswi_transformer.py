@@ -42,6 +42,7 @@ class RSWITransformer(nn.Module):
         self.device = device
 
         self.transformer = TransformerZ(
+            arch_flag,
             embedding_size,
             num_heads,
             num_encoder_layers,
@@ -106,11 +107,7 @@ class RSWITransformer(nn.Module):
         trg_mask = self.transformer.generate_square_subsequent_mask(trg_seq_length).to(self.device)
 
         #::: out1 (9x1x512) = embed_src(17x1x512), embed_trg(9x1x512)
-        if self.arch_flag == "ENC_DEC":
-            out1 = self.transformer(embed_src, embed_trg, src_key_padding_mask=src_padding_mask, tgt_mask=trg_mask)
-        else:
-            out1 = self.transformer(embed_src, embed_trg, src_key_padding_mask=src_padding_mask, tgt_mask=trg_mask)
-
+        out1 = self.transformer(syntax_embedding, embed_src, embed_trg, src_key_padding_mask=src_padding_mask, tgt_mask=trg_mask)
 
         # out1 = self.transformer(embed_src, embed_trg)
 
