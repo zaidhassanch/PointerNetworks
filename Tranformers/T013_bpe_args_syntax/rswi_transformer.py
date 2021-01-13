@@ -74,7 +74,7 @@ class RSWITransformer(nn.Module):
         )
         return positions
 
-    # arch_flag can be FC or ENC_DEC
+    # arch_flag can be FC or ENC_DEC or DEFAULT
     def forward(self, src, trg, train = 0, syntax_embedding = False):
         src_seq_length, N = src.shape  #::: 17x 1 >> 17x32
         trg_seq_length, N = trg.shape  #::: 1,2,..9,.. >> 21x32
@@ -106,7 +106,12 @@ class RSWITransformer(nn.Module):
         trg_mask = self.transformer.generate_square_subsequent_mask(trg_seq_length).to(self.device)
 
         #::: out1 (9x1x512) = embed_src(17x1x512), embed_trg(9x1x512)
-        out1 = self.transformer(embed_src, embed_trg, src_key_padding_mask=src_padding_mask, tgt_mask=trg_mask)
+        if self.arch_flag == "ENC_DEC":
+            out1 = self.transformer(embed_src, embed_trg, src_key_padding_mask=src_padding_mask, tgt_mask=trg_mask)
+        else:
+            out1 = self.transformer(embed_src, embed_trg, src_key_padding_mask=src_padding_mask, tgt_mask=trg_mask)
+
+
         # out1 = self.transformer(embed_src, embed_trg)
 
         #::: out2 (9x1x5893)

@@ -3,7 +3,8 @@ from utils import translate_sentence, load_checkpoint #abc
 import torch
 from data_loader import getData #, getData_newMethod
 from train import train
-from rswi_transformer import RSWITransformer
+#from rswi_transformer import RSWITransformer
+from gec_network import GECNetwork
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -42,16 +43,17 @@ src_vocab_size = len(spe_dec)
 trg_vocab_size = len(spe_dec)
 print("src vocabulary size: ", src_vocab_size)
 print("trg vocabulary size: ", trg_vocab_size)
-embedding_size = 256
+
 src_pad_idx = spe_dec.pad_id()
 print("pad_index = ", src_pad_idx)
 print("===============================after loading")
+embedding_size = 256
 syntax_embedding_size = 256
 # model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 # arch_flag can be "FC" or "ENC_DEC"
-model = RSWITransformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx,
-                    arch_flag = "FC", syntax_embedding_size = syntax_embedding_size).to(device)
-load_model = True
+model = GECNetwork(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx,
+                    arch_flag = "FCx", syntax_embedding_size = syntax_embedding_size).to(device)
+load_model = False
 save_model = True
 learning_rate = 3e-4
 batch_size = 32
