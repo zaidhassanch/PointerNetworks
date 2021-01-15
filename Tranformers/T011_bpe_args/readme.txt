@@ -11,13 +11,17 @@ save the sentence piece object and load it again as pkl so that we can test on l
 - how to train/make BPE model
 - Get BPEmodel working on local system on multi30k (preferably on latest tensorflow)
 - understand Batching, 
+- max length in train4m for bpe is 209
+    - max_length:  209
+    - filter out sentences with longer length in BPE
 
 Command-line options:
 
 
 # test2.py runs the testing
 CUDA_VISIBLE_DEVICES=3 python test2.py --path multi30k --trainFile train.tsv --valFile val.tsv --testFile test2016.tsv
-CUDA_VISIBLE_DEVICES=3 python test2.py --path scribendi --trainFile train4m.tsv --valFile test10k.tsv --testFile test10k.tsv 
+CUDA_VISIBLE_DEVICES=3 python test2.py --path scribendi --trainFile train4m.tsv --valFile test10k.tsv --testFile test10k.tsv
+CUDA_VISIBLE_DEVICES=0 python test2.py --path scribendiClean --trainFile shorttrain4m.tsv --valFile shorttest10k.tsv --testFile shorttest10k.tsv 
 # main.py runs the training
 CUDA_VISIBLE_DEVICES=3 python main.py --path scribendi --trainFile train4m.tsv --valFile test10k.tsv --testFile test10k.tsv
 CUDA_VISIBLE_DEVICES=3 python main.py --path multi30k --trainFile train.tsv --valFile val.tsv --testFile test2016.tsv

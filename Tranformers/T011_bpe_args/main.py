@@ -19,6 +19,8 @@ assert(args.testFile)
 
 #german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod()
 print("===============================before loading")
+
+[]
 spe_dec, train_data, valid_data, test_data = getData(args.path, args.trainFile, 
                                                 args.valFile, args.testFile)
 print("train_data ", len(train_data.examples))
@@ -49,10 +51,10 @@ print("===============================after loading")
 
 model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 
-load_model = True
+load_model = False
 save_model = True
 learning_rate = 3e-4
-batch_size = 32
+batch_size = 512
 train(learning_rate, model, device, load_model, save_model, spe_dec, spe_dec, train_data, valid_data, test_data, batch_size)
 # running on entire test data takes a while
 
