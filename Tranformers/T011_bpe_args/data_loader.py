@@ -55,6 +55,9 @@ def getData(path, trainFile, valFile, testFile):
     elif path == "scribendi":
         tv_datafields = [("ignore", bpe_field), ("trg", bpe_field), ("src", bpe_field)]
         path = "/data/chaudhryz/ankit"
+    elif path == "scribendiClean":
+        tv_datafields = [("ignore", bpe_field), ("trg", bpe_field), ("src", bpe_field)]
+        path = "./"
     
 
     
