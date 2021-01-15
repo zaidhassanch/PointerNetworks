@@ -19,8 +19,6 @@ assert(args.testFile)
 
 #german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod()
 print("===============================before loading")
-
-[]
 spe_dec, train_data, valid_data, test_data = getData(args.path, args.trainFile, 
                                                 args.valFile, args.testFile)
 print("train_data ", len(train_data.examples))
