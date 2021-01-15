@@ -26,8 +26,8 @@ spe_dec, train_data, valid_data, test_data = getData(args.path, args.trainFile,
 print("train_data ", len(train_data.examples))
 print("valid_data ", len(valid_data.examples))
 print("test_data ", len(test_data.examples))
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device = "cpu"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = "cpu"
 
 
 # data = train_data[0:3]
@@ -51,10 +51,10 @@ print("===============================after loading")
 
 model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 
-load_model = True
+load_model = False
 save_model = True
 learning_rate = 3e-4
-batch_size = 128
+batch_size = 512
 num_batches = len(train_data.examples) / batch_size
 train(num_batches, learning_rate, model, device, load_model, save_model, spe_dec, spe_dec, train_data, valid_data, test_data, batch_size)
 # running on entire test data takes a while
