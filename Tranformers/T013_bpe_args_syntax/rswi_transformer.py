@@ -43,6 +43,7 @@ class RSWITransformer(nn.Module):
 
         self.transformer = TransformerZ(
             arch_flag,
+            syntax_embedding_size,
             embedding_size,
             num_heads,
             num_encoder_layers,

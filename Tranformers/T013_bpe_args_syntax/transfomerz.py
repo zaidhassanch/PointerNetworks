@@ -31,11 +31,13 @@ class TransformerZ(nn.Module):
         >> out = transformer_model(src, tgt)
     """
 
-    def __init__(self, arch_flag, d_model = 512, nhead = 8, num_encoder_layers = 6, num_decoder_layers = 6,
+    def __init__(self, arch_flag, syntax_embedding_size, d_model = 512,
+                 nhead = 8, num_encoder_layers = 6, num_decoder_layers = 6,
                  dim_feedforward = 2048, dropout: float = 0.1, activation = "relu"):
         super(TransformerZ, self).__init__()
 
         self.arch_flag = arch_flag
+
         encoder_layer = TransformerEncoderLayer(d_model, nhead, dim_feedforward, dropout)
         encoder_norm = LayerNorm(d_model)
         self.encoder = TransformerEncoder(encoder_layer, num_encoder_layers, encoder_norm)
@@ -43,6 +45,9 @@ class TransformerZ(nn.Module):
         decoder_layer = TransformerDecoderLayer(d_model, nhead, dim_feedforward, dropout)
         decoder_norm = LayerNorm(d_model)
         self.decoder = TransformerDecoder(decoder_layer, num_decoder_layers, decoder_norm)
+
+        if self.arch_flag == "ENC_DEC":
+            self.fc_enc_dec = nn.Linear(syntax_embedding_size + d_model, d_model)
 
         self._reset_parameters()
 
@@ -100,8 +105,13 @@ class TransformerZ(nn.Module):
         memory = self.encoder(src, mask=src_mask, src_key_padding_mask=src_key_padding_mask)
 
         if self.arch_flag == "ENC_DEC":
-            memory = memory
-
+            size = memory.shape
+            syntax_embedding_unsqueeze = syntax_embedding.unsqueeze(0)
+            syntax_embedding_repeat = syntax_embedding_unsqueeze.repeat(size[0], 1, 1)
+            # print(out1.shape, syntax_embedding_repeat.shape)
+            concatenated_out = torch.cat((memory, syntax_embedding_repeat), axis=2)
+            concatenated_out_resize = self.fc_enc_dec(concatenated_out)
+            memory = concatenated_out_resize
 
         output = self.decoder(tgt, memory, tgt_mask=tgt_mask, memory_mask=memory_mask,
                               tgt_key_padding_mask=tgt_key_padding_mask,

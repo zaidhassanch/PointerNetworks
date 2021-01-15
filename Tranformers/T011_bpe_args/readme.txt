@@ -18,11 +18,11 @@
 Command-line options:
 
 ---------------------------------------------------
-meeting points
+meeting points:
 - Integrated BPE into my code
 - Ran the BPE model on smaller multi30k dataset and it worked, though apparently, longer trainings are required.
   > got comparable results as earlier
-
+-
 
 
 # test2.py runs the testing

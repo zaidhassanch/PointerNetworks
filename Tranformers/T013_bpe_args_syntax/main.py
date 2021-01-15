@@ -52,7 +52,7 @@ syntax_embedding_size = 256
 # model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 # arch_flag can be "FC" or "ENC_DEC"
 model = GECNetwork(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx,
-                    arch_flag = "FCx", syntax_embedding_size = syntax_embedding_size).to(device)
+                    arch_flag = "ENC_DEC", syntax_embedding_size = syntax_embedding_size).to(device)
 load_model = False
 save_model = True
 learning_rate = 3e-4

@@ -2,7 +2,8 @@ from utils import translate_sentence, computeBlue, save_checkpoint, load_checkpo
 from torchtext.data import Field, BucketIterator
 import torch
 import torch.nn as nn
-import torch.optim as optim 
+import torch.optim as optim
+import time
 
 #from atext import Batcher
 # Training hyperparameters
@@ -139,6 +140,7 @@ def train(learning_rate, model, device, load_model, save_model, german_vocab, en
 
             if batch_idx % 100 == 0:
                 print(batch_idx, " Loss: ", loss)
+                end_time = time.time()
             # Back prop
             loss.backward()
             # Clip to avoid exploding gradient issues, makes sure grads are
