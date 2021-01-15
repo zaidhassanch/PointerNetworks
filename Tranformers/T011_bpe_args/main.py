@@ -54,7 +54,8 @@ model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_
 load_model = False
 save_model = True
 learning_rate = 3e-4
-batch_size = 512
+# batch_size
+batch_size = 32
 num_batches = len(train_data.examples) / batch_size
 train(num_batches, learning_rate, model, device, load_model, save_model, spe_dec, spe_dec, train_data, valid_data, test_data, batch_size)
 # running on entire test data takes a while
