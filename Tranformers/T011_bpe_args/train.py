@@ -7,6 +7,7 @@ import time
 
 #from atext import Batcher
 # Training hyperparameters
+print_iterations = 100
 
 def printSentences(tokens, lang):
     print()
@@ -59,7 +60,7 @@ def printSentences2(tokens, lang, token2, lang2):
     print()
 
 
-def train(learning_rate, model, device, load_model, save_model, german_vocab, english_vocab, train_data, valid_data, test_data, batch_size):
+def train(num_batches, learning_rate, model, device, load_model, save_model, german_vocab, english_vocab, train_data, valid_data, test_data, batch_size):
     num_epochs = 10000
 
     
@@ -88,6 +89,7 @@ def train(learning_rate, model, device, load_model, save_model, german_vocab, en
 
 
     step = 0
+    start_time = time.time()
 
     for epoch in range(num_epochs):
         print(f"[Epoch {epoch} / {num_epochs}]")
@@ -138,9 +140,18 @@ def train(learning_rate, model, device, load_model, save_model, german_vocab, en
             loss = criterion(output, target)
             losses.append(loss.item())
 
-            if batch_idx % 100 == 0:
+            if batch_idx % print_iterations == 0:
                 print(batch_idx, " Loss: ", loss)
                 end_time = time.time()
+                time_taken = end_time - start_time
+
+                if batch_idx>0:
+                    print("Time taken: ", time_taken)
+                    print("Batches required", num_batches)
+
+                    print("Time for one epoch:", (num_batches/print_iterations)* time_taken)
+                start_time = end_time
+
             # Back prop
             loss.backward()
             # Clip to avoid exploding gradient issues, makes sure grads are
