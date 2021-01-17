@@ -1,4 +1,6 @@
 
+Explanation of how LSTM based pointer network works is given in : T006_integrate_words_ptrnet/readme.txt
+
 Understood the transformer architecture
 -
 

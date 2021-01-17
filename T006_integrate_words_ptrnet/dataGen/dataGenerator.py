@@ -6,9 +6,9 @@ f = open("dataGen/words.txt", "r")
 lines = f.read();
 
 words = lines.split('\n')
-print(len(words))
+print("numWords = ", len(words))
 print(words[0:3])
-print(words[-3:-1])
+print(words[-4:-1])
 # exit()
 
 def generateWord(minWordLength = 2, maxWordLength = 4):
@@ -19,15 +19,13 @@ def generateWord(minWordLength = 2, maxWordLength = 4):
         word += random.sample(alphabets, 1)[0]
     return word
 
-# print(generateWord())
-
-def generateWords(n, minLength, maxLength):
+# generates n words, return array of array of the form:
+# [['sidney', 0], ['adidas', 1], ['uplift', 2], ['locals', 3], ['irving', 4],
+def generateWords(n):
     x1 = [];
     for i in range(n):
         index = random.randint(0,len(words)-1)
-
         w = words[index]
-        #w = generateWord(minLength, maxLength) #generate two lettered words
         x1.append(w);
     nList = []
     count = 0
@@ -37,13 +35,19 @@ def generateWords(n, minLength, maxLength):
     return nList
 
 def sortWords(list):
+    # print(list)
     newList = list.copy()
     newList.sort(key=lambda e: e[0])
+    # print(newList)
+    #exit()
     return newList
 
 def prepareInputForPtrNet(origList, sortedList):
     input = [x[0] for x in origList]
     target = [x[1] for x in sortedList]
+    # print(input)
+    # print(target)
+    # exit()
     return input, target
 
 def convertAlphabetsToInts(wordArray):
@@ -70,7 +74,7 @@ def batch(batchSize):
     n = random.randint(2,11);
     for i in range(batchSize):
 
-        origList = generateWords(n, 6, 6)
+        origList = generateWords(n)
         sortedList = sortWords(origList)
         xt, y = prepareInputForPtrNet(origList, sortedList)
         x = convertAlphabetsToInts(xt)

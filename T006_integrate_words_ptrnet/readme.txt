@@ -1,56 +1,30 @@
 
-Prepare input for our Neural Net
-- N lettered words and their sort order
+main.py              -- to run the LSTM based pointer network
+main_datagen_test.py -- to generate dataset, and interpret it. (by converting ints back to words)
 
-- Generate N lettered words
-x1 =['bd','cc','az']
+- All words in words.txt are of length 6 (6 is the number of features - ascii for each alphabet)
+- If we want to sort variable length words alphabetically, we can use a special padding character
+  say &, and assign ascii code one more than z. (so that python sorting function of sortWords()
+  , i.e., (key=lambda e: e[0]), can work properly also.
+- If we use some other embedding, we will automatically get a fixed length embedding for each word,
+  e.g spacy vectors, but probably, those features won't be good for alphabetic sorting.
 
-- Sort words to get sort order
-  > We have sorting logic already
+1. origList = generateWords(n) --- n is the sequence length (different words)
+    # generates n words, return array of array of the form:
+    # origList = [['wallow', 0], ['elnora', 1], ['amount', 2], ['demurs', 3]]
 
-- Convert letters to arrays
-x = [[54, 58], [55, 55], [53, 65]]
-y = [2, 0, 1]
+2. sortWords(origList)
+    # we sort them w.r.t the first value in the array
+    # sortList = [['amount', 2], ['demurs', 3], ['elnora', 1], ['wallow', 0]]
 
-- Convert array to letters BACK
+3. x, y = prepareInputForPtrNet(origList, sortedList)
+    # input = [x[0] for x in origList]
+    # target = [x[1] for x in sortedList]
 
-- done
+4. x, y = batch(N)
+   e.g, returns a batch of N=5 sequences, each seq of length say 8, and each word has 6 features,
+   - dim of x would be torch.Size([5, 8, 6]), and
+   - dim of y would be [5, 8]
 
-- batch support
-    [
-        [[98, 100], [99, 99], [97, 122]],
-        [[98, 100], [99, 99], [97, 122]],
-        [[98, 100], [99, 99], [97, 122]],
-    ]
-
-    [
-        ['bd', 'cc', 'az'],
-        ['bd', 'cc', 'az'],
-        ['bd', 'cc', 'az'],
-
-
-    ]
-    [
-      [2, 0, 1],
-      [2, 0, 1],
-      [2, 0, 1]
-    ]
-
-
-=================================================================
-
-- Append # to words which are of less than length N
-
-
-
-11:25 - 11:40: planning what do want to do today
-  11:32 - 12:00: 1
-  12:00 - 12:30: 2
-  12:30 -  1:00: 3
-12:07: All the above done
-12:30: We have generated a word of length of our choice
-
-1:00  - 1:15: planning if optimization is required or not
-
-
+   - x is of shape (BATCH_SIZE, SEQ_LENGTH, EMBEDDING/FEATURE_SIZE)
 

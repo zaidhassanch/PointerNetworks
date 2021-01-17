@@ -1,5 +1,5 @@
 """
-Generate random data for pointer network
+Generate random data for pointer network test
 """
 import torch
 from torch.utils.data import Dataset

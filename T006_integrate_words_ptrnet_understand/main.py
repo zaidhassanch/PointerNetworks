@@ -111,7 +111,7 @@ device = "cpu"
 embedding_size = 6
 src_pad_idx = 2
 
-ptrNet = Transformer(device, embedding_size, src_pad_idx).to(device)
+ptrNet = Transformer(device, embedding_size, src_pad_idx = src_pad_idx).to(device)
 
 
 # ptrNet = PointerNetwork(config.HIDDEN_SIZE)
