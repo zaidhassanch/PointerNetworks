@@ -72,3 +72,5 @@ Train Bleu score_train 98.65,  38.35
 
 Train Bleu score1 93.62
 Test Bleu score2 41.11
+
+** I currently have to "git push origin HEAD:master" and "git pull origin master" **
