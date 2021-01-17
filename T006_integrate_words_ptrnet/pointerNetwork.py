@@ -28,7 +28,7 @@ import config
 import time
 
 
-BATCH_SIZE = 32
+#BATCH_SIZE = 32
 
 
 class Encoder(nn.Module):
