@@ -21,6 +21,7 @@ def generateWord(minWordLength = 2, maxWordLength = 4):
 
 # generates n words, return array of array of the form:
 # [['sidney', 0], ['adidas', 1], ['uplift', 2], ['locals', 3], ['irving', 4],
+# see explanation in readme.txt
 def generateWords(n):
     x1 = [];
     for i in range(n):
@@ -34,20 +35,16 @@ def generateWords(n):
         count += 1
     return nList
 
+# see explanation in readme.txt
 def sortWords(list):
-    # print(list)
     newList = list.copy()
     newList.sort(key=lambda e: e[0])
-    # print(newList)
-    #exit()
     return newList
 
+# see explanation in readme.txt
 def prepareInputForPtrNet(origList, sortedList):
     input = [x[0] for x in origList]
     target = [x[1] for x in sortedList]
-    # print(input)
-    # print(target)
-    # exit()
     return input, target
 
 def convertAlphabetsToInts(wordArray):
@@ -71,7 +68,8 @@ def convertIntsToAlphabets(intArray):
 def batch(batchSize):
     xx = [];
     yy = [];
-    n = random.randint(2,11);
+    #n = random.randint(2,11);
+    n = 8
     for i in range(batchSize):
 
         origList = generateWords(n)

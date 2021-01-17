@@ -121,21 +121,13 @@ class PointerNetwork(nn.Module):
     self.decoder = decoder
 
   def forward(self, 
-              x: torch.Tensor, 
-              y: torch.Tensor, 
+              x, # x: (BATCH_SIZE, ARRAY_LEN, NUM_FEATURES/EMBED_SIZE)
+              y, # y: (BATCH_SIZE, ARRAY_LEN)
               teacher_force_ratio=.5):
-    # x: (BATCH_SIZE, ARRAY_LEN)
-    # y: (BATCH_SIZE, ARRAY_LEN)
-
-    # Array elements as features
-    # encoder_in: (BATCH, ARRAY_LEN, 1)
-    #encoder_in = x.unsqueeze(-1).type(torch.float)
-
-    encoder_in = x.type(torch.float)
 
     # out: (BATCH, ARRAY_LEN, HIDDEN_SIZE)
     # hs: tuple of (NUM_LAYERS, BATCH, HIDDEN_SIZE)
-    out, hs = self.encoder(encoder_in)
+    out, hs = self.encoder(x)
 
     # Accum loss throughout timesteps
     loss = 0
