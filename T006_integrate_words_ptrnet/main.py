@@ -2,8 +2,10 @@
 from dataGen.dataGenerator import batch, convertToWordSingle
 import config
 import time
-from pointerNetwork import PointerNetwork
+from pointerNetworkTrans import PointerNetwork
 import torch
+
+
 
 BATCH_SIZE = 32
 EPOCHS = 50

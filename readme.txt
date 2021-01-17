@@ -1,3 +1,17 @@
+- can use simple attention and some linear layer
+- copy TransformerEncoderlayer and simplify it
+
+- Understand and Train BPE
+- Try to understand Adversarial screenshot
+- Try pointer generator network
+- Draw the network diagram for LSTM based pointer network
+  > try to write down the dimensions
+  > study (ho, co), ...
+- Study the attention layer, why it is working ------ IMPORT
+- How to integrate Transformer decoder
+
+- why simple linear layers don't work.
+
 
 Explanation of how LSTM based pointer network works is given in : T006_integrate_words_ptrnet/readme.txt
 
