@@ -26,7 +26,7 @@ import torch.nn.functional as F
 #from data import  batch
 import config
 import time
-
+from multiheadattn import MultiheadAttentionZ
 
 #BATCH_SIZE = 32
 
@@ -126,6 +126,7 @@ class PointerNetwork(nn.Module):
       2,
       4
     )
+    self.multiattn = MultiheadAttentionZ(config.NUM_FEATURES, 2)
     # exit()
 
   def forward(self, 
@@ -136,6 +137,12 @@ class PointerNetwork(nn.Module):
     # out: (BATCH, ARRAY_LEN, HIDDEN_SIZE)
     # hs: tuple of (NUM_LAYERS, BATCH, HIDDEN_SIZE)
     out, _ = self.encoder(x)
+
+    # x1 = x.permute(1,0,2)
+    # out, _ = self.multiattn(x1, x1, x1)
+    # out = out.permute(1, 0, 2)
+    # out = self.linear1(out)
+
     # out = self.linear1(x)
     # out = self.transformerEncoder(out)
 

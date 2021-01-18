@@ -68,7 +68,7 @@ def convertIntsToAlphabets(intArray):
 def batch(batchSize):
     xx = [];
     yy = [];
-    #n = random.randint(2,11);
+    n = random.randint(2,11);
     n = 8
     for i in range(batchSize):
 

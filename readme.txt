@@ -1,5 +1,8 @@
-- can use simple attention and some linear layer
-- copy TransformerEncoderlayer and simplify it
+- can use simple attention and some linear layer -- implemented successfully, but didn't work
+- copy TransformerEncoderlayer and simplify it   -- didnt't feel like
+===================
+- apparently, our tranformer T006_understand works -- figure out how we made it work. Extend to word ordering.
+===================
 
 - Understand and Train BPE
 - Try to understand Adversarial screenshot
