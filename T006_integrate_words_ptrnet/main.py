@@ -2,7 +2,7 @@
 from dataGen.dataGenerator import batch, convertToWordSingle
 import config
 import time
-from pointerNetworkTrans import PointerNetwork
+from pointerNetwork import PointerNetwork
 import torch
 
 
