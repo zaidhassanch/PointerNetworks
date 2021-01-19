@@ -8,6 +8,8 @@ import time
 from pointerNetwork import PointerNetwork
 import torch
 import torch.nn as nn
+torch.manual_seed(0)
+
 
 BATCH_SIZE = 32
 # STEPS_PER_EPOCH = 500
@@ -32,10 +34,8 @@ def train(pNet, optimizer, epoch, clip=1.):
     output = output.reshape(-1, output.shape[2])
     target = y.reshape(-1)
 
-    print(target, best_guess)
+    # print(target, best_guess, best_guess-target)
 
-
-    optimizer.zero_grad()
 
     loss = criterion(output, target)
 
@@ -46,22 +46,22 @@ def train(pNet, optimizer, epoch, clip=1.):
 
     if (step + 1) % 100 == 0:
       print('Epoch [{}] loss: {}'.format(epoch, loss.item()))
-
-def evaluateSort(model, epoch):
-  """Evaluate after a train epoch"""
-  print('Epoch [{}] -- Evaluate'.format(epoch))
-  x_val, y_val = batch(4)
-  
-  out, _ = model(x_val, y_val, teacher_force_ratio=0.)
-  out = out.permute(1, 0)
-  sumVal = x_val.sum(dim=2)
-  for i in range(out.size(0)):
-    print('{} --> {} --> {} --> {}'.format(
-      sumVal[i],
-      sumVal[i].gather(0, out[i]),
-      sumVal[i].gather(0, y_val[i]),
-      sumVal[i].gather(0, y_val[i]) - sumVal[i].gather(0, out[i])
-    ))
+#
+# def evaluateSort(model, epoch):
+#   """Evaluate after a train epoch"""
+#   print('Epoch [{}] -- Evaluate'.format(epoch))
+#   x_val, y_val = batch(4)
+#
+#   out, _ = model(x_val, y_val, teacher_force_ratio=0.)
+#   out = out.permute(1, 0)
+#   sumVal = x_val.sum(dim=2)
+#   for i in range(out.size(0)):
+#     print('{} --> {} --> {} --> {}'.format(
+#       sumVal[i],
+#       sumVal[i].gather(0, out[i]),
+#       sumVal[i].gather(0, y_val[i]),
+#       sumVal[i].gather(0, y_val[i]) - sumVal[i].gather(0, out[i])
+#     ))
 
 
 def evaluateWordSort(model, epoch):
@@ -74,8 +74,8 @@ def evaluateWordSort(model, epoch):
 
   sentence_tensor = x_val
 
-  #outputs = [30]
-  outputs = list(y_val[0].numpy())
+  outputs = [30]
+  # outputs = list(y_val[0][0].numpy())
 
   for i in range(trg_seq_len):
     trg_tensor = torch.LongTensor(outputs).unsqueeze(1).to(device)

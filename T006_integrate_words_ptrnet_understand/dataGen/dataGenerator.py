@@ -29,6 +29,15 @@ def generateWords(n, minLength, maxLength):
         w = words[index]
         #w = generateWord(minLength, maxLength) #generate two lettered words
         x1.append(w);
+    x2 = [
+        'behead',
+        'chests',
+        'worsen',
+        'wusses',
+        'youths',
+        'zanies',
+        'detail',
+        'femurs']
     nList = []
     count = 0
     for word in x1:

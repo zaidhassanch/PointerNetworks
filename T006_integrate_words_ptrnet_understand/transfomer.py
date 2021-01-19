@@ -84,7 +84,8 @@ class Transformer(nn.Module):
         #::: trg (9x1x512), trg_word_embedding (9x1x512), trg_positions (9x1x512), embed_trg (9x1x512)
         trg_positions = self.trg_position_embedding(trg)
         trg_positions_reshaped = trg_positions.permute(1, 0, 2)
-        embed_trg = self.dropout(trg_positions_reshaped)
+        embed_trg = trg_positions_reshaped
+        #    #self.dropout(trg_positions_reshaped)
 
         #::: src_padding_mask (1x17) [True, False, False,..... False]
         #src_padding_mask = self.make_src_mask(src)

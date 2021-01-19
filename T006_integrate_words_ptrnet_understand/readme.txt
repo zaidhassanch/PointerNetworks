@@ -1,3 +1,8 @@
+Epoch [1] loss: 0.5859552025794983
+Epoch [1] loss: 0.029461374506354332
+Epoch [1] loss: 0.008194823749363422
+Epoch [1] loss: 0.003212432377040386
+Epoch [1] loss: 0.00209496496245265
 
 Prepare input for our Neural Net
 - N lettered words and their sort order
