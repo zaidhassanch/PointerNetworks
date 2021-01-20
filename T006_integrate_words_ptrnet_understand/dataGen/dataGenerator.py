@@ -29,7 +29,7 @@ def generateWords(n, minLength, maxLength):
         w = words[index]
         #w = generateWord(minLength, maxLength) #generate two lettered words
         x1.append(w);
-    x2 = [
+    x1 = [
         'behead',
         'chests',
         'worsen',

@@ -24,7 +24,7 @@ class Transformer(nn.Module):
         src_pad_idx,
         num_heads = 1,
         num_encoder_layers = 1,
-        num_decoder_layers = 5,
+        num_decoder_layers = 1,
         forward_expansion = 1024,
         dropout = 0.10,
         max_len = 31,
