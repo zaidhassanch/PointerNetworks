@@ -90,6 +90,9 @@ def train(model, device, load_model, save_model, german, english, train_data, va
             # print(trg.shape)
             output = model(inp_data, trg)
 
+            # best_guess1 = output.argmax(2)
+            # best_guess = best_guess1[-1, :].item()
+
             # Output is of shape (trg_len, batch_size, output_dim) but Cross Entropy Loss
             # doesn't take input in that form. For example if we have MNIST we want to have
             # output to be: (N, 10) and targets just (N). Here we can view it in a similar
@@ -98,6 +101,7 @@ def train(model, device, load_model, save_model, german, english, train_data, va
             # Let's also remove the start token while we're at it
             output = output.reshape(-1, output.shape[2])
             target = target[1:].reshape(-1)
+
 
             optimizer.zero_grad()
 

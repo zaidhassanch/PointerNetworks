@@ -1,3 +1,11 @@
+
+- Show modified arch for Ankit's integration
+- Cleaned code so that Ankit can integrate
+- Tried to train, even reduced the dataset, but trainings give zero blue score on test set.
+- Currently, trying to make a pointer network using transformer.
+
+
+==================================
 - can use simple attention and some linear layer -- implemented successfully, but didn't work
 - copy TransformerEncoderlayer and simplify it   -- didnt't feel like
 ===================

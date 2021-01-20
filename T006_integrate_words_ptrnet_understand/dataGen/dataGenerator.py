@@ -90,9 +90,12 @@ def batch(batchSize):
         y.insert(0, 30);
         xx.append(x)
         yy.append(y)
+
     xx = torch.FloatTensor(xx)
     yy = torch.LongTensor(yy)
 
+    xx = xx.permute(1, 0, 2)
+    yy = yy.permute(1, 0)
 
     return xx, yy
 

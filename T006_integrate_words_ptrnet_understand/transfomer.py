@@ -23,9 +23,9 @@ class Transformer(nn.Module):
         embedding_size,
         src_pad_idx,
         num_heads = 1,
-        num_encoder_layers = 3,
-        num_decoder_layers = 3,
-        forward_expansion = 4,
+        num_encoder_layers = 1,
+        num_decoder_layers = 5,
+        forward_expansion = 1024,
         dropout = 0.10,
         max_len = 31,
     ):
@@ -65,7 +65,7 @@ class Transformer(nn.Module):
         # src_seq_length, N = src.shape  #::: 17
         # trg_seq_length, N = trg.shape  #::: 9
         src = self.fc_src(src)
-        N, trg_seq_length = trg.shape
+        trg_seq_length, N = trg.shape
         #::: src (17x1)
         #::: trg (1x1, 2x1, ... 9x1, ...).. till end of sentence
 
@@ -78,14 +78,14 @@ class Transformer(nn.Module):
         # src_embed_word = self.src_word_embedding(src)
         # src_embed_pos = self.src_position_embedding(src_positions)
         # embed_src = self.dropout(src_embed_word + src_embed_pos)
-        embed_src = src.permute(1, 0, 2)
+        embed_src = src #.permute(1, 0, 2)
         # embed_src = self.dropout(src_reshaped)
 
         #::: trg (9x1x512), trg_word_embedding (9x1x512), trg_positions (9x1x512), embed_trg (9x1x512)
         trg_positions = self.trg_position_embedding(trg)
-        trg_positions_reshaped = trg_positions.permute(1, 0, 2)
+        trg_positions_reshaped = trg_positions #.permute(1, 0, 2)
         embed_trg = trg_positions_reshaped
-        #    #self.dropout(trg_positions_reshaped)
+        # embed_trg = self.dropout(trg_positions_reshaped)
 
         #::: src_padding_mask (1x17) [True, False, False,..... False]
         #src_padding_mask = self.make_src_mask(src)
