@@ -1,4 +1,6 @@
 
+- Understand BucketIterator and Dataloader difference.
+
 - Show modified arch for Ankit's integration
 - Cleaned code so that Ankit can integrate
 - Tried to train, even reduced the dataset, but trainings give zero blue score on test set.
@@ -22,10 +24,7 @@
 - How to integrate Transformer decoder
 
 - why simple linear layers don't work.
-
-
 Explanation of how LSTM based pointer network works is given in : T006_integrate_words_ptrnet/readme.txt
-
 Understood the transformer architecture
 -
 
