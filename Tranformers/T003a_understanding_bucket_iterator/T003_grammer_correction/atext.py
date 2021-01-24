@@ -6,15 +6,11 @@ import io
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
 
-train_filepaths = ['.data/train.de', '.data/train.en']
-val_filepaths = ['.data/val.de', '.data/val.en']
-test_filepaths = ['.data/test_2016_flickr.de', '.data/test_2016_flickr.en']
-
 def build_vocab(filepath, tokenizer):
   counter = Counter()
   with io.open(filepath, encoding="utf8") as f:
     for string_ in f:
-      # counter.update(tokenizer(string_))
+      string_ = string_.rstrip()
       counter.update(tokenizer(string_.lower()))
 
   vocab = Vocab(counter, specials=['<unk>', '<pad>', '<sos>', '<eos>'], max_size=40000, min_freq=2);
@@ -27,19 +23,18 @@ def data_process(ger_path, eng_path, ger_voc, eng_voc, ger_tok, eng_tok):
   raw_en_iter = iter(io.open(eng_path, encoding="utf8"))
   data = []
   for (raw_de, raw_en) in zip(raw_de_iter, raw_en_iter):
-    raw_en  = raw_en.lower()
-    raw_de = raw_de.lower()
+    raw_en  = raw_en.lower().rstrip()
+    raw_de = raw_de.lower().rstrip()
     de_tensor_ = torch.tensor([ger_voc[token] for token in ger_tok(raw_de)],
                             dtype=torch.long)
-    # print(raw_en)
+
     en_tensor_ = torch.tensor([eng_voc[token] for token in eng_tok(raw_en)],
                             dtype=torch.long)
-
 
     # tokens = [token.lower() for token in eng_tok(raw_en)]
     # print(tokens)
     #
-    # text_to_indices = [eng_voc.stoi[token] for token in tokens]
+    # text_to_indices = [eng_voc[token] for token in tokens]
     # translated_sentence = [eng_voc.itos[idx] for idx in text_to_indices]
     # print(raw_en)
     # print(text_to_indices)
@@ -47,17 +42,6 @@ def data_process(ger_path, eng_path, ger_voc, eng_voc, ger_tok, eng_tok):
     # exit()
     data.append((de_tensor_, en_tensor_))
   return data
-
-# def getData3(ger_tok, eng_tok):
-
-#   ger_voc = build_vocab('.data/train.de', ger_tok) #vocab from training data
-#   eng_voc = build_vocab('.data/train.en', eng_tok) #vocab from training data
-
-#   train_data = data_process('.data/train.de', '.data/train.en', ger_voc, eng_voc, ger_tok, eng_tok)
-#   val_data = data_process('.data/val.de', '.data/val.en', ger_voc, eng_voc, ger_tok, eng_tok)
-#   test_data = data_process('.data/test_2016_flickr.de', '.data/test_2016_flickr.en', ger_voc, eng_voc, ger_tok, eng_tok)
-
-#   return ger_voc, eng_voc, train_data, val_data, test_data
 
 def getData2(ger_tok, eng_tok):
 
@@ -76,9 +60,6 @@ def getData2(ger_tok, eng_tok):
   return ger_voc, eng_voc, train_data, val_data, test_data
 
 def generate_batch(data_batch):
-  # PAD_IDX = german_vocab['<pad>']
-  # SOS_IDX = german_vocab['<sos>']
-  # EOS_IDX = german_vocab['<eos>']
   PAD_IDX = 1 #german_vocab['<pad>']
   SOS_IDX = 2 #german_vocab['<sos>']
   EOS_IDX = 3 #german_vocab['<eos>']
@@ -91,8 +72,8 @@ def generate_batch(data_batch):
   en_batch = pad_sequence(en_batch, padding_value=PAD_IDX)
   return de_batch, en_batch
 
-g_tok = get_tokenizer('spacy', language='de')
-e_tok = get_tokenizer('spacy', language='en')
+# g_tok = get_tokenizer('spacy', language='de')
+# e_tok = get_tokenizer('spacy', language='en')
 # german_vocab, english_vocab, train_data, val_data, test_data = getData2(g_tok, e_tok)
 
 
