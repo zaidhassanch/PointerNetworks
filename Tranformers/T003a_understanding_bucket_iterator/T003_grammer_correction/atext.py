@@ -1,5 +1,4 @@
 import torch
-from torchtext.data.utils import get_tokenizer
 from collections import Counter
 from torchtext.vocab import Vocab
 import io
@@ -23,7 +22,7 @@ def data_process(ger_path, eng_path, ger_voc, eng_voc, ger_tok, eng_tok):
   raw_en_iter = iter(io.open(eng_path, encoding="utf8"))
   data = []
   for (raw_de, raw_en) in zip(raw_de_iter, raw_en_iter):
-    raw_en  = raw_en.lower().rstrip()
+    raw_en = raw_en.lower().rstrip()
     raw_de = raw_de.lower().rstrip()
     de_tensor_ = torch.tensor([ger_voc[token] for token in ger_tok(raw_de)],
                             dtype=torch.long)
@@ -71,10 +70,6 @@ def generate_batch(data_batch):
   de_batch = pad_sequence(de_batch, padding_value=PAD_IDX)
   en_batch = pad_sequence(en_batch, padding_value=PAD_IDX)
   return de_batch, en_batch
-
-# g_tok = get_tokenizer('spacy', language='de')
-# e_tok = get_tokenizer('spacy', language='en')
-# german_vocab, english_vocab, train_data, val_data, test_data = getData2(g_tok, e_tok)
 
 
 def Batcher(train_data, val_data, test_data):
