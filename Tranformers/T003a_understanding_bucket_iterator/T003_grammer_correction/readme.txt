@@ -1,12 +1,5 @@
-train_data  29001
-valid_data  1015
-test_data  1000
-src vocabulary size:  7855
-trg vocabulary size:  5895
-
 spacy provides tokenizers,
 Tokenizers process input files to generate vocabulary
-
 
 ALPHA) build_vocab
     - returns vocab
@@ -24,7 +17,8 @@ ALPHA) build_vocab
             - # stoi is simply a reverse dict for itos
 
         2) self.itos.append(word)
-            - In Vocab """# sort by frequency, then alphabetically""" should be """# sort alphabetically, then by frequency"""
+            - In Vocab """# sort by frequency, then alphabetically""" should
+               be """# sort alphabetically, then by frequency"""
             - after sorting by frequency the words are simply appended
 
         3) stoi is simply a reverse dict for itos
@@ -40,10 +34,6 @@ BETA) data_process
 GAMMA) DataLoader magically takes a list of tuples to make things right
         - DataLoader(train_data, batch_size=BATCH_SIZE,
                           shuffle=True, collate_fn=generate_batch)
-
-
-
-
 
 
 Two young, White males are outside near many bushes.
