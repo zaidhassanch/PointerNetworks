@@ -183,3 +183,30 @@ The model has 43,701,168 trainable parameters
 Epoch: 52 | Time: 1m 31s
 	Train Loss: 0.567 | Train PPL:   1.764
 	 Val. Loss: 2.340 | Val. PPL:  10.382
+The model has 43,701,168 trainable parameters
+Epoch: 52 | Time: 1m 31s
+	Train Loss: 0.580 | Train PPL:   1.787
+	 Val. Loss: 2.361 | Val. PPL:  10.599
+The model has 43,701,168 trainable parameters
+Epoch: 52 | Time: 1m 34s
+	Train Loss: 0.581 | Train PPL:   1.787
+	 Val. Loss: 2.326 | Val. PPL:  10.235
+The model has 43,701,168 trainable parameters
+Epoch: 52 | Time: 1m 33s
+	Train Loss: 0.583 | Train PPL:   1.791
+	 Val. Loss: 2.328 | Val. PPL:  10.256
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+Epoch: 52 | Time: 1m 33s
+	Train Loss: 0.573 | Train PPL:   1.774
+	 Val. Loss: 2.340 | Val. PPL:  10.382
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+Epoch: 52 | Time: 1m 34s
+	Train Loss: 0.584 | Train PPL:   1.793
+	 Val. Loss: 2.380 | Val. PPL:  10.801
+The model has 43,701,168 trainable parameters

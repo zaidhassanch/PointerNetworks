@@ -14,7 +14,7 @@ import math
 import time
 import pickle
 from torchtext.data.metrics import bleu_score
-from s2s import *
+from s2s import Seq2Seq
 from torch.autograd import Variable
 import random
 from tqdm import tqdm
@@ -431,7 +431,7 @@ def train(model, iterator, optimizer, criterion, clip):
 		optimizer.zero_grad()
 		#(self, src, src_len, trg, trg_len, teacher_forcing_ratio = 0.50)
 		#outputS, contentS, bowS
-		outputS = model(src, src_len, trg, trg_len)
+		outputS = model(src, trg)
 		#print()
 		#trg = [trg len, batch size]
 		#output = [trg len, batch size, output dim]
@@ -484,14 +484,7 @@ def epoch_time(start_time, end_time):
 if __name__ == '__main__':
 	mType = sys.argv[1]#train/test
 	SEED = 1234
-	#HERE
 	BATCH_SIZE = 30
-	ENC_EMB_DIM = 300
-	DEC_EMB_DIM = 300
-	ENC_HID_DIM = 512
-	DEC_HID_DIM = 512
-	ENC_DROPOUT = 0.2
-	DEC_DROPOUT = 0.2
 	CL_DROPOUT = 0.2
 	N_EPOCHS = 51
 	CLIP = 1
@@ -525,13 +518,11 @@ if __name__ == '__main__':
 	SRC_PAD_IDX = sp_gec.pad_id()
 	#attn = Attention(ENC_HID_DIM, DEC_HID_DIM)
 	#(self, input_dim, emb_dim, enc_hid_dim, dec_hid_dim, dropout)
-	enc = Encoder(INPUT_DIM, ENC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, ENC_DROPOUT)
-	#(self, output_dim, emb_dim, dec_hid_dim, dropout)
-	dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, DEC_HID_DIM, DEC_DROPOUT)
+
 	#(self, inDim, vocab, dropout)
 	#classif = classifierNet(int(ENC_HID_DIM/2), clVocab, CL_DROPOUT)
 	#self, encoder, decoder, classifier, src_pad_idx, input_dim, emb_dim, device
-	model = Seq2Seq(enc, dec, SRC_PAD_IDX, INPUT_DIM, DEC_EMB_DIM, device).to(device)
+	model = Seq2Seq(SRC_PAD_IDX, INPUT_DIM, device).to(device)
 	best_valid_loss = float('inf')
 	model.apply(init_weights)
 	optimizer = optim.Adam(model.parameters(), lr = LR)
