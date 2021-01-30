@@ -79,7 +79,7 @@ class Transformer(nn.Module):
         )
         return positions
 
-    def forward(self, src, trg):
+    def forward(self, src, trg, dummy_teacher_force = 0.0):
         src_seq_length, N = src.shape  #::: 17x 1 >> 17x32
         trg_seq_length, N = trg.shape  #::: 1,2,..9,.. >> 21x32
         #::: src (17x32)

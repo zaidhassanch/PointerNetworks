@@ -48,3 +48,11 @@ Two young, White males are outside near many bushes.
     ['several', 'men', 'in', 'hard', 'hats', 'are', 'operating', 'a', 'giant', 'pulley', 'system', '.']
 >>  ['ein', 'kleines', 'mädchen', 'klettert', 'in', 'ein', 'spielhaus', 'aus', 'holz', '.']
     ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
+
+================================================================
+- were able to switch to seq2seq from transformer in one hour
+    - fix the <unk> issue in Seq2Seq
+
+- fix blue score issue in our code for dataloader
+- Re-discuss parallelism in Transformers.
+  > seq2seq is faily fast now.

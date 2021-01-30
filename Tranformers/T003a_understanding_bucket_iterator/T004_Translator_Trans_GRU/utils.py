@@ -35,7 +35,7 @@ def translate_sentence(model, sentence, german_vocab, english_vocab, device, max
         trg_tensor = torch.LongTensor(outputs).unsqueeze(1).to(device)
 
         with torch.no_grad():
-            output = model(sentence_tensor, trg_tensor)
+            output = model(sentence_tensor, trg_tensor, 0.0)
 
         best_guess1 = output.argmax(2)
         best_guess =  best_guess1[-1, :].item()
@@ -50,13 +50,23 @@ def translate_sentence(model, sentence, german_vocab, english_vocab, device, max
     return translated_sentence[1:]
 
 
-def bleu(data, model, german, english, device):
+def bleu(data, model, german, english, device, LOAD_NEW_METHOD):
     targets = []
     outputs = []
 
     for example in data:
-        src = vars(example)["src"]
-        trg = vars(example)["trg"]
+        # src = vars(example)["src"]
+        # trg = vars(example)["trg"]
+
+        if LOAD_NEW_METHOD:
+            src = example[0]
+            trg = example[1]
+            src = [german.itos[idx] for idx in src]
+            trg = [english.itos[idx] for idx in trg]
+        else:
+            src = example.src
+            trg = example.trg
+
 
         prediction = translate_sentence(model, src, german, english, device)
         prediction = prediction[:-1]  # remove <eos> token

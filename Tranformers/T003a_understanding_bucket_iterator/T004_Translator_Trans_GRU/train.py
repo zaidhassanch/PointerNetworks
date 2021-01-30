@@ -80,15 +80,15 @@ def train(model, device, load_model, save_model,
         print(f"Translated example sentence: \n {translated_sentence}")
         # exit()
 
-        if LOAD_NEW_METHOD == False:
+        #if LOAD_NEW_METHOD == False:
         # running on entire test data takes a while
-            print("here1")
-            score = bleu(train_data[1:10], model, german_vocab, english_vocab, device)
-            print(f"Train Bleu score {score * 100:.2f}")
-            #
-            print("here2")
-            score = bleu(test_data[1:10], model, german_vocab, english_vocab, device)
-            print(f"Test Bleu score {score * 100:.2f}")
+        print("here1")
+        score = bleu(train_data[1:10], model, german_vocab, english_vocab, device, LOAD_NEW_METHOD)
+        print(f"Train Bleu score {score * 100:.2f}")
+        #
+        print("here2")
+        score = bleu(test_data[1:10], model, german_vocab, english_vocab, device, LOAD_NEW_METHOD)
+        print(f"Test Bleu score {score * 100:.2f}")
 
         model.train()
         losses = []
@@ -135,6 +135,8 @@ def train(model, device, load_model, save_model,
             # plot to tensorboard
             # writer.add_scalar("Training loss", loss, global_step=step)
             step += 1
+            if batch_idx%100 == 0:
+                print("batch " +str(batch_idx))
         t2 = time.time()
         print("epoch time = ", t2 - t1)
         mean_loss = sum(losses) / len(losses)

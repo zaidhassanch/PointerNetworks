@@ -66,24 +66,23 @@ class classifierNet(nn.Module):
 		return x
 
 class Seq2Seq(nn.Module):
-	def __init__(self, src_pad_idx, src_vocab_size, trg_vocab_size, device):
+	def __init__(self, src_pad_idx, input_dim, device):
 		super().__init__()
 		ENC_EMB_DIM = 300;	DEC_EMB_DIM = 300
 		ENC_HID_DIM = 512;  DEC_HID_DIM = 512
 		ENC_DROPOUT = 0.2;  DEC_DROPOUT = 0.2
 
-		self.encoder = Encoder(src_vocab_size, ENC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, ENC_DROPOUT)
-		self.decoder = Decoder(trg_vocab_size, DEC_EMB_DIM, DEC_HID_DIM, DEC_DROPOUT)
+		self.encoder = Encoder(input_dim, ENC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, ENC_DROPOUT)
+		self.decoder = Decoder(input_dim, DEC_EMB_DIM, DEC_HID_DIM, DEC_DROPOUT)
 		self.src_pad_idx = src_pad_idx
 		self.device = device
-		self.input_dim = src_vocab_size
-		self.output_dim = trg_vocab_size
+		self.input_dim = input_dim
 
 	def forward(self, src, trg, teacher_forcing_ratio = 0.50):
 
 		trg_len = trg.shape[0]
 		batch_size = src.shape[1]
-		trg_vocab_size = self.output_dim
+		trg_vocab_size = self.input_dim
 		outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
 		syntax, content = self.encoder(src)
 		enc_hidden = torch.cat((syntax, content), dim = 1)
