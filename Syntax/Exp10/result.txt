@@ -1,0 +1,185 @@
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+Epoch: 01 | Time: 1m 32s
+	Train Loss: 5.232 | Train PPL: 187.087
+	 Val. Loss: 4.975 | Val. PPL: 144.811
+Epoch: 02 | Time: 1m 32s
+	Train Loss: 4.823 | Train PPL: 124.347
+	 Val. Loss: 4.686 | Val. PPL: 108.450
+Epoch: 03 | Time: 1m 32s
+	Train Loss: 4.412 | Train PPL:  82.402
+	 Val. Loss: 4.421 | Val. PPL:  83.196
+Epoch: 04 | Time: 1m 33s
+	Train Loss: 4.037 | Train PPL:  56.664
+	 Val. Loss: 4.290 | Val. PPL:  72.965
+Epoch: 05 | Time: 1m 31s
+	Train Loss: 3.697 | Train PPL:  40.323
+	 Val. Loss: 3.849 | Val. PPL:  46.955
+Epoch: 06 | Time: 1m 30s
+	Train Loss: 3.422 | Train PPL:  30.622
+	 Val. Loss: 3.654 | Val. PPL:  38.626
+Epoch: 07 | Time: 1m 32s
+	Train Loss: 3.184 | Train PPL:  24.135
+	 Val. Loss: 3.494 | Val. PPL:  32.924
+Epoch: 08 | Time: 1m 31s
+	Train Loss: 2.972 | Train PPL:  19.536
+	 Val. Loss: 3.400 | Val. PPL:  29.973
+Epoch: 09 | Time: 1m 32s
+	Train Loss: 2.739 | Train PPL:  15.470
+	 Val. Loss: 3.240 | Val. PPL:  25.536
+Epoch: 10 | Time: 1m 32s
+	Train Loss: 2.560 | Train PPL:  12.941
+	 Val. Loss: 3.102 | Val. PPL:  22.253
+Epoch: 11 | Time: 1m 31s
+	Train Loss: 2.421 | Train PPL:  11.256
+	 Val. Loss: 3.312 | Val. PPL:  27.438
+Epoch: 12 | Time: 1m 33s
+	Train Loss: 2.268 | Train PPL:   9.663
+	 Val. Loss: 2.938 | Val. PPL:  18.878
+Epoch: 13 | Time: 1m 32s
+	Train Loss: 2.122 | Train PPL:   8.349
+	 Val. Loss: 2.875 | Val. PPL:  17.728
+Epoch: 14 | Time: 1m 32s
+	Train Loss: 2.007 | Train PPL:   7.440
+	 Val. Loss: 2.924 | Val. PPL:  18.617
+Epoch: 15 | Time: 1m 31s
+	Train Loss: 1.902 | Train PPL:   6.698
+	 Val. Loss: 2.740 | Val. PPL:  15.489
+Epoch: 16 | Time: 1m 31s
+	Train Loss: 1.803 | Train PPL:   6.071
+	 Val. Loss: 2.672 | Val. PPL:  14.475
+Epoch: 17 | Time: 1m 32s
+	Train Loss: 1.712 | Train PPL:   5.541
+	 Val. Loss: 2.641 | Val. PPL:  14.021
+Epoch: 18 | Time: 1m 31s
+	Train Loss: 1.622 | Train PPL:   5.064
+	 Val. Loss: 3.326 | Val. PPL:  27.823
+Epoch: 19 | Time: 1m 32s
+	Train Loss: 1.556 | Train PPL:   4.742
+	 Val. Loss: 2.820 | Val. PPL:  16.772
+Epoch: 20 | Time: 1m 31s
+	Train Loss: 1.493 | Train PPL:   4.450
+	 Val. Loss: 2.517 | Val. PPL:  12.386
+Epoch: 21 | Time: 1m 31s
+	Train Loss: 1.423 | Train PPL:   4.148
+	 Val. Loss: 2.573 | Val. PPL:  13.107
+Epoch: 22 | Time: 1m 31s
+	Train Loss: 1.362 | Train PPL:   3.904
+	 Val. Loss: 2.470 | Val. PPL:  11.820
+Epoch: 23 | Time: 1m 31s
+	Train Loss: 1.308 | Train PPL:   3.698
+	 Val. Loss: 2.507 | Val. PPL:  12.269
+Epoch: 24 | Time: 1m 32s
+	Train Loss: 1.255 | Train PPL:   3.508
+	 Val. Loss: 2.454 | Val. PPL:  11.633
+Epoch: 25 | Time: 1m 31s
+	Train Loss: 1.205 | Train PPL:   3.336
+	 Val. Loss: 2.539 | Val. PPL:  12.667
+Epoch: 26 | Time: 1m 32s
+	Train Loss: 1.156 | Train PPL:   3.176
+	 Val. Loss: 2.501 | Val. PPL:  12.195
+Epoch: 27 | Time: 1m 31s
+	Train Loss: 1.122 | Train PPL:   3.070
+	 Val. Loss: 2.425 | Val. PPL:  11.304
+Epoch: 28 | Time: 1m 33s
+	Train Loss: 1.086 | Train PPL:   2.962
+	 Val. Loss: 2.427 | Val. PPL:  11.324
+Epoch: 29 | Time: 1m 32s
+	Train Loss: 1.039 | Train PPL:   2.827
+	 Val. Loss: 2.399 | Val. PPL:  11.009
+Epoch: 30 | Time: 1m 31s
+	Train Loss: 1.003 | Train PPL:   2.726
+	 Val. Loss: 2.393 | Val. PPL:  10.950
+Epoch: 31 | Time: 1m 32s
+	Train Loss: 0.966 | Train PPL:   2.628
+	 Val. Loss: 2.482 | Val. PPL:  11.960
+Epoch: 32 | Time: 1m 32s
+	Train Loss: 0.951 | Train PPL:   2.589
+	 Val. Loss: 2.364 | Val. PPL:  10.632
+Epoch: 33 | Time: 1m 33s
+	Train Loss: 0.925 | Train PPL:   2.523
+	 Val. Loss: 2.354 | Val. PPL:  10.531
+Epoch: 34 | Time: 1m 32s
+	Train Loss: 0.879 | Train PPL:   2.407
+	 Val. Loss: 2.375 | Val. PPL:  10.755
+Epoch: 35 | Time: 1m 32s
+	Train Loss: 0.853 | Train PPL:   2.347
+	 Val. Loss: 2.379 | Val. PPL:  10.795
+Epoch: 36 | Time: 1m 32s
+	Train Loss: 0.824 | Train PPL:   2.279
+	 Val. Loss: 2.432 | Val. PPL:  11.378
+Epoch: 37 | Time: 1m 33s
+	Train Loss: 0.806 | Train PPL:   2.238
+	 Val. Loss: 2.773 | Val. PPL:  16.006
+Epoch: 38 | Time: 1m 32s
+	Train Loss: 0.785 | Train PPL:   2.192
+	 Val. Loss: 2.476 | Val. PPL:  11.893
+Epoch: 39 | Time: 1m 32s
+	Train Loss: 0.755 | Train PPL:   2.128
+	 Val. Loss: 2.424 | Val. PPL:  11.294
+Epoch: 40 | Time: 1m 32s
+	Train Loss: 0.741 | Train PPL:   2.098
+	 Val. Loss: 2.398 | Val. PPL:  11.005
+Epoch: 41 | Time: 1m 32s
+	Train Loss: 0.723 | Train PPL:   2.060
+	 Val. Loss: 2.669 | Val. PPL:  14.430
+Epoch: 42 | Time: 1m 32s
+	Train Loss: 0.702 | Train PPL:   2.019
+	 Val. Loss: 2.606 | Val. PPL:  13.548
+Epoch: 43 | Time: 1m 33s
+	Train Loss: 0.697 | Train PPL:   2.007
+	 Val. Loss: 2.448 | Val. PPL:  11.560
+Epoch: 44 | Time: 1m 32s
+	Train Loss: 0.673 | Train PPL:   1.961
+	 Val. Loss: 2.399 | Val. PPL:  11.009
+Epoch: 45 | Time: 1m 32s
+	Train Loss: 0.650 | Train PPL:   1.916
+	 Val. Loss: 2.329 | Val. PPL:  10.263
+Epoch: 46 | Time: 1m 32s
+	Train Loss: 0.642 | Train PPL:   1.901
+	 Val. Loss: 2.473 | Val. PPL:  11.863
+Epoch: 47 | Time: 1m 32s
+	Train Loss: 0.622 | Train PPL:   1.864
+	 Val. Loss: 2.401 | Val. PPL:  11.034
+Epoch: 48 | Time: 1m 31s
+	Train Loss: 0.616 | Train PPL:   1.852
+	 Val. Loss: 2.389 | Val. PPL:  10.907
+Epoch: 49 | Time: 1m 32s
+	Train Loss: 0.598 | Train PPL:   1.819
+	 Val. Loss: 2.386 | Val. PPL:  10.866
+Epoch: 50 | Time: 1m 32s
+	Train Loss: 0.579 | Train PPL:   1.784
+	 Val. Loss: 2.509 | Val. PPL:  12.295
+Epoch: 51 | Time: 1m 31s
+	Train Loss: 0.576 | Train PPL:   1.778
+	 Val. Loss: 2.377 | Val. PPL:  10.771
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+Epoch: 52 | Time: 1m 30s
+	Train Loss: 0.582 | Train PPL:   1.790
+	 Val. Loss: 2.323 | Val. PPL:  10.207
+The model has 43,701,168 trainable parameters
+Epoch: 52 | Time: 1m 31s
+	Train Loss: 0.567 | Train PPL:   1.764
+	 Val. Loss: 2.340 | Val. PPL:  10.382

@@ -1,0 +1,28 @@
+exp10 - (no attention)
+
+-exp8 without BOW Probe.
+Just seq2seq.
+
+exp7 with separate embedding.
+
+batch size
+Change Vocabulary:
+	Encoder - Byte Level.
+	remove GLOVE embedding
+	**Separate Embedding! for Encoder/Decoder.
+
+300k data.
+decoder i/p: word+encoder-h_f
+
+-New Model. Single Run no double pass through the encoder.
+Add BOW Classifier Probe on the Content Space.
+-Remove SImilarity constraint.
+
+Usage:
+
+python train.py train
+
+python train.py test 0,5,10,15 greedy
+
+python train.py continue <loadEpoch> <trainTill>
+- python train.py continue 10 100

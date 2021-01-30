@@ -1,0 +1,607 @@
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 2s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 6.1417 | ReconLoss: 6.1417
+Batch: 201 | Time: 0m 9s | EpochLoss: 5.7014 | ReconLoss: 5.7014
+Batch: 301 | Time: 0m 9s | EpochLoss: 5.5362 | ReconLoss: 5.5362
+Batch: 401 | Time: 0m 9s | EpochLoss: 5.4427 | ReconLoss: 5.4427
+Batch: 501 | Time: 0m 9s | EpochLoss: 5.3720 | ReconLoss: 5.3720
+Batch: 601 | Time: 0m 9s | EpochLoss: 5.3208 | ReconLoss: 5.3208
+Batch: 701 | Time: 0m 9s | EpochLoss: 5.2835 | ReconLoss: 5.2835
+Batch: 801 | Time: 0m 9s | EpochLoss: 5.2580 | ReconLoss: 5.2580
+Batch: 901 | Time: 0m 9s | EpochLoss: 5.2348 | ReconLoss: 5.2348
+Epoch: 02
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 4.9525 | ReconLoss: 4.9525
+Batch: 201 | Time: 0m 9s | EpochLoss: 4.9692 | ReconLoss: 4.9692
+Batch: 301 | Time: 0m 9s | EpochLoss: 4.9561 | ReconLoss: 4.9561
+Batch: 401 | Time: 0m 10s | EpochLoss: 4.9330 | ReconLoss: 4.9330
+Batch: 501 | Time: 0m 9s | EpochLoss: 4.9058 | ReconLoss: 4.9058
+Batch: 601 | Time: 0m 9s | EpochLoss: 4.8818 | ReconLoss: 4.8818
+Batch: 701 | Time: 0m 9s | EpochLoss: 4.8571 | ReconLoss: 4.8571
+Batch: 801 | Time: 0m 9s | EpochLoss: 4.8494 | ReconLoss: 4.8494
+Batch: 901 | Time: 0m 9s | EpochLoss: 4.8327 | ReconLoss: 4.8327
+Epoch: 03
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 4.5135 | ReconLoss: 4.5135
+Batch: 201 | Time: 0m 9s | EpochLoss: 4.5227 | ReconLoss: 4.5227
+Batch: 301 | Time: 0m 9s | EpochLoss: 4.5136 | ReconLoss: 4.5136
+Batch: 401 | Time: 0m 9s | EpochLoss: 4.4992 | ReconLoss: 4.4992
+Batch: 501 | Time: 0m 9s | EpochLoss: 4.4889 | ReconLoss: 4.4889
+Batch: 601 | Time: 0m 9s | EpochLoss: 4.4790 | ReconLoss: 4.4790
+Batch: 701 | Time: 0m 9s | EpochLoss: 4.4592 | ReconLoss: 4.4592
+Batch: 801 | Time: 0m 9s | EpochLoss: 4.4408 | ReconLoss: 4.4408
+Batch: 901 | Time: 0m 9s | EpochLoss: 4.4195 | ReconLoss: 4.4195
+Epoch: 04
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 4.2257 | ReconLoss: 4.2257
+Batch: 201 | Time: 0m 9s | EpochLoss: 4.2074 | ReconLoss: 4.2074
+Batch: 301 | Time: 0m 9s | EpochLoss: 4.1663 | ReconLoss: 4.1663
+Batch: 401 | Time: 0m 9s | EpochLoss: 4.1311 | ReconLoss: 4.1311
+Batch: 501 | Time: 0m 9s | EpochLoss: 4.1133 | ReconLoss: 4.1133
+Batch: 601 | Time: 0m 9s | EpochLoss: 4.0912 | ReconLoss: 4.0912
+Batch: 701 | Time: 0m 9s | EpochLoss: 4.0746 | ReconLoss: 4.0746
+Batch: 801 | Time: 0m 9s | EpochLoss: 4.0596 | ReconLoss: 4.0596
+Batch: 901 | Time: 0m 9s | EpochLoss: 4.0461 | ReconLoss: 4.0461
+Epoch: 05
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 3.7629 | ReconLoss: 3.7629
+Batch: 201 | Time: 0m 9s | EpochLoss: 3.7695 | ReconLoss: 3.7695
+Batch: 301 | Time: 0m 9s | EpochLoss: 3.7644 | ReconLoss: 3.7644
+Batch: 401 | Time: 0m 9s | EpochLoss: 3.7651 | ReconLoss: 3.7651
+Batch: 501 | Time: 0m 9s | EpochLoss: 3.7487 | ReconLoss: 3.7487
+Batch: 601 | Time: 0m 9s | EpochLoss: 3.7360 | ReconLoss: 3.7360
+Batch: 701 | Time: 0m 9s | EpochLoss: 3.7299 | ReconLoss: 3.7299
+Batch: 801 | Time: 0m 9s | EpochLoss: 3.7203 | ReconLoss: 3.7203
+Batch: 901 | Time: 0m 9s | EpochLoss: 3.7018 | ReconLoss: 3.7018
+Epoch: 06
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 3.5607 | ReconLoss: 3.5607
+Batch: 201 | Time: 0m 9s | EpochLoss: 3.5075 | ReconLoss: 3.5075
+Batch: 301 | Time: 0m 9s | EpochLoss: 3.4998 | ReconLoss: 3.4998
+Batch: 401 | Time: 0m 9s | EpochLoss: 3.4811 | ReconLoss: 3.4811
+Batch: 501 | Time: 0m 9s | EpochLoss: 3.4667 | ReconLoss: 3.4667
+Batch: 601 | Time: 0m 9s | EpochLoss: 3.4569 | ReconLoss: 3.4569
+Batch: 701 | Time: 0m 9s | EpochLoss: 3.4417 | ReconLoss: 3.4417
+Batch: 801 | Time: 0m 9s | EpochLoss: 3.4321 | ReconLoss: 3.4321
+Batch: 901 | Time: 0m 9s | EpochLoss: 3.4244 | ReconLoss: 3.4244
+Epoch: 07
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 3.3051 | ReconLoss: 3.3051
+Batch: 201 | Time: 0m 9s | EpochLoss: 3.2685 | ReconLoss: 3.2685
+Batch: 301 | Time: 0m 9s | EpochLoss: 3.2490 | ReconLoss: 3.2490
+Batch: 401 | Time: 0m 9s | EpochLoss: 3.2397 | ReconLoss: 3.2397
+Batch: 501 | Time: 0m 9s | EpochLoss: 3.2369 | ReconLoss: 3.2369
+Batch: 601 | Time: 0m 9s | EpochLoss: 3.2187 | ReconLoss: 3.2187
+Batch: 701 | Time: 0m 9s | EpochLoss: 3.2063 | ReconLoss: 3.2063
+Batch: 801 | Time: 0m 9s | EpochLoss: 3.1934 | ReconLoss: 3.1934
+Batch: 901 | Time: 0m 9s | EpochLoss: 3.1835 | ReconLoss: 3.1835
+Epoch: 08
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 2.9966 | ReconLoss: 2.9966
+Batch: 201 | Time: 0m 9s | EpochLoss: 3.0091 | ReconLoss: 3.0091
+Batch: 301 | Time: 0m 9s | EpochLoss: 3.0111 | ReconLoss: 3.0111
+Batch: 401 | Time: 0m 9s | EpochLoss: 2.9886 | ReconLoss: 2.9886
+Batch: 501 | Time: 0m 9s | EpochLoss: 2.9801 | ReconLoss: 2.9801
+Batch: 601 | Time: 0m 9s | EpochLoss: 2.9855 | ReconLoss: 2.9855
+Batch: 701 | Time: 0m 9s | EpochLoss: 2.9926 | ReconLoss: 2.9926
+Batch: 801 | Time: 0m 9s | EpochLoss: 2.9849 | ReconLoss: 2.9849
+Batch: 901 | Time: 0m 9s | EpochLoss: 2.9747 | ReconLoss: 2.9747
+Epoch: 09
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 2.7265 | ReconLoss: 2.7265
+Batch: 201 | Time: 0m 9s | EpochLoss: 2.7660 | ReconLoss: 2.7660
+Batch: 301 | Time: 0m 9s | EpochLoss: 2.7706 | ReconLoss: 2.7706
+Batch: 401 | Time: 0m 9s | EpochLoss: 2.7686 | ReconLoss: 2.7686
+Batch: 501 | Time: 0m 9s | EpochLoss: 2.7588 | ReconLoss: 2.7588
+Batch: 601 | Time: 0m 9s | EpochLoss: 2.7480 | ReconLoss: 2.7480
+Batch: 701 | Time: 0m 9s | EpochLoss: 2.7448 | ReconLoss: 2.7448
+Batch: 801 | Time: 0m 9s | EpochLoss: 2.7443 | ReconLoss: 2.7443
+Batch: 901 | Time: 0m 9s | EpochLoss: 2.7376 | ReconLoss: 2.7376
+Epoch: 10
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 2.5321 | ReconLoss: 2.5321
+Batch: 201 | Time: 0m 9s | EpochLoss: 2.5607 | ReconLoss: 2.5607
+Batch: 301 | Time: 0m 9s | EpochLoss: 2.5657 | ReconLoss: 2.5657
+Batch: 401 | Time: 0m 9s | EpochLoss: 2.5586 | ReconLoss: 2.5586
+Batch: 501 | Time: 0m 9s | EpochLoss: 2.5545 | ReconLoss: 2.5545
+Batch: 601 | Time: 0m 9s | EpochLoss: 2.5518 | ReconLoss: 2.5518
+Batch: 701 | Time: 0m 9s | EpochLoss: 2.5530 | ReconLoss: 2.5530
+Batch: 801 | Time: 0m 9s | EpochLoss: 2.5578 | ReconLoss: 2.5578
+Batch: 901 | Time: 0m 9s | EpochLoss: 2.5604 | ReconLoss: 2.5604
+Epoch: 11
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 2.3717 | ReconLoss: 2.3717
+Batch: 201 | Time: 0m 9s | EpochLoss: 2.4171 | ReconLoss: 2.4171
+Batch: 301 | Time: 0m 9s | EpochLoss: 2.4312 | ReconLoss: 2.4312
+Batch: 401 | Time: 0m 9s | EpochLoss: 2.4365 | ReconLoss: 2.4365
+Batch: 501 | Time: 0m 9s | EpochLoss: 2.4377 | ReconLoss: 2.4377
+Batch: 601 | Time: 0m 9s | EpochLoss: 2.4253 | ReconLoss: 2.4253
+Batch: 701 | Time: 0m 9s | EpochLoss: 2.4245 | ReconLoss: 2.4245
+Batch: 801 | Time: 0m 9s | EpochLoss: 2.4224 | ReconLoss: 2.4224
+Batch: 901 | Time: 0m 9s | EpochLoss: 2.4214 | ReconLoss: 2.4214
+Epoch: 12
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 2.2725 | ReconLoss: 2.2725
+Batch: 201 | Time: 0m 9s | EpochLoss: 2.2685 | ReconLoss: 2.2685
+Batch: 301 | Time: 0m 9s | EpochLoss: 2.2656 | ReconLoss: 2.2656
+Batch: 401 | Time: 0m 9s | EpochLoss: 2.2570 | ReconLoss: 2.2570
+Batch: 501 | Time: 0m 9s | EpochLoss: 2.2611 | ReconLoss: 2.2611
+Batch: 601 | Time: 0m 9s | EpochLoss: 2.2645 | ReconLoss: 2.2645
+Batch: 701 | Time: 0m 9s | EpochLoss: 2.2623 | ReconLoss: 2.2623
+Batch: 801 | Time: 0m 9s | EpochLoss: 2.2649 | ReconLoss: 2.2649
+Batch: 901 | Time: 0m 9s | EpochLoss: 2.2630 | ReconLoss: 2.2630
+Epoch: 13
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 10s | EpochLoss: 2.0945 | ReconLoss: 2.0945
+Batch: 201 | Time: 0m 9s | EpochLoss: 2.0984 | ReconLoss: 2.0984
+Batch: 301 | Time: 0m 9s | EpochLoss: 2.1020 | ReconLoss: 2.1020
+Batch: 401 | Time: 0m 9s | EpochLoss: 2.1087 | ReconLoss: 2.1087
+Batch: 501 | Time: 0m 9s | EpochLoss: 2.1085 | ReconLoss: 2.1085
+Batch: 601 | Time: 0m 9s | EpochLoss: 2.1059 | ReconLoss: 2.1059
+Batch: 701 | Time: 0m 9s | EpochLoss: 2.1101 | ReconLoss: 2.1101
+Batch: 801 | Time: 0m 9s | EpochLoss: 2.1164 | ReconLoss: 2.1164
+Batch: 901 | Time: 0m 9s | EpochLoss: 2.1184 | ReconLoss: 2.1184
+Epoch: 14
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.9331 | ReconLoss: 1.9331
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.9670 | ReconLoss: 1.9670
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.9862 | ReconLoss: 1.9862
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.9814 | ReconLoss: 1.9814
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.9899 | ReconLoss: 1.9899
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.9901 | ReconLoss: 1.9901
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.9928 | ReconLoss: 1.9928
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.9920 | ReconLoss: 1.9920
+Batch: 901 | Time: 0m 9s | EpochLoss: 2.0007 | ReconLoss: 2.0007
+Epoch: 15
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.8593 | ReconLoss: 1.8593
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.8978 | ReconLoss: 1.8978
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.8980 | ReconLoss: 1.8980
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.9068 | ReconLoss: 1.9068
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.8997 | ReconLoss: 1.8997
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.9061 | ReconLoss: 1.9061
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.9034 | ReconLoss: 1.9034
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.9013 | ReconLoss: 1.9013
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.9007 | ReconLoss: 1.9007
+Epoch: 16
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.7431 | ReconLoss: 1.7431
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.7567 | ReconLoss: 1.7567
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.7649 | ReconLoss: 1.7649
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.7733 | ReconLoss: 1.7733
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.7820 | ReconLoss: 1.7820
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.7931 | ReconLoss: 1.7931
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.7996 | ReconLoss: 1.7996
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.7983 | ReconLoss: 1.7983
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.8041 | ReconLoss: 1.8041
+Epoch: 17
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.6699 | ReconLoss: 1.6699
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.6869 | ReconLoss: 1.6869
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.7016 | ReconLoss: 1.7016
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.7071 | ReconLoss: 1.7071
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.7138 | ReconLoss: 1.7138
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.7121 | ReconLoss: 1.7121
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.7065 | ReconLoss: 1.7065
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.7120 | ReconLoss: 1.7120
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.7111 | ReconLoss: 1.7111
+Epoch: 18
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.5694 | ReconLoss: 1.5694
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.5692 | ReconLoss: 1.5692
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.5861 | ReconLoss: 1.5861
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.6048 | ReconLoss: 1.6048
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.6108 | ReconLoss: 1.6108
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.6180 | ReconLoss: 1.6180
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.6222 | ReconLoss: 1.6222
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.6200 | ReconLoss: 1.6200
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.6219 | ReconLoss: 1.6219
+Epoch: 19
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.5099 | ReconLoss: 1.5099
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.5322 | ReconLoss: 1.5322
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.5429 | ReconLoss: 1.5429
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.5521 | ReconLoss: 1.5521
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.5491 | ReconLoss: 1.5491
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.5613 | ReconLoss: 1.5613
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.5559 | ReconLoss: 1.5559
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.5558 | ReconLoss: 1.5558
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.5549 | ReconLoss: 1.5549
+Epoch: 20
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.4412 | ReconLoss: 1.4412
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.4621 | ReconLoss: 1.4621
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.4770 | ReconLoss: 1.4770
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.4924 | ReconLoss: 1.4924
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.4867 | ReconLoss: 1.4867
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.4883 | ReconLoss: 1.4883
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.4889 | ReconLoss: 1.4889
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.4871 | ReconLoss: 1.4871
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.4890 | ReconLoss: 1.4890
+Epoch: 21
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.4131 | ReconLoss: 1.4131
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.4108 | ReconLoss: 1.4108
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.4203 | ReconLoss: 1.4203
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.4151 | ReconLoss: 1.4151
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.4137 | ReconLoss: 1.4137
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.4191 | ReconLoss: 1.4191
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.4169 | ReconLoss: 1.4169
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.4172 | ReconLoss: 1.4172
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.4237 | ReconLoss: 1.4237
+Epoch: 22
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.3590 | ReconLoss: 1.3590
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.3516 | ReconLoss: 1.3516
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.3567 | ReconLoss: 1.3567
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.3579 | ReconLoss: 1.3579
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.3542 | ReconLoss: 1.3542
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.3624 | ReconLoss: 1.3624
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.3634 | ReconLoss: 1.3634
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.3643 | ReconLoss: 1.3643
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.3655 | ReconLoss: 1.3655
+Epoch: 23
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.2672 | ReconLoss: 1.2672
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.3117 | ReconLoss: 1.3117
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.3085 | ReconLoss: 1.3085
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.3123 | ReconLoss: 1.3123
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.3085 | ReconLoss: 1.3085
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.3071 | ReconLoss: 1.3071
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.3076 | ReconLoss: 1.3076
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.3027 | ReconLoss: 1.3027
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.3056 | ReconLoss: 1.3056
+Epoch: 24
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.2319 | ReconLoss: 1.2319
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.2328 | ReconLoss: 1.2328
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.2591 | ReconLoss: 1.2591
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.2492 | ReconLoss: 1.2492
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.2416 | ReconLoss: 1.2416
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.2484 | ReconLoss: 1.2484
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.2494 | ReconLoss: 1.2494
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.2496 | ReconLoss: 1.2496
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.2509 | ReconLoss: 1.2509
+Epoch: 25
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.2042 | ReconLoss: 1.2042
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.1891 | ReconLoss: 1.1891
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.1929 | ReconLoss: 1.1929
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.1887 | ReconLoss: 1.1887
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.1963 | ReconLoss: 1.1963
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.1961 | ReconLoss: 1.1961
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.1923 | ReconLoss: 1.1923
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.1960 | ReconLoss: 1.1960
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.2041 | ReconLoss: 1.2041
+Epoch: 26
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.1348 | ReconLoss: 1.1348
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.1307 | ReconLoss: 1.1307
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.1296 | ReconLoss: 1.1296
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.1542 | ReconLoss: 1.1542
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.1561 | ReconLoss: 1.1561
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.1505 | ReconLoss: 1.1505
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.1493 | ReconLoss: 1.1493
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.1482 | ReconLoss: 1.1482
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.1554 | ReconLoss: 1.1554
+Epoch: 27
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.0865 | ReconLoss: 1.0865
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.0900 | ReconLoss: 1.0900
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.1026 | ReconLoss: 1.1026
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.1003 | ReconLoss: 1.1003
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.1020 | ReconLoss: 1.1020
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.1088 | ReconLoss: 1.1088
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.1132 | ReconLoss: 1.1132
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.1152 | ReconLoss: 1.1152
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.1202 | ReconLoss: 1.1202
+Epoch: 28
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.1460 | ReconLoss: 1.1460
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.0983 | ReconLoss: 1.0983
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.0849 | ReconLoss: 1.0849
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.0795 | ReconLoss: 1.0795
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.0763 | ReconLoss: 1.0763
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.0793 | ReconLoss: 1.0793
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.0896 | ReconLoss: 1.0896
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.0848 | ReconLoss: 1.0848
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.0861 | ReconLoss: 1.0861
+Epoch: 29
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 1.0238 | ReconLoss: 1.0238
+Batch: 201 | Time: 0m 9s | EpochLoss: 1.0319 | ReconLoss: 1.0319
+Batch: 301 | Time: 0m 9s | EpochLoss: 1.0390 | ReconLoss: 1.0390
+Batch: 401 | Time: 0m 9s | EpochLoss: 1.0422 | ReconLoss: 1.0422
+Batch: 501 | Time: 0m 9s | EpochLoss: 1.0432 | ReconLoss: 1.0432
+Batch: 601 | Time: 0m 9s | EpochLoss: 1.0375 | ReconLoss: 1.0375
+Batch: 701 | Time: 0m 9s | EpochLoss: 1.0359 | ReconLoss: 1.0359
+Batch: 801 | Time: 0m 9s | EpochLoss: 1.0350 | ReconLoss: 1.0350
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.0345 | ReconLoss: 1.0345
+Epoch: 30
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.9715 | ReconLoss: 0.9715
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.9885 | ReconLoss: 0.9885
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.9984 | ReconLoss: 0.9984
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.9962 | ReconLoss: 0.9962
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.9942 | ReconLoss: 0.9942
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.9994 | ReconLoss: 0.9994
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.9996 | ReconLoss: 0.9996
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.9993 | ReconLoss: 0.9993
+Batch: 901 | Time: 0m 9s | EpochLoss: 1.0012 | ReconLoss: 1.0012
+Epoch: 31
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.9394 | ReconLoss: 0.9394
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.9539 | ReconLoss: 0.9539
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.9491 | ReconLoss: 0.9491
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.9532 | ReconLoss: 0.9532
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.9577 | ReconLoss: 0.9577
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.9642 | ReconLoss: 0.9642
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.9667 | ReconLoss: 0.9667
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.9619 | ReconLoss: 0.9619
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.9664 | ReconLoss: 0.9664
+Epoch: 32
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.8948 | ReconLoss: 0.8948
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.9371 | ReconLoss: 0.9371
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.9334 | ReconLoss: 0.9334
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.9492 | ReconLoss: 0.9492
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.9466 | ReconLoss: 0.9466
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.9472 | ReconLoss: 0.9472
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.9476 | ReconLoss: 0.9476
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.9545 | ReconLoss: 0.9545
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.9521 | ReconLoss: 0.9521
+Epoch: 33
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.8264 | ReconLoss: 0.8264
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.8835 | ReconLoss: 0.8835
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.8818 | ReconLoss: 0.8818
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.8971 | ReconLoss: 0.8971
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.8989 | ReconLoss: 0.8989
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.9065 | ReconLoss: 0.9065
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.9114 | ReconLoss: 0.9114
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.9233 | ReconLoss: 0.9233
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.9218 | ReconLoss: 0.9218
+Epoch: 34
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.8392 | ReconLoss: 0.8392
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.8607 | ReconLoss: 0.8607
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.8672 | ReconLoss: 0.8672
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.8674 | ReconLoss: 0.8674
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.8725 | ReconLoss: 0.8725
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.8678 | ReconLoss: 0.8678
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.8705 | ReconLoss: 0.8705
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.8707 | ReconLoss: 0.8707
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.8728 | ReconLoss: 0.8728
+Epoch: 35
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.8518 | ReconLoss: 0.8518
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.8389 | ReconLoss: 0.8389
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.8343 | ReconLoss: 0.8343
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.8387 | ReconLoss: 0.8387
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.8467 | ReconLoss: 0.8467
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.8571 | ReconLoss: 0.8571
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.8553 | ReconLoss: 0.8553
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.8567 | ReconLoss: 0.8567
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.8531 | ReconLoss: 0.8531
+Epoch: 36
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.8448 | ReconLoss: 0.8448
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.8228 | ReconLoss: 0.8228
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.8115 | ReconLoss: 0.8115
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.8143 | ReconLoss: 0.8143
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.8130 | ReconLoss: 0.8130
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.8163 | ReconLoss: 0.8163
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.8185 | ReconLoss: 0.8185
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.8227 | ReconLoss: 0.8227
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.8241 | ReconLoss: 0.8241
+Epoch: 37
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.7971 | ReconLoss: 0.7971
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.7834 | ReconLoss: 0.7834
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.7962 | ReconLoss: 0.7962
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.7907 | ReconLoss: 0.7907
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.8025 | ReconLoss: 0.8025
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.8013 | ReconLoss: 0.8013
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.8027 | ReconLoss: 0.8027
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.8035 | ReconLoss: 0.8035
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.8023 | ReconLoss: 0.8023
+Epoch: 38
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.8129 | ReconLoss: 0.8129
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.7941 | ReconLoss: 0.7941
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.7745 | ReconLoss: 0.7745
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.7788 | ReconLoss: 0.7788
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.7802 | ReconLoss: 0.7802
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.7848 | ReconLoss: 0.7848
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.7863 | ReconLoss: 0.7863
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.7884 | ReconLoss: 0.7884
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.7860 | ReconLoss: 0.7860
+Epoch: 39
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.7003 | ReconLoss: 0.7003
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.7187 | ReconLoss: 0.7187
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.7229 | ReconLoss: 0.7229
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.7322 | ReconLoss: 0.7322
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.7349 | ReconLoss: 0.7349
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.7412 | ReconLoss: 0.7412
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.7447 | ReconLoss: 0.7447
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.7493 | ReconLoss: 0.7493
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.7533 | ReconLoss: 0.7533
+Epoch: 40
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.7070 | ReconLoss: 0.7070
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.7230 | ReconLoss: 0.7230
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.7311 | ReconLoss: 0.7311
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.7336 | ReconLoss: 0.7336
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.7329 | ReconLoss: 0.7329
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.7331 | ReconLoss: 0.7331
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.7348 | ReconLoss: 0.7348
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.7379 | ReconLoss: 0.7379
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.7379 | ReconLoss: 0.7379
+Epoch: 41
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.6972 | ReconLoss: 0.6972
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.7112 | ReconLoss: 0.7112
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.7173 | ReconLoss: 0.7173
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.7181 | ReconLoss: 0.7181
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.7126 | ReconLoss: 0.7126
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.7115 | ReconLoss: 0.7115
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.7172 | ReconLoss: 0.7172
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.7186 | ReconLoss: 0.7186
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.7205 | ReconLoss: 0.7205
+Epoch: 42
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.6581 | ReconLoss: 0.6581
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.6776 | ReconLoss: 0.6776
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.6839 | ReconLoss: 0.6839
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.6890 | ReconLoss: 0.6890
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.6835 | ReconLoss: 0.6835
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.6934 | ReconLoss: 0.6934
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.7001 | ReconLoss: 0.7001
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.7009 | ReconLoss: 0.7009
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.7004 | ReconLoss: 0.7004
+Epoch: 43
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.6787 | ReconLoss: 0.6787
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.7083 | ReconLoss: 0.7083
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.6898 | ReconLoss: 0.6898
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.6816 | ReconLoss: 0.6816
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.6950 | ReconLoss: 0.6950
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.6954 | ReconLoss: 0.6954
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.6982 | ReconLoss: 0.6982
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.6924 | ReconLoss: 0.6924
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.6919 | ReconLoss: 0.6919
+Epoch: 44
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.6394 | ReconLoss: 0.6394
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.6441 | ReconLoss: 0.6441
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.6628 | ReconLoss: 0.6628
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.6577 | ReconLoss: 0.6577
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.6586 | ReconLoss: 0.6586
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.6602 | ReconLoss: 0.6602
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.6642 | ReconLoss: 0.6642
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.6687 | ReconLoss: 0.6687
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.6715 | ReconLoss: 0.6715
+Epoch: 45
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.6111 | ReconLoss: 0.6111
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.6396 | ReconLoss: 0.6396
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.6478 | ReconLoss: 0.6478
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.6505 | ReconLoss: 0.6505
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.6490 | ReconLoss: 0.6490
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.6400 | ReconLoss: 0.6400
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.6419 | ReconLoss: 0.6419
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.6424 | ReconLoss: 0.6424
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.6478 | ReconLoss: 0.6478
+Epoch: 46
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.6107 | ReconLoss: 0.6107
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.6411 | ReconLoss: 0.6411
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.6262 | ReconLoss: 0.6262
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.6241 | ReconLoss: 0.6241
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.6285 | ReconLoss: 0.6285
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.6298 | ReconLoss: 0.6298
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.6296 | ReconLoss: 0.6296
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.6331 | ReconLoss: 0.6331
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.6396 | ReconLoss: 0.6396
+Epoch: 47
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.6315 | ReconLoss: 0.6315
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.6103 | ReconLoss: 0.6103
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.6132 | ReconLoss: 0.6132
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.6195 | ReconLoss: 0.6195
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.6273 | ReconLoss: 0.6273
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.6245 | ReconLoss: 0.6245
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.6247 | ReconLoss: 0.6247
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.6256 | ReconLoss: 0.6256
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.6202 | ReconLoss: 0.6202
+Epoch: 48
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.5903 | ReconLoss: 0.5903
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.6015 | ReconLoss: 0.6015
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.5942 | ReconLoss: 0.5942
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.5925 | ReconLoss: 0.5925
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.5991 | ReconLoss: 0.5991
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.6080 | ReconLoss: 0.6080
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.6110 | ReconLoss: 0.6110
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.6185 | ReconLoss: 0.6185
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.6173 | ReconLoss: 0.6173
+Epoch: 49
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.5592 | ReconLoss: 0.5592
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.5601 | ReconLoss: 0.5601
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.5714 | ReconLoss: 0.5714
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.5726 | ReconLoss: 0.5726
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.5818 | ReconLoss: 0.5818
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.5855 | ReconLoss: 0.5855
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.5845 | ReconLoss: 0.5845
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.5895 | ReconLoss: 0.5895
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.5952 | ReconLoss: 0.5952
+Epoch: 50
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.5653 | ReconLoss: 0.5653
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.5711 | ReconLoss: 0.5711
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.5760 | ReconLoss: 0.5760
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.5783 | ReconLoss: 0.5783
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.5791 | ReconLoss: 0.5791
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.5762 | ReconLoss: 0.5762
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.5761 | ReconLoss: 0.5761
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.5785 | ReconLoss: 0.5785
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.5780 | ReconLoss: 0.5780
+Epoch: 51
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.5588 | ReconLoss: 0.5588
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.5599 | ReconLoss: 0.5599
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.5649 | ReconLoss: 0.5649
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.5584 | ReconLoss: 0.5584
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.5672 | ReconLoss: 0.5672
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.5712 | ReconLoss: 0.5712
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.5746 | ReconLoss: 0.5746
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.5723 | ReconLoss: 0.5723
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.5699 | ReconLoss: 0.5699
+Epoch: 52
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.5571 | ReconLoss: 0.5571
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.5715 | ReconLoss: 0.5715
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.5659 | ReconLoss: 0.5659
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.5641 | ReconLoss: 0.5641
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.5692 | ReconLoss: 0.5692
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.5742 | ReconLoss: 0.5742
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.5724 | ReconLoss: 0.5724
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.5802 | ReconLoss: 0.5802
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.5796 | ReconLoss: 0.5796
+Epoch: 52
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Batch: 101 | Time: 0m 9s | EpochLoss: 0.5571 | ReconLoss: 0.5571
+Batch: 201 | Time: 0m 9s | EpochLoss: 0.5740 | ReconLoss: 0.5740
+Batch: 301 | Time: 0m 9s | EpochLoss: 0.5642 | ReconLoss: 0.5642
+Batch: 401 | Time: 0m 9s | EpochLoss: 0.5612 | ReconLoss: 0.5612
+Batch: 501 | Time: 0m 9s | EpochLoss: 0.5622 | ReconLoss: 0.5622
+Batch: 601 | Time: 0m 9s | EpochLoss: 0.5648 | ReconLoss: 0.5648
+Batch: 701 | Time: 0m 9s | EpochLoss: 0.5636 | ReconLoss: 0.5636
+Batch: 801 | Time: 0m 9s | EpochLoss: 0.5635 | ReconLoss: 0.5635
+Batch: 901 | Time: 0m 9s | EpochLoss: 0.5657 | ReconLoss: 0.5657
