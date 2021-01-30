@@ -1,3 +1,4 @@
+*.lprof
 *.vocab
 *.model
 test10k.tsv
