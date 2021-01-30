@@ -1,8 +1,25 @@
 
-- Understand BucketIterator and Dataloader difference.
+- run code
+- understand what ankit is saying
+- profile code
+    > This is intruisive profiling
+      - made an example of simple counter and observed results
+      - code which would otherwise take .25sec, can take 4 sec with prof
+        but we know where the time is being spent. We should scale interpretation
 
-- Show modified arch for Ankit's integration
-- Cleaned code so that Ankit can integrate
+- adversarial loss in text generation
+
+
+- read papers from ankit
+
+
+
+- Basics of some tools of pytorch for nlp
+
+- Understand BucketIterator and Dataloader difference.
+    -
+
+  - some more understanding of Dataloader required, collatefn, etc.
 - Tried to train, even reduced the dataset, but trainings give zero blue score on test set.
 - Currently, trying to make a pointer network using transformer.
 
@@ -14,8 +31,8 @@
 - apparently, our tranformer T006_understand works -- figure out how we made it work. Extend to word ordering.
 ===================
 
-- Understand and Train BPE
 - Try to understand Adversarial screenshot
+- Understand and Train BPE
 - Try pointer generator network
 - Draw the network diagram for LSTM based pointer network
   > try to write down the dimensions
