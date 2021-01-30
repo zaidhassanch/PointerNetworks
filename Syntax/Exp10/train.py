@@ -464,7 +464,7 @@ def evaluate(model, iterator, criterion):
 			trg, trg_len = batch.correction1
 			src, src_len = batch.orig
 			#outputS, contentS, bowS = model(src, src_len, trg, trg_len)
-			outputS = model(src, src_len, trg, trg_len, 0.0)
+			outputS = model(src, trg, 0.0)
 			#output = model(src, src_len, trg, 0) #turn off teacher forcing
 			#trg = [trg len, batch size]
 			#output = [trg len, batch size, output dim]

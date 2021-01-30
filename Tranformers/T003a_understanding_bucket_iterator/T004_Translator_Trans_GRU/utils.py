@@ -55,8 +55,6 @@ def bleu(data, model, german, english, device, LOAD_NEW_METHOD):
     outputs = []
 
     for example in data:
-        # src = vars(example)["src"]
-        # trg = vars(example)["trg"]
 
         if LOAD_NEW_METHOD:
             src = example[0]
@@ -66,7 +64,6 @@ def bleu(data, model, german, english, device, LOAD_NEW_METHOD):
         else:
             src = example.src
             trg = example.trg
-
 
         prediction = translate_sentence(model, src, german, english, device)
         prediction = prediction[:-1]  # remove <eos> token

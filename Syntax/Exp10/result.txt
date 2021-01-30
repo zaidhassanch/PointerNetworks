@@ -225,3 +225,13 @@ The model has 43,701,168 trainable parameters
 The model has 43,701,168 trainable parameters
 The model has 43,701,168 trainable parameters
 The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+Epoch: 52 | Time: 1m 32s
+	Train Loss: 0.592 | Train PPL:   1.808
+	 Val. Loss: 2.374 | Val. PPL:  10.741
+The model has 43,701,168 trainable parameters
+The model has 43,701,168 trainable parameters
+Epoch: 01 | Time: 1m 31s
+	Train Loss: 5.229 | Train PPL: 186.585

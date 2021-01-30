@@ -50,35 +50,23 @@ Two young, White males are outside near many bushes.
     ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
 
 ================================================================
-- were able to switch to seq2seq from transformer in one hour
-    - fix the <unk> issue in Seq2Seq
+- figure out how to speedup seq2seq, we see that in his code it takes 92sec, vs 50 sec.
 
-- fix blue score issue in our code for dataloader
+Zaid (Dataloader, BPE, TSV, GRU, TRansformer, LSTM with ATTn).
+- loading of data from TSV appears to be very fast
+- use TSV  -  15 min
+- use BPE (ability to switch between spacy and BPE) - 30 min
+- draw arch diagram for ankit code
+- add the pytorch eng-fra translator DrPascal/NLP_tutorials/003_myMTSS
+- use data from m2 files (m2 -> tsv, tsv -> m2)
+- Use m2 files to see how well it corrects grammer of standard datasets -- V IMP
+
+PROFILING:
+==========
+> Understood profiling (ine profiling for functions, not for classes yet).
+
 - Re-discuss parallelism in Transformers.
   > seq2seq is faily fast now.
 
 
-- After every epoch print few sentences,
-    - Blue score computation, and printing on few sentences after each epoch
-
-- Understanding Ankit code (70%), and evaluate
-
-- Using the 2 transformers we have to get similar or better results
-
- > one epoch takes 1:30
- > transformer epoch takes 30 sec
-
-
-- Objective of Ankit code
-  > take input wrong grammer, output correct grammer
-
-- draw arch diagram
-- use data from m2 files (m2 -> tsv, tsv -> m2)
-- Profiling
-
-
-- Use m2 files to see how well it corrects grammer of standard datasets -- V IMP
-- Use our transformer to do above
 - Run ankit code on Scribendi and see results
-
-- How about using it as translator
