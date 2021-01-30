@@ -10,8 +10,6 @@
  > transformer epoch takes 30 sec
 
 
-
-
 - Objective of Ankit code
   > take input wrong grammer, output correct grammer
 
