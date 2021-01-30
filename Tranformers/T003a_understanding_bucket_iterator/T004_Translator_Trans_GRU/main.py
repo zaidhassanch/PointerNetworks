@@ -4,13 +4,15 @@ import torch
 from data import getData
 from train import train
 from transfomer import Transformer
+from seq2seq import Seq2Seq
 
 LOAD_NEW_METHOD = True
-batch_size = 32
+batch_size = 1
 print("===============================before loading")
 # german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod(LOAD_NEW_METHOD)
 german_vocab, english_vocab, train_data, valid_data, test_data = getData(LOAD_NEW_METHOD)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#device = "gpu"
 data = train_data[0:3]
 
 
@@ -37,7 +39,8 @@ print(src_pad_idx)
 print(english_vocab.itos[src_pad_idx])
 print("===============================after loading ")
 
-model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
+#model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
+model = Seq2Seq(src_pad_idx, src_vocab_size, trg_vocab_size, device).to(device)
 
 load_model = False
 save_model = True

@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.optim as optim 
 import time
 
-from atext import Batcher
+from dataloader import Batcher
 # Training hyperparameters
 num_epochs = 10000
 learning_rate = 3e-4
