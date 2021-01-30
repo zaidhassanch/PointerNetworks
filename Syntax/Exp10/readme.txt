@@ -2,7 +2,7 @@
 - After every epoch print few sentences,
     - Blue score computation, and printing on few sentences after each epoch
 
-- Understanding Ankit code (50-60-70%), and evaluate
+- Understanding Ankit code (70%), and evaluate
 
 - Using the 2 transformers we have to get similar or better results
 

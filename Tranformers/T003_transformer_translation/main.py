@@ -29,7 +29,7 @@ print(english.vocab.itos[src_pad_idx])
 
 model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 
-load_model = True
+load_model = False
 save_model = True
 learning_rate = 3e-4
 

@@ -3,6 +3,7 @@ from torchtext.data import Field, BucketIterator
 import torch
 import torch.nn as nn
 import torch.optim as optim 
+import time
 
 from atext import Batcher
 # Training hyperparameters
@@ -56,6 +57,7 @@ def train(model, device, load_model, save_model,
     step = 0
 
     for epoch in range(num_epochs):
+
         print(f"[Epoch {epoch} / {num_epochs}]")
 
         if save_model:
@@ -90,7 +92,7 @@ def train(model, device, load_model, save_model,
 
         model.train()
         losses = []
-
+        t1 = time.time()
         for batch_idx, batch in enumerate(train_iterator):
             # Get input and targets and get to cuda
             if LOAD_NEW_METHOD:
@@ -133,7 +135,8 @@ def train(model, device, load_model, save_model,
             # plot to tensorboard
             # writer.add_scalar("Training loss", loss, global_step=step)
             step += 1
-
+        t2 = time.time()
+        print("epoch time = ", t2 - t1)
         mean_loss = sum(losses) / len(losses)
         scheduler.step(mean_loss)
 
