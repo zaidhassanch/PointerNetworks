@@ -1,6 +1,7 @@
 import torch
 import random
 from torch import nn
+import torch.nn.functional as F
 
 class EncoderRNN(nn.Module):
     def __init__(self, num_words, emb_dim, hid_dim):
@@ -61,6 +62,27 @@ class Decoder(nn.Module):
         prediction = self.fc_out(output)                                      # (30, 30000)
         return prediction, hidden                                             # (30, 30000), (30, 512)
 
+
+class DecoderRNN(nn.Module):
+    def __init__(self, output_dim, emb_dim, hid_dim):
+        super(DecoderRNN, self).__init__()
+        self.embedding = nn.Embedding(output_dim, emb_dim)
+        self.gru = nn.GRU(emb_dim, hid_dim)
+        self.fc = nn.Linear(hid_dim, output_dim)
+
+    def forward(self, input, hidden, enc_hidden):
+        input = input.unsqueeze(0)
+        # print(input.shape)
+        output = self.embedding(input)
+        # print(output.shape)
+        output = F.relu(output)
+
+        dec_out, hidden = self.gru(output, hidden)
+        dec_out = dec_out.squeeze(0)
+        output = self.fc(dec_out)
+        return output, hidden
+
+
 class classifierNet(nn.Module):
     def __init__(self, inDim, vocab, dropout):
         super().__init__()
@@ -89,7 +111,9 @@ class Seq2Seq(nn.Module):
         # self.encoder = Encoder(src_vocab_size, ENC_EMB_DIM, ENC_HID_DIM, ENC_DROPOUT)
         self.encoder = EncoderRNN(src_vocab_size, ENC_EMB_DIM, ENC_HID_DIM)
 
-        self.decoder = Decoder(trg_vocab_size, DEC_EMB_DIM, DEC_HID_DIM, DEC_DROPOUT)
+        #self.decoder = Decoder(trg_vocab_size, DEC_EMB_DIM, DEC_HID_DIM, DEC_DROPOUT)
+        self.decoder = DecoderRNN(trg_vocab_size, DEC_EMB_DIM, DEC_HID_DIM)
+
         self.src_pad_idx = src_pad_idx
         self.device = device
         self.input_dim = src_vocab_size
