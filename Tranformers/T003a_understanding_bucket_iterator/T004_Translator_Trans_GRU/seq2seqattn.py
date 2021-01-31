@@ -60,12 +60,12 @@ class Seq2Seq(nn.Module):
         #exit()
 
         for t in range(0, trg_len):
-            output, hidden = self.decoder(target, hidden)
+            output, hidden = self.decoder(target.unsqueeze(0), hidden)
 
             outputs[t] = output
             teacher_force = random.random() < teacher_forcing_ratio
             top1 = output.argmax(1)
-            target = top1#trg[t] #if teacher_force else top1
+            target = trg[t] #if teacher_force else top1
         return outputs
 
 

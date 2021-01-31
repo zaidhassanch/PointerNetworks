@@ -4,8 +4,8 @@ import torch
 from data import getData
 from train import train
 from transfomer import Transformer
-from seq2seq import Seq2Seq
-# from seq2seqattn import Seq2Seq
+# from seq2seq import Seq2Seq
+from seq2seqattn import Seq2Seq
 
 LOAD_NEW_METHOD = False
 batch_size = 32
