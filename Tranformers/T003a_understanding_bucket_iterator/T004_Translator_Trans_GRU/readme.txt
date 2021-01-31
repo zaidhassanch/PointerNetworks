@@ -53,8 +53,9 @@ Two young, White males are outside near many bushes.
 - figure out how to speedup seq2seq, we see that in his code it takes 92sec, vs 50 sec.
 
 Zaid (Dataloader, BPE, TSV, GRU, TRansformer, LSTM with ATTn).
+- use TSV (using our old code complete)
+  > BUT SHOULD USE TABULARDATA
 - loading of data from TSV appears to be very fast
-- use TSV  -  15 min
 - use BPE (ability to switch between spacy and BPE) - 30 min
 - draw arch diagram for ankit code
 - add the pytorch eng-fra translator DrPascal/NLP_tutorials/003_myMTSS
@@ -68,5 +69,11 @@ PROFILING:
 - Re-discuss parallelism in Transformers.
   > seq2seq is faily fast now.
 
-
 - Run ankit code on Scribendi and see results
+
+--------------------------
+- Architecture draw
+- understood ankit code
+- profiling
+- implemented ankit code in our code (removed unk issue)
+- fixed blue score in dataloader case

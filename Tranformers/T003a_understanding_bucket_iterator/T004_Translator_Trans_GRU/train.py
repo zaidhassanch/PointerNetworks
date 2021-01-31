@@ -49,7 +49,8 @@ def train(model, device, load_model, save_model,
         train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
             (train_data, valid_data, test_data),
             batch_size=batch_size,
-            sort_within_batch=True,
+            # sort_within_batch=True,
+            # shuffle=True,
             sort_key=lambda x: len(x.src),
             device=device,
             )
@@ -101,6 +102,7 @@ def train(model, device, load_model, save_model,
             else:
                 inp_data = batch.src.to(device)
                 target = batch.trg.to(device)
+            # continue
             # Forward prop
             # print(target)
             # printSentences(inp_data, german_vocab)

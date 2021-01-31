@@ -790,3 +790,7 @@ Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
 Batch: 101 | Time: 0m 9s | EpochLoss: 4.9027 | ReconLoss: 4.9027
 Batch: 201 | Time: 0m 9s | EpochLoss: 4.9396 | ReconLoss: 4.9396
 Batch: 301 | Time: 0m 9s | EpochLoss: 4.9492 | ReconLoss: 4.9492
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
+Epoch: 01
+Batch: 01 | Time: 0m 0s | EpochLoss: 0.0000 | ReconLoss: 0.0000
