@@ -79,9 +79,7 @@ def train(model, device, load_model, save_model,
 
         print(f"Translated example sentence: \n {sentence}")
         print(f"Translated example sentence: \n {translated_sentence}")
-        # exit()
 
-        #if LOAD_NEW_METHOD == False:
         # running on entire test data takes a while
         print("here1")
         score = bleu(train_data[1:10], model, german_vocab, english_vocab, device, LOAD_NEW_METHOD)
