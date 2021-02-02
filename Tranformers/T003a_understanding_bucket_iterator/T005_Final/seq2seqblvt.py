@@ -3,6 +3,15 @@ import torch.nn as nn
 import torch.nn.functional as F
 import random
 
+# def init_weights(m):
+#     for name, param in m.named_parameters():
+#         if 'weight' in name:
+#             nn.init.normal_(param.data, mean=0, std=0.01)
+#         else:
+#             nn.init.constant_(param.data, 0)
+#
+# model.apply(init_weights)
+
 
 class Encoder(nn.Module):
     def __init__(self, input_dim, emb_dim, enc_hid_dim, dec_hid_dim, dropout):
