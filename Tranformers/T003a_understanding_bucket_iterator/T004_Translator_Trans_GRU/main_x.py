@@ -1,9 +1,5 @@
 
 import torch
-import torch.nn as nn
-import torch.optim as optim
-from torchtext.data import Field, BucketIterator
-
 from seq2seqblvt import  Seq2Seq
 from train import train1, train
 
@@ -12,12 +8,10 @@ BATCH_SIZE = 32
 LOAD_NEW_METHOD = False
 
 SRC, TRG, train_data, valid_data, test_data = getData(LOAD_NEW_METHOD)
-
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 INPUT_DIM = len(SRC)
 OUTPUT_DIM = len(TRG)
-#SRC_PAD_IDX = SRC.stoi[SRC.pad_token]
 SRC_PAD_IDX = SRC.stoi["<pad>"]
 
 src_vocab_size = INPUT_DIM
@@ -27,7 +21,6 @@ model = Seq2Seq(SRC_PAD_IDX, src_vocab_size, trg_vocab_size, device).to(device)
 load_model = False
 save_model = True
 learning_rate = 3e-4
-optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 TRG_PAD_IDX = TRG.stoi["<pad>"]
 
 train1(model, device, load_model, save_model,

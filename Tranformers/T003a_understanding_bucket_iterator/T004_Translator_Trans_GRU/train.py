@@ -161,25 +161,34 @@ def train2(model, iterator, optimizer, criterion, clip, LOAD_NEW_METHOD, device)
     for i, batch in enumerate(iterator):
         if LOAD_NEW_METHOD:
             src = batch[0].to(device)
-            trg = batch[1].to(device)
+            target = batch[1].to(device)
         else:
             src = batch.src
-            trg = batch.trg
+            target = batch.trg
 
         optimizer.zero_grad()
 
-        output = model(src, trg)
-        output_dim = output.shape[-1]
+        NEW_TRAIN = True
 
-        output = output[1:].view(-1, output_dim)
-        trg = trg[1:].view(-1)
+        if NEW_TRAIN:
+            trg = target
+            output = model(src, trg)
+            output_dim = output.shape[-1]
+            output = output[1:].view(-1, output_dim)
+            # output = output.reshape(-1, output.shape[2])
 
-        loss = criterion(output, trg)
+            trg = trg[1:].view(-1)
+            loss = criterion(output, trg)
+
+        else:
+            trg = target[:-1, :]
+            output = model(src, trg)
+            output = output.reshape(-1, output.shape[2])
+            target = target[1:].reshape(-1)
+            loss = criterion(output, target)
 
         loss.backward()
-
         torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
-
         optimizer.step()
 
         epoch_loss += loss.item()
@@ -215,6 +224,10 @@ def train1(model, device, load_model, save_model, german_vocab, english_vocab,
 
 
     for epoch in range(N_EPOCHS):
+        src = "ein pferd geht unter einer brücke neben einem boot ."
+        translation, attention = translate_sentencex(model, src, german_vocab, english_vocab, device)
+        print("SRC: ", src)
+        print("PRE: ", translation)
 
         start_time = time.time()
         train_loss = train2(model, train_iterator, optimizer, criterion, CLIP, LOAD_NEW_METHOD, device)
@@ -231,8 +244,4 @@ def train1(model, device, load_model, save_model, german_vocab, english_vocab,
         print(f'Epoch: {epoch+1:02} | Time: {epoch_mins}m {epoch_secs}s')
         print(f'\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}')
         #print(f'\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}')
-        src = "ein pferd geht unter einer brücke neben einem boot ."
-        translation, attention = translate_sentencex(model, src, german_vocab, english_vocab, device)
-        print("SRC: ", src)
-        print("PRE: ",translation)
 
