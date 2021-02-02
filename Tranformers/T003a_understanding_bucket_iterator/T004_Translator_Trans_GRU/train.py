@@ -152,7 +152,7 @@ def train(model, device, load_model, save_model,
         scheduler.step(mean_loss)
 
 
-def train2(model, iterator, optimizer, criterion, clip, LOAD_NEW_METHOD):
+def train2(model, iterator, optimizer, criterion, clip, LOAD_NEW_METHOD, device):
 
     model.train()
 
@@ -160,8 +160,8 @@ def train2(model, iterator, optimizer, criterion, clip, LOAD_NEW_METHOD):
 
     for i, batch in enumerate(iterator):
         if LOAD_NEW_METHOD:
-            src = batch[0]
-            trg = batch[1]
+            src = batch[0].to(device)
+            trg = batch[1].to(device)
         else:
             src = batch.src
             trg = batch.trg
@@ -217,7 +217,7 @@ def train1(model, device, load_model, save_model, german_vocab, english_vocab,
     for epoch in range(N_EPOCHS):
 
         start_time = time.time()
-        train_loss = train2(model, train_iterator, optimizer, criterion, CLIP, LOAD_NEW_METHOD)
+        train_loss = train2(model, train_iterator, optimizer, criterion, CLIP, LOAD_NEW_METHOD, device)
         #valid_loss = evaluate(model, valid_iterator, criterion)
 
         end_time = time.time()

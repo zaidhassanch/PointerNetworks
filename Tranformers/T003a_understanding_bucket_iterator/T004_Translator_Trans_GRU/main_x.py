@@ -13,7 +13,6 @@ LOAD_NEW_METHOD = False
 
 SRC, TRG, train_data, valid_data, test_data = getData(LOAD_NEW_METHOD)
 
-
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 INPUT_DIM = len(SRC)
