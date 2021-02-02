@@ -72,9 +72,11 @@ def getData_old_method():
 
     german.vocab.init_token = "<sos>"
     german.vocab.eos_token = "<eos>"
+    german.vocab.pad_token = "<pad>"
 
     english.vocab.init_token = "<sos>"
     english.vocab.eos_token = "<eos>"
+    english.vocab.pad_token = "<pad>"
     # print("Train")
     # for i in range(10):
     #     #print(train_data[i].src, train_data[i].trg)

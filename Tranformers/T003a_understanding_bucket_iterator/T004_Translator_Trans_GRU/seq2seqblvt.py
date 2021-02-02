@@ -3,6 +3,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 import random
 
+# def init_weights(m):
+#     for name, param in m.named_parameters():
+#         if 'weight' in name:
+#             nn.init.normal_(param.data, mean=0, std=0.01)
+#         else:
+#             nn.init.constant_(param.data, 0)
+#
+# model.apply(init_weights)
+
+
 class Encoder(nn.Module):
     def __init__(self, input_dim, emb_dim, enc_hid_dim, dec_hid_dim, dropout):
         super().__init__()
@@ -15,6 +25,7 @@ class Encoder(nn.Module):
     def forward(self, src):
         src_len = torch.tensor(src.shape[0])
         src_len = src_len.repeat(src.shape[1])
+
         embedded = self.dropout(self.embedding(src))
         packed_embedded = nn.utils.rnn.pack_padded_sequence(embedded, src_len)
         packed_outputs, hidden = self.rnn(packed_embedded)
@@ -94,12 +105,17 @@ class Seq2Seq(nn.Module):
         self.src_pad_idx = src_pad_idx
         self.device = device
 
+        print(f'The model has {self.count_parameters():,} trainable parameters')
+
+    def count_parameters(self):
+        return sum(p.numel() for p in self.parameters() if p.requires_grad)
+
     def create_mask(self, src):
         mask = (src != self.src_pad_idx).permute(1, 0)
         return mask
 
     def forward(self, src, trg, teacher_forcing_ratio = 0.5):
-        #src_len = src.shape[0]
+
         batch_size = src.shape[1]
         trg_len = trg.shape[0]
         trg_vocab_size = self.decoder.output_dim
