@@ -34,17 +34,25 @@ def tokenize_de(text):
 def tokenize_en(text):
     return [tok.text for tok in spacy_en.tokenizer(text)]
 
+#
+SRC = Field(tokenize=tokenize_de, lower=True,
+               init_token="<sos>", eos_token="<eos>",  pad_token="<pad>", unk_token="<unk>", include_lengths = True)
 
-SRC = Field(tokenize = tokenize_de,
-            init_token = '<sos>',
-            eos_token = '<eos>',
-            lower = True,
-            include_lengths = True)
+TRG = Field(
+    tokenize=tokenize_en, lower=True,
+    init_token="<sos>", eos_token="<eos>", pad_token="<pad>", unk_token="<unk>")
 
-TRG = Field(tokenize = tokenize_en,
-            init_token = '<sos>',
-            eos_token = '<eos>',
-            lower = True)
+#
+# SRC = Field(tokenize = tokenize_de,
+#             init_token = '<sos>',
+#             eos_token = '<eos>',
+#             lower = True,
+#             include_lengths = True)
+#
+# TRG = Field(tokenize = tokenize_en,
+#             init_token = '<sos>',
+#             eos_token = '<eos>',
+#             lower = True)
 
 
 train_data, valid_data, test_data = Multi30k.splits(exts = ('.de', '.en'),
