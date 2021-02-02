@@ -29,6 +29,7 @@ def build_vocab_tsv(filepath, tokenizer, column = 0):
   vocab = Vocab(counter, specials=['<unk>', '<pad>', '<sos>', '<eos>'], max_size=40000, min_freq=2);
   vocab.init_token = '<sos>'
   vocab.eos_token = '<eos>'
+  vocab.pad_token = '<pad>'
   return vocab
 
 def data_process(ger_path, eng_path, ger_voc, eng_voc, ger_tok, eng_tok):

@@ -18,7 +18,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 INPUT_DIM = len(SRC)
 OUTPUT_DIM = len(TRG)
-SRC_PAD_IDX = SRC.stoi[SRC.pad_token]
+#SRC_PAD_IDX = SRC.stoi[SRC.pad_token]
+SRC_PAD_IDX = SRC.stoi["<pad>"]
 
 src_vocab_size = INPUT_DIM
 trg_vocab_size = OUTPUT_DIM
@@ -28,7 +29,7 @@ load_model = False
 save_model = True
 learning_rate = 3e-4
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-TRG_PAD_IDX = TRG.stoi[TRG.pad_token]
+TRG_PAD_IDX = TRG.stoi["<pad>"]
 
 train1(model, device, load_model, save_model,
  	SRC, TRG, train_data, valid_data, test_data, BATCH_SIZE, LOAD_NEW_METHOD)

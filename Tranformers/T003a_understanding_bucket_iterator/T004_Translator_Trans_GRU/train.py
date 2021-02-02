@@ -152,16 +152,19 @@ def train(model, device, load_model, save_model,
         scheduler.step(mean_loss)
 
 
-def train2(model, iterator, optimizer, criterion, clip):
+def train2(model, iterator, optimizer, criterion, clip, LOAD_NEW_METHOD):
 
     model.train()
 
     epoch_loss = 0
 
     for i, batch in enumerate(iterator):
-
-        src = batch.src
-        trg = batch.trg
+        if LOAD_NEW_METHOD:
+            src = batch[0]
+            trg = batch[1]
+        else:
+            src = batch.src
+            trg = batch.trg
 
         optimizer.zero_grad()
 
@@ -191,12 +194,16 @@ def train1(model, device, load_model, save_model, german_vocab, english_vocab,
       train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD):
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-    train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
-        (train_data, valid_data, test_data),
-         batch_size = batch_size,
-         sort_within_batch = True,
-         sort_key = lambda x : len(x.src),
-         device = device)
+
+    if LOAD_NEW_METHOD:
+        train_iterator, valid_iterator, test_iterator = Batcher(train_data, valid_data, test_data)
+    else:
+        train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
+            (train_data, valid_data, test_data),
+             batch_size = batch_size,
+             sort_within_batch = True,
+             sort_key = lambda x : len(x.src),
+             device = device)
 
     pad_idx = english_vocab.stoi["<pad>"]
     criterion = nn.CrossEntropyLoss(ignore_index = pad_idx)
@@ -210,7 +217,7 @@ def train1(model, device, load_model, save_model, german_vocab, english_vocab,
     for epoch in range(N_EPOCHS):
 
         start_time = time.time()
-        train_loss = train2(model, train_iterator, optimizer, criterion, CLIP)
+        train_loss = train2(model, train_iterator, optimizer, criterion, CLIP, LOAD_NEW_METHOD)
         #valid_loss = evaluate(model, valid_iterator, criterion)
 
         end_time = time.time()
