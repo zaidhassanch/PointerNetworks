@@ -2,7 +2,7 @@ import spacy
 import torch
 from torchtext.data.metrics import bleu_score
 
-def translate_sentence(model, sentence, src_field, trg_field, device, max_len=50):
+def translate_sentencex(model, sentence, src_field, trg_field, device, max_len=50):
     model.eval()
 
     if isinstance(sentence, str):

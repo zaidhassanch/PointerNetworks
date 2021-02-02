@@ -4,11 +4,20 @@ import torch
 import torch.nn as nn
 import torch.optim as optim 
 import time
-
+import math
+from utils_x import translate_sentencex
 from dataloader import Batcher
 # Training hyperparameters
 num_epochs = 10000
 learning_rate = 3e-4
+
+def epoch_time(start_time, end_time):
+    elapsed_time = end_time - start_time
+    elapsed_mins = int(elapsed_time / 60)
+    elapsed_secs = int(elapsed_time - (elapsed_mins * 60))
+    return elapsed_mins, elapsed_secs
+
+
 
 def printSentences(tokens, lang):
     print()
@@ -142,4 +151,81 @@ def train(model, device, load_model, save_model,
         mean_loss = sum(losses) / len(losses)
         scheduler.step(mean_loss)
 
-        
+
+def train2(model, iterator, optimizer, criterion, clip):
+
+    model.train()
+
+    epoch_loss = 0
+
+    for i, batch in enumerate(iterator):
+
+        src = batch.src
+        trg = batch.trg
+
+        optimizer.zero_grad()
+
+        output = model(src, trg)
+        output_dim = output.shape[-1]
+
+        output = output[1:].view(-1, output_dim)
+        trg = trg[1:].view(-1)
+
+        loss = criterion(output, trg)
+
+        loss.backward()
+
+        torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
+
+        optimizer.step()
+
+        epoch_loss += loss.item()
+        if(i%100 == 0):
+            print(f'\t{i} Train Loss: {loss.item():.3f}')
+
+    return epoch_loss / len(iterator)
+
+
+
+def train1(model, device, load_model, save_model, german_vocab, english_vocab,
+      train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD):
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+    train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
+        (train_data, valid_data, test_data),
+         batch_size = batch_size,
+         sort_within_batch = True,
+         sort_key = lambda x : len(x.src),
+         device = device)
+
+    pad_idx = english_vocab.stoi["<pad>"]
+    criterion = nn.CrossEntropyLoss(ignore_index = pad_idx)
+
+    N_EPOCHS = 10
+    CLIP = 1
+
+    best_valid_loss = float('inf')
+
+
+    for epoch in range(N_EPOCHS):
+
+        start_time = time.time()
+        train_loss = train2(model, train_iterator, optimizer, criterion, CLIP)
+        #valid_loss = evaluate(model, valid_iterator, criterion)
+
+        end_time = time.time()
+
+        epoch_mins, epoch_secs = epoch_time(start_time, end_time)
+
+        # if valid_loss < best_valid_loss:
+        #     best_valid_loss = valid_loss
+        torch.save(model.state_dict(), 'tut4-model.pt')
+
+        print(f'Epoch: {epoch+1:02} | Time: {epoch_mins}m {epoch_secs}s')
+        print(f'\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}')
+        #print(f'\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}')
+        src = "ein pferd geht unter einer brücke neben einem boot ."
+        translation, attention = translate_sentencex(model, src, german_vocab, english_vocab, device)
+        print("SRC: ", src)
+        print("PRE: ",translation)
+
