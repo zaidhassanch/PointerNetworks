@@ -1,3 +1,11 @@
+https://github.com/bentrevett/pytorch-seq2seq
+https://towardsdatascience.com/a-comprehensive-guide-to-neural-machine-translation-using-seq2sequence-modelling-using-pytorch-41c9b84ba350
+
+
+- convert to seq2seq
+- evaluate with horse german sentence
+- use german
+
 
 - run code
 - understand what ankit is saying

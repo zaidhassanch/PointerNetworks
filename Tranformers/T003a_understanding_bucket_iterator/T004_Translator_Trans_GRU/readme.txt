@@ -50,15 +50,23 @@ Two young, White males are outside near many bushes.
     ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
 
 ================================================================
+
+- add the pytorch eng-fra translator DrPascal/NLP_tutorials/003_myMTSS
+  >> stuck in attention
+  >> understand attention
+     - pytorch fra-eng translator
+     - pointer network orig
+     - pointer network zaid
+     - transformer atten (pytorch builtin atten)
+     - youtube tranformer atten
 - figure out how to speedup seq2seq, we see that in his code it takes 92sec, vs 50 sec.
 
 Zaid (Dataloader, BPE, TSV, GRU, TRansformer, LSTM with ATTn).
 - use TSV (using our old code complete)
   > BUT SHOULD USE TABULARDATA
-- loading of data from TSV appears to be very fast
-- use BPE (ability to switch between spacy and BPE) - 30 min
+- loading of data from TSV (TabluarData) appears to be very fast (initial loading time)
+- use BPE (ability to switch between spacy and BPE)
 - draw arch diagram for ankit code
-- add the pytorch eng-fra translator DrPascal/NLP_tutorials/003_myMTSS
 - use data from m2 files (m2 -> tsv, tsv -> m2)
 - Use m2 files to see how well it corrects grammer of standard datasets -- V IMP
 
