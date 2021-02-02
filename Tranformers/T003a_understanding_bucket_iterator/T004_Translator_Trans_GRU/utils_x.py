@@ -36,7 +36,6 @@ def translate_sentence(model, sentence, src_field, trg_field, device, max_len=50
         attentions[i] = attention
 
         pred_token = output.argmax(1).item()
-
         trg_indexes.append(pred_token)
 
         if pred_token == trg_field.stoi[trg_field.eos_token]:
@@ -55,14 +54,10 @@ def calculate_bleu(data, src_field, trg_field, model, device, max_len = 50):
 
     for datum in data:
 
-        src = vars(datum)['src']
-        trg = vars(datum)['trg']
-
-        pred_trg, _ = translate_sentence(src, src_field, trg_field, model, device, max_len)
-
-        #cut off <eos> token
-        pred_trg = pred_trg[:-1]
-
+        src = datum.src
+        trg = datum.trg
+        pred_trg, _ = translate_sentence(model, src, src_field, trg_field, device, max_len)
+        pred_trg = pred_trg[:-1]        #cut off <eos> token
         pred_trgs.append(pred_trg)
         trgs.append([trg])
 

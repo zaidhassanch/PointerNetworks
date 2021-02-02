@@ -2,16 +2,11 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
-from torchtext.datasets import Multi30k
 from torchtext.data import Field, BucketIterator
-
-import spacy
-import math
+mport math
 import time
 from seq2seqblvt import  Seq2Seq
 from train_x import train, evaluate, epoch_time
-from utils_x import calculate_bleu
 from utils_x import translate_sentence
 
 from data import getData
@@ -22,6 +17,16 @@ BATCH_SIZE = 32
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+INPUT_DIM = len(SRC)
+OUTPUT_DIM = len(TRG)
+SRC_PAD_IDX = SRC.stoi[SRC.pad_token]
+
+src_vocab_size = INPUT_DIM
+trg_vocab_size = OUTPUT_DIM
+model = Seq2Seq(SRC_PAD_IDX, src_vocab_size, trg_vocab_size, device).to(device)
+#model.load_state_dict(torch.load('tut4-model-saved.pt'))
+
+
 train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
     (train_data, valid_data, test_data),
      batch_size = BATCH_SIZE,
@@ -30,16 +35,8 @@ train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
      device = device)
 
 
-INPUT_DIM = len(SRC)
-OUTPUT_DIM = len(TRG)
-SRC_PAD_IDX = SRC.stoi[SRC.pad_token]
-
-src_vocab_size = INPUT_DIM
-trg_vocab_size = OUTPUT_DIM
-model = Seq2Seq(SRC_PAD_IDX, src_vocab_size, trg_vocab_size, device).to(device)
-
-
-optimizer = optim.Adam(model.parameters())
+learning_rate = 3e-4
+optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 TRG_PAD_IDX = TRG.stoi[TRG.pad_token]
 criterion = nn.CrossEntropyLoss(ignore_index = TRG_PAD_IDX)
 
