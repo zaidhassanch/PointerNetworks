@@ -131,7 +131,7 @@ class Seq2Seq(nn.Module):
         hidden = enc_hidden
         target = trg[0,:]
 
-        for t in range(0, trg_len):
+        for t in range(1, trg_len):
             output, hidden = self.decoder(target, hidden, enc_hidden)
             outputs[t] = output
             teacher_force = random.random() < teacher_forcing_ratio

@@ -5,7 +5,8 @@ import torch.nn as nn
 import torch.optim as optim 
 import time
 import math
-from utils_x import translate_sentencex
+#from utils_x import translate_sentencex
+from utils import translate_sentencex2
 from dataloader import Batcher
 # Training hyperparameters
 num_epochs = 10000
@@ -225,7 +226,9 @@ def train1(model, device, load_model, save_model, german_vocab, english_vocab,
 
     for epoch in range(N_EPOCHS):
         src = "ein pferd geht unter einer brücke neben einem boot ."
-        translation, attention = translate_sentencex(model, src, german_vocab, english_vocab, device)
+        translation = translate_sentencex2(model, src, german_vocab, english_vocab, device)
+        #translation = translate_sentence(model, src, german_vocab, english_vocab, device)
+
         print("SRC: ", src)
         print("PRE: ", translation)
 

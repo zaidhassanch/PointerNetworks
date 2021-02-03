@@ -1,5 +1,17 @@
+
+- Trying to understand Ankit's code
+  > can't see how context/syntax ???
+
+
+
 https://github.com/bentrevett/pytorch-seq2seq
 https://towardsdatascience.com/a-comprehensive-guide-to-neural-machine-translation-using-seq2sequence-modelling-using-pytorch-41c9b84ba350
+
+- German to English via Ankit code
+- Add attention in Ankit code
+- See timings of Ankit code
+- Use BPE in our LSTM code
+- Draw architectures of Ankit's code
 
 
 - convert to seq2seq

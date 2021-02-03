@@ -5,12 +5,53 @@ import sys
 
 spacy_ger = spacy.load("de")
 
+def translate_sentencex2(model, sentence, src_field, trg_field, device, max_len=50):
+    model.eval()
+
+    if type(sentence) == str:
+        tokens = [token.text.lower() for token in spacy_ger(sentence)]
+    else:
+        tokens = [token.lower() for token in sentence]
+
+    tokens.insert(0, src_field.init_token)
+    tokens.append(src_field.eos_token)
+
+    src_indexes = [src_field.stoi[token] for token in tokens]
+    src_tensor = torch.LongTensor(src_indexes).unsqueeze(1).to(device)
+
+    # outputs = [english_vocab.stoi["<sos>"]]
+
+    with torch.no_grad():
+        encoder_outputs, hidden = model.encoder(src_tensor)
+
+    mask = model.create_mask(src_tensor)
+
+    trg_indexes = [trg_field.stoi[trg_field.init_token]]
+
+    attentions = torch.zeros(max_len, 1, len(src_indexes)).to(device)
+
+    for i in range(max_len):
+
+        trg_tensor = torch.LongTensor([trg_indexes[-1]]).to(device)
+
+        with torch.no_grad():
+            output, hidden, attention = model.decoder(trg_tensor, hidden, encoder_outputs, mask)
+
+        attentions[i] = attention
+
+        pred_token = output.argmax(1).item()
+        trg_indexes.append(pred_token)
+
+        if pred_token == trg_field.stoi[trg_field.eos_token]:
+            break
+
+    trg_tokens = [trg_field.itos[i] for i in trg_indexes]
+
+    return trg_tokens[1:]#, attentions[:len(trg_tokens) - 1]
+
 
 def translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50):
-    # Load german tokenizer
-    # return sentence
 
-    # Create tokens using spacy and everything in lower case (which is what our vocab is)
     if type(sentence) == str:
         tokens = [token.text.lower() for token in spacy_ger(sentence)]
     else:
