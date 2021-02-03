@@ -5,6 +5,7 @@ import sys
 
 spacy_ger = spacy.load("de")
 
+
 def translate_sentencex2(model, sentence, src_field, trg_field, device, max_len=50):
     model.eval()
 
@@ -20,13 +21,12 @@ def translate_sentencex2(model, sentence, src_field, trg_field, device, max_len=
     src_tensor = torch.LongTensor(src_indexes).unsqueeze(1).to(device)
 
     # outputs = [english_vocab.stoi["<sos>"]]
+    trg_indexes = [trg_field.stoi[trg_field.init_token]]
 
     with torch.no_grad():
         encoder_outputs, hidden = model.encoder(src_tensor)
 
     mask = model.create_mask(src_tensor)
-
-    trg_indexes = [trg_field.stoi[trg_field.init_token]]
 
     attentions = torch.zeros(max_len, 1, len(src_indexes)).to(device)
 
