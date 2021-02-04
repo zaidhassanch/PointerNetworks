@@ -1,15 +1,17 @@
 
-from utils import translate_sentence, load_checkpoint
+from utils import load_checkpoint
 import torch
 from data import getData
 from train import train, train1
 from transfomer import Transformer
-from seq2seqblvt import Seq2Seq
-#
+#from seq2seq import  Seq2Seq # 28epochs: PRE:  ['a', 'horse', 'walking', 'beside', 'a', 'boat', 'under', 'a', 'bridge', '.', '<eos>']
+								   # 38epochs: PRE:  ['a', 'horse', 'is', 'walking', 'beside', 'a', 'boat', 'under', 'a', 'bridge', '.', '<eos>']
+
+from seq2seq_attn import  Seq2Seq
+
 LOAD_NEW_METHOD = False
 batch_size = 32
 print("===============================before loading")
-# german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod(LOAD_NEW_METHOD)
 german_vocab, english_vocab, train_data, valid_data, test_data = getData(LOAD_NEW_METHOD)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 #device = "gpu"
@@ -34,12 +36,14 @@ print("src vocabulary size: ", src_vocab_size)
 print("trg vocabulary size: ", trg_vocab_size)
 embedding_size = 512
 src_pad_idx = english_vocab.stoi["<pad>"]
+TRG_EOS_TOKEN = german_vocab.stoi[german_vocab.eos_token]
 print(src_pad_idx)
 print(english_vocab.itos[src_pad_idx])
 print("===============================after loading ")
 
-model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
-#model = Seq2Seq(src_pad_idx, src_vocab_size, trg_vocab_size, device).to(device)
+
+#model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
+model = Seq2Seq(src_pad_idx, src_vocab_size, trg_vocab_size, device, TRG_EOS_TOKEN).to(device)
 
 load_model = False
 save_model = True
@@ -50,11 +54,9 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 if load_model:
     load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
-sentence = "ein pferd geht unter einer brücke neben einem boot."
-
-translated_sentence = translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50)
-
-train(model, device, load_model, save_model,
+# train(model, device, load_model, save_model,
+# 	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
+train1(model, device, load_model, save_model,
 	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
 
 

@@ -6,7 +6,6 @@ import torch.optim as optim
 import time
 import math
 from utils import translate_sentence_lstm
-#from seq2seq import translate_sentence_ankit
 from dataloader import Batcher
 
 num_epochs = 10000

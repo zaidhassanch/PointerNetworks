@@ -41,6 +41,7 @@ def data_process(ger_path, eng_path, ger_voc, eng_voc, ger_tok, eng_tok):
   for (raw_de, raw_en) in zip(raw_de_iter, raw_en_iter):
     raw_en = raw_en.lower().rstrip()
     raw_de = raw_de.lower().rstrip()
+
     de_tensor_ = torch.tensor([ger_voc[token] for token in ger_tok(raw_de)],
                             dtype=torch.long)
 
@@ -116,6 +117,7 @@ def getData2(ger_tok, eng_tok, from_TSV = False):
   return ger_voc, eng_voc, train_data, test_data, test_data
 
 def generate_batch(data_batch):
+
   PAD_IDX = 1 #german_vocab['<pad>']
   de_batch, en_batch = [], []
   # for (de_item, en_item) in data_batch:
