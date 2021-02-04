@@ -5,10 +5,9 @@ import torch.nn as nn
 import torch.optim as optim 
 import time
 import math
-#from utils_x import translate_sentencex
-from utils import translate_sentencex2
+from utils import translate_sentence_attn, translate_sentence_ankit
 from dataloader import Batcher
-# Training hyperparameters
+
 num_epochs = 10000
 learning_rate = 3e-4
 
@@ -201,7 +200,7 @@ def train2(model, iterator, optimizer, criterion, clip, LOAD_NEW_METHOD, device)
 
 
 def train1(model, device, load_model, save_model, german_vocab, english_vocab,
-      train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD):
+      train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD, attn = True):
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 
@@ -226,7 +225,10 @@ def train1(model, device, load_model, save_model, german_vocab, english_vocab,
 
     for epoch in range(N_EPOCHS):
         src = "ein pferd geht unter einer brücke neben einem boot ."
-        translation = translate_sentencex2(model, src, german_vocab, english_vocab, device)
+        if attn:
+            translation = translate_sentence_attn(model, src, german_vocab, english_vocab, device)
+        else:
+            translation = translate_sentence_ankit(model, src, german_vocab, english_vocab, device)
         #translation = translate_sentence(model, src, german_vocab, english_vocab, device)
 
         print("SRC: ", src)

@@ -1,6 +1,71 @@
 
-- Trying to understand Ankit's code
-  > can't see how context/syntax ???
+
+- I was supposed to start integration of my probe into ankit's code
+  > ankit promised to sent some tips on how to integrate.
+  > he then later emailed me that it is going to take a while.
+
+- Anyways, Didn't really wait for it
+  > Getting hands on it now, probably will be able to start integration soon
+  > To speed up development and testing, I am using Multi30k dataset
+     -- much easier to work on my machine
+  > I am developing a clean code so that integration is easier
+  > in the process I have an observation:
+    BPE tokenizer is very slow and increases probably 50% of training time.
+    I have Yet to confirm this observation,
+    Tokenizing dataset in advance can probably speed up training
+  > I need to discuss context / syntax partitioning in the Exp10 code with Ankit
+    Right now the things do not look correct. Since it is just a simple splitting of
+    hidden states. Hidden states are concat and passed through fc and splitted
+    does not make sense to me
+  > Experimented a little with adding attention, results are not final yet, but I see some improvement.
+
+  Now I have models for Seq2Seq training.
+     > Transformer                     1    very fast, and after 1 epoch gives some good (30 sec)
+     > GRU based model without atten   3    fast, and after 7 epoch gives some good (40 sec)
+     > GRU based model with atten      2    fast, and after 2 epoch gives some good (65 sec)
+
+- Few more point: Some deprecated stuff is being used
+   - BucketIterator, Field, both are deprecated.
+   - Explored new methods of data loading
+   - BucketIterator vs data loader
+   - Dataloader is working but somewhat slower but still exploring, I am sure, I am missing something
+
+- Prof Pascal - profile code
+  - made an example of simple counter and observed results
+  - code which would otherwise take .25sec, can take 4 sec with prof - intruisive profiling
+    #but we know where the time is being spent. We should scale interpretation
+  - Right now profiled function, yet to profile class functions, haven't tried yet.
+  - Still more work required on this
+
+==============================================================
+  > Moreover, It would would be nice to have some numbers on claimed results
+    and process of reproducing claimed results, so that I can see the effect of
+    my code.
+
+- I was supposed to start integration of my probe into ankit's code
+  > ankit promised to sent some tips on how to integrate,
+  > I reminded once, but still haven't got them yet.
+
+- Now, I have started understanding the code myself
+  - getting significant hand on it, probably a little more time to start integration
+  - Still need to see good results on the model
+  - Too hard to work on Scribendi dataset since it needs lot of training time
+     > training time and restriction on not to copy is a little hurdle
+     > To remove this hurdle, I switched back to Multi30k,
+       Made it to work on Multi-30k. (BPE is obviously trained for english)
+  - In the process of making a framework which makes integration easier
+       > it currently uses SPacy tokenizer, have to shift it to BPE also
+       > Right now not in a very presentable form
+       > SOMEHOW, MY FRAMEWORK DOES FASTER ITERATION (MORE THAN 50% FASTER)
+         - in my framework I am using spacy for tokenization, which appears to be the reason
+           as opposed to BPE
+         - The data I am using is my reference german to english translation dataset since I
+           can't use scribendi dataset
+
+
+- I need to discuss context / syntax partitioning in the Exp10 code with Ankit
+
+
 
 
 

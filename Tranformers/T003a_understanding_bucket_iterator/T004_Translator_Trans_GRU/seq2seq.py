@@ -3,6 +3,9 @@ import random
 from torch import nn
 import torch.nn.functional as F
 
+
+attn = False
+
 class EncoderRNN(nn.Module):
     def __init__(self, num_words, emb_dim, hid_dim):
         super(EncoderRNN, self).__init__()
@@ -27,6 +30,7 @@ class Encoder(nn.Module):
         self.relu = nn.ReLU()
 
     def forward(self, src):                 # (13, 30)
+        # print("Forward of Encoder")
         embedded1 = self.embedding(src)     # (13, 30, 300)
         embedded = self.dropout(embedded1)  # (13, 30, 300)
         _, hidden = self.rnn(embedded)      # _ (13, 30, 1024), hidden (4, 30, 512)
@@ -52,6 +56,7 @@ class Decoder(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, target, hidden, enc_hidden):
+        # print("Forward of Decoder")
         target = target.unsqueeze(0)                                            # (1, 30)
         embedded1 = self.embedding(target)                                     # (1, 30, 300)
         embedded = self.dropout(embedded1)                                    # (1, 30, 300)
@@ -108,11 +113,11 @@ class Seq2Seq(nn.Module):
         ENC_HID_DIM = 512;  DEC_HID_DIM = 512
         ENC_DROPOUT = 0.2;  DEC_DROPOUT = 0.2
 
-        # self.encoder = Encoder(src_vocab_size, ENC_EMB_DIM, ENC_HID_DIM, ENC_DROPOUT)
-        self.encoder = EncoderRNN(src_vocab_size, ENC_EMB_DIM, ENC_HID_DIM)
+        self.encoder = Encoder(src_vocab_size, ENC_EMB_DIM, ENC_HID_DIM, ENC_DROPOUT)
+        #self.encoder = EncoderRNN(src_vocab_size, ENC_EMB_DIM, ENC_HID_DIM)
 
-        #self.decoder = Decoder(trg_vocab_size, DEC_EMB_DIM, DEC_HID_DIM, DEC_DROPOUT)
-        self.decoder = DecoderRNN(trg_vocab_size, DEC_EMB_DIM, DEC_HID_DIM)
+        self.decoder = Decoder(trg_vocab_size, DEC_EMB_DIM, DEC_HID_DIM, DEC_DROPOUT)
+        #self.decoder = DecoderRNN(trg_vocab_size, DEC_EMB_DIM, DEC_HID_DIM)
 
         self.src_pad_idx = src_pad_idx
         self.device = device
