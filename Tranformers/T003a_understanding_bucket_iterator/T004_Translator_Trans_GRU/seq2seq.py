@@ -6,7 +6,6 @@ import spacy
 spacy_ger = spacy.load("de")
 MAX_LEN = 50
 
-attn = False
 
 class Encoder(nn.Module):
     def __init__(self, input_dim, emb_dim, hid_dim, dropout):

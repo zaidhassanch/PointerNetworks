@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import random
 
-attn = True
+
 # def init_weights(m):
 #     for name, param in m.named_parameters():
 #         if 'weight' in name:
