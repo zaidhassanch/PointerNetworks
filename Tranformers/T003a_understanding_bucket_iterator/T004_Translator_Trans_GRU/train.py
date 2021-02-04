@@ -218,7 +218,7 @@ def train1(model, device, load_model, save_model, german_vocab, english_vocab,
     pad_idx = english_vocab.stoi["<pad>"]
     criterion = nn.CrossEntropyLoss(ignore_index = pad_idx)
 
-    N_EPOCHS = 10
+    N_EPOCHS = 100
     CLIP = 1
 
     best_valid_loss = float('inf')
