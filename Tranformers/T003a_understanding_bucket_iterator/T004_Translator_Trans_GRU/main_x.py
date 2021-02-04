@@ -1,13 +1,13 @@
 
 import torch
-#from seq2seq import  Seq2Seq, attn
+from seq2seq import  Seq2Seq, attn
 
-from seq2seqblvt import  Seq2Seq, attn
+# from seq2seqblvt import  Seq2Seq, attn
 from train import train1, train
 
 from data import getData
 BATCH_SIZE = 32
-LOAD_NEW_METHOD = False
+LOAD_NEW_METHOD = True
 
 SRC, TRG, train_data, valid_data, test_data = getData(LOAD_NEW_METHOD)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -24,6 +24,8 @@ load_model = False
 save_model = True
 learning_rate = 3e-4
 TRG_PAD_IDX = TRG.stoi["<pad>"]
+
+
 
 train1(model, device, load_model, save_model,
  	SRC, TRG, train_data, valid_data, test_data, BATCH_SIZE, LOAD_NEW_METHOD, attn)

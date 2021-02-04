@@ -3,22 +3,7 @@ import random
 from torch import nn
 import torch.nn.functional as F
 
-
 attn = False
-
-class EncoderRNN(nn.Module):
-    def __init__(self, num_words, emb_dim, hid_dim):
-        super(EncoderRNN, self).__init__()
-        self.embedding = nn.Embedding(num_words,emb_dim)
-        self.gru = nn.GRU(emb_dim, hid_dim)
-
-    def forward(self, input):
-        embedded_word = self.embedding(input)
-        _, hidden = self.gru(embedded_word)
-        hidden = hidden.squeeze(0)
-        syntax, content = torch.chunk(hidden, chunks=2, dim=1)
-        return syntax, content
-
 
 class Encoder(nn.Module):
     def __init__(self, input_dim, emb_dim, hid_dim, dropout):
@@ -68,44 +53,6 @@ class Decoder(nn.Module):
         return prediction, hidden                                             # (30, 30000), (30, 512)
 
 
-class DecoderRNN(nn.Module):
-    def __init__(self, output_dim, emb_dim, hid_dim):
-        super(DecoderRNN, self).__init__()
-        self.embedding = nn.Embedding(output_dim, emb_dim)
-        self.gru = nn.GRU(emb_dim, hid_dim)
-        self.fc = nn.Linear(hid_dim, output_dim)
-
-    def forward(self, input, hidden, enc_hidden):
-        input = input.unsqueeze(0)
-        # print(input.shape)
-        output = self.embedding(input)
-        # print(output.shape)
-        output = F.relu(output)
-
-        dec_out, hidden = self.gru(output, hidden)
-        dec_out = dec_out.squeeze(0)
-        output = self.fc(dec_out)
-        return output, hidden
-
-
-class classifierNet(nn.Module):
-    def __init__(self, inDim, vocab, dropout):
-        super().__init__()
-        self.vocab = vocab
-        self.net = nn.Sequential(
-            nn.Linear(inDim, inDim*2),
-            nn.ReLU(),
-            nn.Linear(inDim*2, inDim*4),
-            nn.Dropout(dropout),
-            nn.Linear(inDim*4, inDim*8),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-            nn.Linear(inDim*8, vocab)
-            )
-    def forward(self, input):
-        x = self.net(input)
-        return x
-
 class Seq2Seq(nn.Module):
     def __init__(self, src_pad_idx, src_vocab_size, trg_vocab_size, device):
         super().__init__()
@@ -124,23 +71,143 @@ class Seq2Seq(nn.Module):
         self.input_dim = src_vocab_size
         self.output_dim = trg_vocab_size
 
-    def forward(self, src, trg, teacher_forcing_ratio = 0.50):
+    def forward(self, src, trg, teacher_forcing_ratio = 0.50, train = True):
 
-        trg_len = trg.shape[0]
-        batch_size = src.shape[1]
-        trg_vocab_size = self.output_dim
-        outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
-        syntax, content = self.encoder(src)
-        enc_hidden = torch.cat((syntax, content), dim = 1)
-        enc_hidden = enc_hidden.unsqueeze(0)
-        hidden = enc_hidden
-        target = trg[0,:]
+        if train:
+            trg_len = trg.shape[0]
+            batch_size = src.shape[1]
+            trg_vocab_size = self.output_dim
+            outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
 
-        for t in range(1, trg_len):
-            output, hidden = self.decoder(target, hidden, enc_hidden)
-            outputs[t] = output
-            teacher_force = random.random() < teacher_forcing_ratio
-            top1 = output.argmax(1)
-            target = trg[t] if teacher_force else top1
+
+            syntax, content = self.encoder(src)
+            enc_hidden = torch.cat((syntax, content), dim = 1)
+            enc_hidden = enc_hidden.unsqueeze(0)
+            hidden = enc_hidden
+            target = trg[0,:]
+
+            for t in range(1, trg_len):
+                output, hidden = self.decoder(target, hidden, enc_hidden)
+                outputs[t] = output
+                teacher_force = random.random() < teacher_forcing_ratio
+                top1 = output.argmax(1)
+                target = trg[t] if teacher_force else top1
+        else:
+            trg_len = trg.shape[0]
+            batch_size = src.shape[1]
+            trg_vocab_size = self.output_dim
+            outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
+
+            syntax, content = self.encoder(src)
+            enc_hidden = torch.cat((syntax, content), dim=1)
+            enc_hidden = enc_hidden.unsqueeze(0)
+            hidden = enc_hidden
+
+            target = trg[0, :]
+
+
+
+            for t in range(1, trg_len):
+                output, hidden = self.decoder(target, hidden, enc_hidden)
+                outputs[t] = output
+                teacher_force = random.random() < teacher_forcing_ratio
+                top1 = output.argmax(1)
+                target = trg[t] if teacher_force else top1
+
         return outputs
 
+import spacy
+spacy_ger = spacy.load("de")
+
+def translate_sentence_ankit(model, sentence, src_field, trg_field, device, max_len=50):
+    model.eval()
+
+    if type(sentence) == str:
+        tokens = [token.text.lower() for token in spacy_ger(sentence)]
+    else:
+        tokens = [token.lower() for token in sentence]
+
+    tokens.insert(0, src_field.init_token)
+    tokens.append(src_field.eos_token)
+
+    src_indexes = [src_field.stoi[token] for token in tokens]
+    src_tensor = torch.LongTensor(src_indexes).unsqueeze(1).to(device)
+    trg_indexes = [trg_field.stoi[trg_field.init_token]]
+    #trg_indexes2 = [trg_field.stoi["<sos>"]]
+
+    with torch.no_grad():
+        syntax, content = model.encoder(src_tensor)
+
+    enc_hidden = torch.cat((syntax, content), dim=1)
+    enc_hidden = enc_hidden.unsqueeze(0)
+    hidden = enc_hidden
+
+    for i in range(max_len):
+
+        trg_tensor = torch.LongTensor([trg_indexes[-1]]).to(device)
+
+        with torch.no_grad():
+            output, hidden = model.decoder(trg_tensor, hidden, enc_hidden)
+
+        pred_token = output.argmax(1).item()
+        trg_indexes.append(pred_token)
+
+        if pred_token == trg_field.stoi[trg_field.eos_token]:
+            break
+
+    trg_tokens = [trg_field.itos[i] for i in trg_indexes]
+
+    return trg_tokens[1:]#, attentions[:len(trg_tokens) - 1]
+
+# class EncoderRNN(nn.Module):
+#     def __init__(self, num_words, emb_dim, hid_dim):
+#         super(EncoderRNN, self).__init__()
+#         self.embedding = nn.Embedding(num_words,emb_dim)
+#         self.gru = nn.GRU(emb_dim, hid_dim)
+#
+#     def forward(self, input):
+#         embedded_word = self.embedding(input)
+#         _, hidden = self.gru(embedded_word)
+#         hidden = hidden.squeeze(0)
+#         syntax, content = torch.chunk(hidden, chunks=2, dim=1)
+#         return syntax, content
+
+
+# class classifierNet(nn.Module):
+#     def __init__(self, inDim, vocab, dropout):
+#         super().__init__()
+#         self.vocab = vocab
+#         self.net = nn.Sequential(
+#             nn.Linear(inDim, inDim*2),
+#             nn.ReLU(),
+#             nn.Linear(inDim*2, inDim*4),
+#             nn.Dropout(dropout),
+#             nn.Linear(inDim*4, inDim*8),
+#             nn.ReLU(),
+#             nn.Dropout(dropout),
+#             nn.Linear(inDim*8, vocab)
+#             )
+#     def forward(self, input):
+#         x = self.net(input)
+#         return x
+
+
+# class DecoderRNN(nn.Module):
+#     def __init__(self, output_dim, emb_dim, hid_dim):
+#         super(DecoderRNN, self).__init__()
+#         self.embedding = nn.Embedding(output_dim, emb_dim)
+#         self.gru = nn.GRU(emb_dim, hid_dim)
+#         self.fc = nn.Linear(hid_dim, output_dim)
+#
+#     def forward(self, input, hidden, enc_hidden):
+#         input = input.unsqueeze(0)
+#         # print(input.shape)
+#         output = self.embedding(input)
+#         # print(output.shape)
+#         output = F.relu(output)
+#
+#         dec_out, hidden = self.gru(output, hidden)
+#         dec_out = dec_out.squeeze(0)
+#         output = self.fc(dec_out)
+#         return output, hidden
+#
