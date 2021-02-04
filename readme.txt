@@ -1,19 +1,13 @@
 
-Dear Ankit,
-    I have the following requests:
+send results for different models for Multi-30k dataset
 
-    1. Reference your mail below, have you finalized the new pipeline you were creating.  I would need your code as well as some instructions on how to integrate.
-        If not, what's the expected timeline.
+- Make the main, main_x common so that we can run transformer or LSTM based examples easily
+- Integrate BPE encoding
+- Try out public datasets for grammar correction.
+- Try out or scribendi
+- Zaid should explain what is context/syntax and Ahmad/zaid will try to figure out steps to implement.
 
-    2. I would like to have the trained model also, so that I can infer results myself and compare them with my code modifications.
-    If you can share test results too, and steps to reproduce, that would be great. We can use the tables Dr. Pascal showed
-    in yesterday's presentation.
-
-    3. Can you please share the 6 public datasets, you mentioned. That would also be very helpful.
-
-
-send results for different models
-
+Meeting with Dr Pascal (Feb 4, 2021)
 - I was supposed to start integration of my probe into ankit's code
   > ankit promised to sent some tips on how to integrate.
   > he then later emailed me that it is going to take a while.
@@ -52,13 +46,6 @@ send results for different models
   - Still more work required on this
 
 ==============================================================
-  > Moreover, It would would be nice to have some numbers on claimed results
-    and process of reproducing claimed results, so that I can see the effect of
-    my code.
-
-- I was supposed to start integration of my probe into ankit's code
-  > ankit promised to sent some tips on how to integrate,
-  > I reminded once, but still haven't got them yet.
 
 - Now, I have started understanding the code myself
   - getting significant hand on it, probably a little more time to start integration
