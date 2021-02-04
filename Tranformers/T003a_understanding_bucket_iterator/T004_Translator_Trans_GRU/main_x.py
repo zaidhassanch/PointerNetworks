@@ -15,10 +15,11 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 INPUT_DIM = len(SRC)
 OUTPUT_DIM = len(TRG)
 SRC_PAD_IDX = SRC.stoi["<pad>"]
+TRG_EOS_TOKEN = TRG.stoi[TRG.eos_token]
 
 src_vocab_size = INPUT_DIM
 trg_vocab_size = OUTPUT_DIM
-model = Seq2Seq(SRC_PAD_IDX, src_vocab_size, trg_vocab_size, device).to(device)
+model = Seq2Seq(SRC_PAD_IDX, src_vocab_size, trg_vocab_size, device, TRG_EOS_TOKEN).to(device)
 #model.load_state_dict(torch.load('tut4-model-saved.pt'))
 load_model = False
 save_model = True

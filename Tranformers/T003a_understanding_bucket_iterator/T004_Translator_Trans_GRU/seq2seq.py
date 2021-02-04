@@ -57,12 +57,13 @@ class Decoder(nn.Module):
 
 
 class Seq2Seq(nn.Module):
-    def __init__(self, src_pad_idx, src_vocab_size, trg_vocab_size, device):
+    def __init__(self, src_pad_idx, src_vocab_size, trg_vocab_size, device, eos_token = 2):
         super().__init__()
         ENC_EMB_DIM = 300;	DEC_EMB_DIM = 300
         ENC_HID_DIM = 512;  DEC_HID_DIM = 512
         ENC_DROPOUT = 0.2;  DEC_DROPOUT = 0.2
 
+        self.eos_token = eos_token
         self.encoder = Encoder(src_vocab_size, ENC_EMB_DIM, ENC_HID_DIM, ENC_DROPOUT)
         #self.encoder = EncoderRNN(src_vocab_size, ENC_EMB_DIM, ENC_HID_DIM)
 
@@ -73,32 +74,22 @@ class Seq2Seq(nn.Module):
         self.device = device
         self.input_dim = src_vocab_size
         self.output_dim = trg_vocab_size
+        self.mode = "TRAIN"
 
-    def forward(self, src, trg, teacher_forcing_ratio = 0.50, train = True, trg_indexes=None, trg_field=None):
+    def changeMode(self, mode):
+        self.mode = mode
 
-        batch_size = src.shape[1]
-        trg_vocab_size = self.output_dim
+    def forward(self, src, trg, teacher_forcing_ratio = 0.50, train = True, trg_indexes=None):
 
-        if train:
-            trg_len = trg.shape[0]
-            outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
+        syntax, content = self.encoder(src)
+        enc_hidden = torch.cat((syntax, content), dim=1)
+        enc_hidden = enc_hidden.unsqueeze(0)
+        hidden = enc_hidden
 
-        else:
-            batch_size = src.shape[1]
-            trg_vocab_size = self.output_dim
-
-            # outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
-
-        if train:
+        if self.mode == "TRAIN":
             trg_len = trg.shape[0]
             batch_size = src.shape[1]
-            trg_vocab_size = self.output_dim
-            outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
-
-            syntax, content = self.encoder(src)
-            enc_hidden = torch.cat((syntax, content), dim = 1)
-            enc_hidden = enc_hidden.unsqueeze(0)
-            hidden = enc_hidden
+            outputs = torch.zeros(trg_len, batch_size, self.output_dim).to(self.device)
             target = trg[0,:]
 
             for t in range(1, trg_len):
@@ -109,38 +100,24 @@ class Seq2Seq(nn.Module):
                 target = trg[t] if teacher_force else top1
 
             return outputs
+
         else:
-            syntax, content = self.encoder(src)
-            enc_hidden = torch.cat((syntax, content), dim=1)
-            enc_hidden = enc_hidden.unsqueeze(0)
-            hidden = enc_hidden
-            # target = trg[0, :]
 
             for i in range(MAX_LEN):
-
-                trg_tensor = torch.LongTensor([trg[-1]]).to(self.device)
-
+                trg_tensor = torch.LongTensor([trg_indexes[-1]]).to(self.device)
                 with torch.no_grad():
                     output, hidden = self.decoder(trg_tensor, hidden, enc_hidden)
-
                 pred_token = output.argmax(1).item()
-                trg.append(pred_token)
+                trg_indexes.append(pred_token)
 
-                if pred_token == trg_field.stoi[trg_field.eos_token]:
+                if pred_token == self.eos_token:
                     break
-
-            # trg_tokens = [trg_field.itos[i] for i in trg_indexes]
-            # for t in range(1, MAX_LEN):
-            #     output, hidden = self.decoder(target, hidden, enc_hidden)
-            #     outputs[t] = output
-            #     teacher_force = random.random() < teacher_forcing_ratio
-            #     top1 = output.argmax(1)
-            #     target = trg[t] if teacher_force else top1
 
             return trg_indexes
 
 def translate_sentence_ankit(model, sentence, src_field, trg_field, device, max_len=50):
     model.eval()
+    model.changeMode("TEST")
 
     tokens = [token.text.lower() for token in spacy_ger(sentence)]
     tokens.insert(0, src_field.init_token);   tokens.append(src_field.eos_token)
@@ -148,11 +125,13 @@ def translate_sentence_ankit(model, sentence, src_field, trg_field, device, max_
     src_indexes = [src_field.stoi[token] for token in tokens]
     src_tensor = torch.LongTensor(src_indexes).unsqueeze(1).to(device)
 
-    trg = [trg_field.stoi[trg_field.init_token]]
-    trg_indexes = model(src_tensor, trg, teacher_forcing_ratio = 0.50, train = False)
+    trg = None
+    trg_indexes = [trg_field.stoi[trg_field.init_token]]
+    trg_indexes = model(src_tensor, trg, teacher_forcing_ratio = 0.50, train = False, trg_indexes=trg_indexes)
 
     trg_tokens = [trg_field.itos[i] for i in trg_indexes]
 
+    model.changeMode("TRAIN")
     return trg_tokens[1:]#, attentions[:len(trg_tokens) - 1]
 
 def translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50):
