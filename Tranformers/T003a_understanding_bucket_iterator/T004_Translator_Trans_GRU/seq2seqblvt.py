@@ -87,9 +87,10 @@ class Decoder(nn.Module):
 
 
 class Seq2Seq(nn.Module):
-    def __init__(self, src_pad_idx, INPUT_DIM, OUTPUT_DIM, device):
+    def __init__(self, src_pad_idx, INPUT_DIM, OUTPUT_DIM, device, eos_token):
         super().__init__()
 
+        self.eos_token = eos_token
         ENC_EMB_DIM = 256
         DEC_EMB_DIM = 256
         ENC_HID_DIM = 512
@@ -115,24 +116,37 @@ class Seq2Seq(nn.Module):
         mask = (src != self.src_pad_idx).permute(1, 0)
         return mask
 
-    def forward(self, src, trg, teacher_forcing_ratio = 0.5):
+    def forward(self, src, trg, teacher_forcing_ratio = 0.5, train = True):
 
-        batch_size = src.shape[1]
-        trg_len = trg.shape[0]
-        trg_vocab_size = self.decoder.output_dim
-
-        outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
         encoder_outputs, hidden = self.encoder(src)
-        input = trg[0,:]
         mask = self.create_mask(src)
 
-        for t in range(1, trg_len):
+        if train:
+            input = trg[0, :]
+            batch_size = src.shape[1]
+            trg_len = trg.shape[0]
+            trg_vocab_size = self.decoder.output_dim
+            outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
 
-            output, hidden, _ = self.decoder(input, hidden, encoder_outputs, mask)
-            outputs[t] = output
-            teacher_force = random.random() < teacher_forcing_ratio
-            top1 = output.argmax(1)
-            input = trg[t] if teacher_force else top1
+            for t in range(1, trg_len):
+                output, hidden, _ = self.decoder(input, hidden, encoder_outputs, mask)
+                outputs[t] = output
+                teacher_force = random.random() < teacher_forcing_ratio
+                top1 = output.argmax(1)
+                input = trg[t] if teacher_force else top1
 
-        return outputs
+            return outputs
 
+        else:
+
+            for i in range(50):
+                trg_tensor = torch.LongTensor([trg[-1]]).to(self.device)
+                with torch.no_grad():
+                    output, hidden, _ = self.decoder(trg_tensor, hidden, encoder_outputs, mask)
+                pred_token = output.argmax(1).item()
+                trg.append(pred_token)
+
+                if pred_token == self.eos_token:
+                    break
+
+            return trg

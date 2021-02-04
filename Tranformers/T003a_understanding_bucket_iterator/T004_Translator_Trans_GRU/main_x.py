@@ -2,7 +2,7 @@
 import torch
 from seq2seq import  Seq2Seq, attn # 28epochs: PRE:  ['a', 'horse', 'walking', 'beside', 'a', 'boat', 'under', 'a', 'bridge', '.', '<eos>']
 								   # 38epochs: PRE:  ['a', 'horse', 'is', 'walking', 'beside', 'a', 'boat', 'under', 'a', 'bridge', '.', '<eos>']
-# from seq2seqblvt import  Seq2Seq, attn
+#from seq2seqblvt import  Seq2Seq
 from train import train1, train
 
 from data import getData
@@ -27,6 +27,5 @@ learning_rate = 3e-4
 TRG_PAD_IDX = TRG.stoi["<pad>"]
 
 
-
 train1(model, device, load_model, save_model,
- 	SRC, TRG, train_data, valid_data, test_data, BATCH_SIZE, LOAD_NEW_METHOD, attn)
+ 	SRC, TRG, train_data, valid_data, test_data, BATCH_SIZE, LOAD_NEW_METHOD)

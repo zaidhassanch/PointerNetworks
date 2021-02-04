@@ -1,3 +1,17 @@
+
+Dear Ankit,
+    I have the following requests:
+
+    1. Reference your mail below, have you finalized the new pipeline you were creating.  I would need your code as well as some instructions on how to integrate.
+        If not, what's the expected timeline.
+
+    2. I would like to have the trained model also, so that I can infer results myself and compare them with my code modifications.
+    If you can share test results too, and steps to reproduce, that would be great. We can use the tables Dr. Pascal showed
+    in yesterday's presentation.
+
+    3. Can you please share the 6 public datasets, you mentioned. That would also be very helpful.
+
+
 send results for different models
 
 - I was supposed to start integration of my probe into ankit's code

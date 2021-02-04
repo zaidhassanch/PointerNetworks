@@ -5,8 +5,8 @@ import torch.nn as nn
 import torch.optim as optim 
 import time
 import math
-from utils import translate_sentence_attn
-from seq2seq import translate_sentence_ankit
+from utils import translate_sentence_lstm
+#from seq2seq import translate_sentence_ankit
 from dataloader import Batcher
 
 num_epochs = 10000
@@ -226,11 +226,8 @@ def train1(model, device, load_model, save_model, german_vocab, english_vocab,
 
     for epoch in range(N_EPOCHS):
         src = "ein pferd geht unter einer brücke neben einem boot ."
-        if attn:
-            translation = translate_sentence_attn(model, src, german_vocab, english_vocab, device)
-        else:
-            translation = translate_sentence_ankit(model, src, german_vocab, english_vocab, device)
-        #translation = translate_sentence(model, src, german_vocab, english_vocab, device)
+
+        translation = translate_sentence_lstm(model, src, german_vocab, english_vocab, device)
 
         print("SRC: ", src)
         print("PRE: ", translation)

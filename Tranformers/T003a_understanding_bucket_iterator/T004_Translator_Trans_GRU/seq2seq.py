@@ -74,19 +74,16 @@ class Seq2Seq(nn.Module):
         self.device = device
         self.input_dim = src_vocab_size
         self.output_dim = trg_vocab_size
-        self.mode = "TRAIN"
 
-    def changeMode(self, mode):
-        self.mode = mode
 
-    def forward(self, src, trg, teacher_forcing_ratio = 0.50, train = True, trg_indexes=None):
+    def forward(self, src, trg, teacher_forcing_ratio = 0.50, train = True):
 
         syntax, content = self.encoder(src)
         enc_hidden = torch.cat((syntax, content), dim=1)
         enc_hidden = enc_hidden.unsqueeze(0)
         hidden = enc_hidden
 
-        if self.mode == "TRAIN":
+        if train:
             trg_len = trg.shape[0]
             batch_size = src.shape[1]
             outputs = torch.zeros(trg_len, batch_size, self.output_dim).to(self.device)
@@ -104,76 +101,17 @@ class Seq2Seq(nn.Module):
         else:
 
             for i in range(MAX_LEN):
-                trg_tensor = torch.LongTensor([trg_indexes[-1]]).to(self.device)
+                trg_tensor = torch.LongTensor([trg[-1]]).to(self.device)
                 with torch.no_grad():
                     output, hidden = self.decoder(trg_tensor, hidden, enc_hidden)
                 pred_token = output.argmax(1).item()
-                trg_indexes.append(pred_token)
+                trg.append(pred_token)
 
                 if pred_token == self.eos_token:
+
                     break
 
-            return trg_indexes
-
-def translate_sentence_ankit(model, sentence, src_field, trg_field, device, max_len=50):
-    model.eval()
-    model.changeMode("TEST")
-
-    tokens = [token.text.lower() for token in spacy_ger(sentence)]
-    tokens.insert(0, src_field.init_token);   tokens.append(src_field.eos_token)
-
-    src_indexes = [src_field.stoi[token] for token in tokens]
-    src_tensor = torch.LongTensor(src_indexes).unsqueeze(1).to(device)
-
-    trg = None
-    trg_indexes = [trg_field.stoi[trg_field.init_token]]
-    trg_indexes = model(src_tensor, trg, teacher_forcing_ratio = 0.50, train = False, trg_indexes=trg_indexes)
-
-    trg_tokens = [trg_field.itos[i] for i in trg_indexes]
-
-    model.changeMode("TRAIN")
-    return trg_tokens[1:]#, attentions[:len(trg_tokens) - 1]
-
-def translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50):
-
-    if type(sentence) == str:
-        tokens = [token.text.lower() for token in spacy_ger(sentence)]
-    else:
-        tokens = [token.lower() for token in sentence]
-
-    # Add <SOS> and <EOS> in beginning and end respectively
-    tokens.insert(0, german_vocab.init_token)
-    tokens.append(german_vocab.eos_token)
-
-    # Go through each german token and convert to an index
-    text_to_indices = [german_vocab.stoi[token] for token in tokens]
-
-    # Convert to Tensor
-    sentence_tensor = torch.LongTensor(text_to_indices).unsqueeze(1).to(device)
-
-    outputs = [english_vocab.stoi["<sos>"]]
-    # print("input = ")
-    # for word in sentence:
-    #     print(word, end=" ")
-    # print()
-    for i in range(max_length):
-        trg_tensor = torch.LongTensor(outputs).unsqueeze(1).to(device)
-
-        with torch.no_grad():
-            output = model(sentence_tensor, trg_tensor, 0.0)
-
-        best_guess1 = output.argmax(2)
-        best_guess =  best_guess1[-1, :].item()
-        outputs.append(best_guess)
-        # print(english.vocab.itos[best_guess], end=" ")
-
-        if best_guess == english_vocab.stoi["<eos>"]:
-            break
-    # print()
-    translated_sentence = [english_vocab.itos[idx] for idx in outputs]
-    # remove start token
-    return translated_sentence[1:]
-
+            return trg
 
 # class EncoderRNN(nn.Module):
 #     def __init__(self, num_words, emb_dim, hid_dim):
