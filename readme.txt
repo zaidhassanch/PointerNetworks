@@ -7,6 +7,15 @@ send results for different models for Multi-30k dataset
 - Try out or scribendi
 - Zaid should explain what is context/syntax and Ahmad/zaid will try to figure out steps to implement.
 
+Speeding up the code:
+- See issue in dataloader, why slower than bucket iterator
+- Learn pytorch-lightening, allennlp
+-
+
+- INCORPORATE ANKIT'S OTHER MODELS IN OUR SYSTEM
+- SEE HOW HE IS TESTING IN PARALLEL TO CALCULATE BLUE SCORE
+- 
+
 Meeting with Dr Pascal (Feb 4, 2021)
 - I was supposed to start integration of my probe into ankit's code
   > ankit promised to sent some tips on how to integrate.

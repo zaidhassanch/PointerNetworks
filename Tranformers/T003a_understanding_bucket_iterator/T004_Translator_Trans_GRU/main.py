@@ -54,9 +54,9 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 if load_model:
     load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
-# train(model, device, load_model, save_model,
-# 	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
 train1(model, device, load_model, save_model,
 	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
+# train(model, device, load_model, save_model,
+# 	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
 
 

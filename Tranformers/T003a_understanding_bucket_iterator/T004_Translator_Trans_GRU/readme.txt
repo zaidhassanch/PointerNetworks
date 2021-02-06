@@ -37,21 +37,6 @@ GAMMA) DataLoader magically takes a list of tuples to make things right
 
 ==================================================
 
-
-Two young, White males are outside near many bushes.
-
-
-
->>  ['zwei', 'junge', 'weiße', 'männer', 'sind', 'im', 'freien', 'in', 'der', 'nähe', 'vieler', 'büsche', '.']
-    ['two', 'young', ',', 'white', 'males', 'are', 'outside', 'near', 'many', 'bushes', '.']
->>  ['mehrere', 'männer', 'mit', 'schutzhelmen', 'bedienen', 'ein', 'antriebsradsystem', '.']
-    ['several', 'men', 'in', 'hard', 'hats', 'are', 'operating', 'a', 'giant', 'pulley', 'system', '.']
->>  ['ein', 'kleines', 'mädchen', 'klettert', 'in', 'ein', 'spielhaus', 'aus', 'holz', '.']
-    ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
-
-================================================================
-
-- add the pytorch eng-fra translator DrPascal/NLP_tutorials/003_myMTSS
   >> stuck in attention
   >> understand attention
      - pytorch fra-eng translator

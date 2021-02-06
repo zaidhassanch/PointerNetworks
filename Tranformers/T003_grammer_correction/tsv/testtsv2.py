@@ -28,6 +28,10 @@ test_ds = data.TabularDataset.splits(
    skip_header = True
 )
 
+#print(ORIGINAL_SENTENCE.vocab)
+
+
+
 print(test_ds[0].examples[1].original_sentence)
 print(test_ds[0].examples[1].edited_sentence)
 #print(dir(test_ds[0].examples[1]))

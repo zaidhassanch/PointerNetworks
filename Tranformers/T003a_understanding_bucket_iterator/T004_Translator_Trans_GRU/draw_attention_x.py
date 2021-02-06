@@ -2,8 +2,8 @@ import torch
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-from seq2seqblvt import  Seq2Seq
-from utils_x import translate_sentence,calculate_bleu
+from seq2seq_attn import  Seq2Seq
+from utils import translate_sentence #,calculate_bleu
 from data import getData
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -12,10 +12,11 @@ SRC, TRG, train_data, valid_data, test_data = getData(False)
 src_vocab_size = len(SRC)
 trg_vocab_size = len(TRG)
 SRC_PAD_IDX = SRC.stoi[SRC.pad_token]
+TRG_EOS_TOKEN = SRC.stoi[SRC.eos_token]
 
-model = Seq2Seq(SRC_PAD_IDX, src_vocab_size, trg_vocab_size, device).to(device)
+model = Seq2Seq(SRC_PAD_IDX, src_vocab_size, trg_vocab_size, device, TRG_EOS_TOKEN).to(device)
 
-model.load_state_dict(torch.load('tut4-model-saved.pt'))
+model.load_state_dict(torch.load('tut4-model.pt'))
 
 src = "ein pferd geht unter einer brücke neben einem boot ."
 translation, attention = translate_sentence(model, src, SRC, TRG, device)
