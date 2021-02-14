@@ -1,9 +1,42 @@
 
+- Add BPE
+   why bpe is good, how did somebody invent bpe
+- change lstm encoder with tranform encoder
+- make balanced dataset
+- think about error types and add sentences with those errors
+- Learn NLTK
+- How can NLTK help us generate more data (wrong sentences)
+
+
+- Try to make a mechanism for generating datasets
+  - Find lot of sentences which are correct
+  - Change was to were, is to are, ...
+  - fix them via transformer
+
+- Categorize is as PRESENT=0, was as PAST=1
+  - Use category as input and make a sentence out of list of words (missing is or are, or were, etc)
+
+- More on data generation
+  During this:
+     - Learn NLTK
+     - We want to generate known errors, e.g.
+
+          Sentence generator with input syntax (1,2,3,4)
+          Input: Horse sit under tree
+          Output: 1 The Horse is sitting under a tree
+                  2 The Horse will sit under a tree
+                  3 The horse was sitting under a tree
+                  4 The horse has been sitting under that tree
+
+          The preceding module generates the context
+                  The horse are sits under a tree
+
+
+- Try out public datasets for grammar correction.
+
 send results for different models for Multi-30k dataset
 
-- Make the main, main_x common so that we can run transformer or LSTM based examples easily
 - Integrate BPE encoding
-- Try out public datasets for grammar correction.
 - Try out or scribendi
 - Zaid should explain what is context/syntax and Ahmad/zaid will try to figure out steps to implement.
 
@@ -16,6 +49,29 @@ Speeding up the code:
 - SEE HOW HE IS TESTING IN PARALLEL TO CALCULATE BLUE SCORE
 - 
 
+Meeting with Ankit/Pascal (Feb 10)
+1) I looked at Ankit's code and he already has different variants of architectures implemented
+	- these architectures include
+		- simple GRU, which is baselie
+		- GRU with attention
+		- Baseline plus Transformer integration (Check if syntax code is being used)
+		- Ankit asked me to replace his tranformer by my transformer and I have done that.
+
+      I have a very important, my obseration may be wrong:
+              - Translate sentence is OK
+              - But  in EVALUATE FUNCTION The target sequence is also input to the model/tranformer
+              - We need to input only <sos> token and process the sentence in a loop
+
+		- Before I consume all GPUs, I would like to see the baseline results.
+		    Otherwise, we will be wasting GPU power unnecessarily.
+        - To debug/integrate into Ankit's code, I am using Multi30k so that I am not limited by Scribendi GPUs
+
+    - Integrated my transformer into Ankit's code and checked in. (no training done yet, just sanity check no bugs)
+    - Drew the architecture diagram for easy references
+      > instead of the way current diagrams were drawn, I have redrawn as proper system diagrams with inputs / outputs
+        I think this is a slightly better representation of our architecture
+
+----------------------------------------------------------
 Meeting with Dr Pascal (Feb 4, 2021)
 - I was supposed to start integration of my probe into ankit's code
   > ankit promised to sent some tips on how to integrate.
