@@ -18,7 +18,7 @@ spacy_eng = spacy.load("en")
 # print(bleu)
 
 # f = open("test10k.tsv", "r")
-f = open("/data/chaudhryz/ankit/train4m.tsv", "r")
+f = open("/data/chaudhryz/ankit/train300k.tsv", "r")
 
 BleuScores = []
 
