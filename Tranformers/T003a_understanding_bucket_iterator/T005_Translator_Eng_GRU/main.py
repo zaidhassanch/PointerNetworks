@@ -59,4 +59,16 @@ if load_model:
 train(model, device, load_model, save_model,
 	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
 
+# def evaluateSentences(inFile,train_data):
+#     # src_sents = ["There was no possibility of taking a walk that day.",
+#     #              "His own words is a pledge of this—",
+#     #              "A man are playing the banjo at a concert.",
+#     #              "No; you is less than a servant, for you do nothing for your keep."]
+#     src_sents = train_data.src
+#
+#
+#     for src in src_sents:
+#
+#         translation = translate_sentence_lstm(model, src, german_vocab, english_vocab, device)
+
 

@@ -7,7 +7,9 @@ def writeSentArr(filename, arr):
 
 def writeSentArr_error_tsv(fw, arr):
     # with open(filename, 'w') as fw:
+
     for sent in arr:
+        if  sent.find(" are ") == -1: continue
         sent1 = sent +"\t" +sent
         fw.write(sent1 + "\n")
         sent1 = sent.replace(" are ", " is ") + "\t" + sent
@@ -57,7 +59,7 @@ def removeQuotes(textArr):
                 continue
             k+=1
             sent = sent.replace("_", "")
-            print("   ", k, sent)
+            # print("   ", k, sent)
             outArr.append(sent)
     # print(">>>", len(outArr))
     return outArr

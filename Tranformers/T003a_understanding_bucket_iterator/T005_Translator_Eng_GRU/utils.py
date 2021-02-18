@@ -72,22 +72,25 @@ def translate_sentence_lstm(model, sentence, src_field, trg_field, device, max_l
 #     return trg_tokens[1:]#, attentions[:len(trg_tokens) - 1]
 
 
-def translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50):
+def translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50, inputIsTensor=False):
 
-    if type(sentence) == str:
-        tokens = [token.text.lower() for token in spacy_ger(sentence)]
+    if inputIsTensor == False:
+        if type(sentence) == str:
+            tokens = [token.text.lower() for token in spacy_ger(sentence)]
+        else:
+            tokens = [token.lower() for token in sentence]
+
+        # Add <SOS> and <EOS> in beginning and end respectively
+        tokens.insert(0, german_vocab.init_token)
+        tokens.append(german_vocab.eos_token)
+
+        # Go through each german token and convert to an index
+        text_to_indices = [german_vocab.stoi[token] for token in tokens]
+
+        # Convert to Tensor
+        sentence_tensor = torch.LongTensor(text_to_indices).unsqueeze(1).to(device)
     else:
-        tokens = [token.lower() for token in sentence]
-
-    # Add <SOS> and <EOS> in beginning and end respectively
-    tokens.insert(0, german_vocab.init_token)
-    tokens.append(german_vocab.eos_token)
-
-    # Go through each german token and convert to an index
-    text_to_indices = [german_vocab.stoi[token] for token in tokens]
-
-    # Convert to Tensor
-    sentence_tensor = torch.LongTensor(text_to_indices).unsqueeze(1).to(device)
+        sentence_tensor = sentence.unsqueeze(1).to(device)
 
     outputs = [english_vocab.stoi["<sos>"]]
     # print("input = ")
@@ -152,3 +155,14 @@ def printSent(arr):
     for item in arr:
         print(item, end=" ")
     print()
+
+def compareSents(sent1, sent2):
+    if len(sent1) == len(sent2):
+        print("same length")
+    else:
+        print("length is not same")
+
+sentA = "His own words is a pledge of this."
+sentB = "His own words are a pledge of this."
+
+compareSents(sentA, sentB)

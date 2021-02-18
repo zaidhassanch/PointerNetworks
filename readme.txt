@@ -1,3 +1,56 @@
+- I needed some results which I can reproduce and then improve.
+  > Probably, the new pipelines Ankit has created can be used now.
+  > But, still they are very slow
+  > So, I feel a little tied up.
+
+- We are working on transforming sentence from "sentence space" to "context" and "syntax" space and then back
+- I thought why not convert to another sentence space (ie another language and then back)
+- Tried it using google translate (translated to german and back)
+- And have some interesting results.
+
+
+15 mins targets
+==============================
+12:27-12:42 - open bleu score computation on Scribendi server
+            - Achieved: Not sure
+12:42-12:57 - local averaging of bleu score (make a list and then average it)
+                - Note: list will be long
+            - Achieved
+                - stuck on disappearing code in bleu compute
+                    - Note: Feb 17 has been transmitted as is 
+12:57-1:12 - take averaging to scribendi server and start computing results
+
+
+15 mins targets
+=================================================================
+11:52-12:02 - Planning/ Find the code I want to work on
+                - decided to use the transformer code for fast training
+                - find the transformer code and
+                   - probably T004 with transformer selected
+12:02-12:17 - Take tsvs of fce and train on them
+
+bleu score bad, Scribendi,Zaid
+
+
+Today's task is to fix "is/are" problem
+- filter out sentences which have is/are problem
+- We should have a method to test how much % have we fixed, not only 4 sentences
+  > sentence comparator
+    - function compareSents(sent1, sent2)
+        - length
+        - compare word by word and print difference
+
+  > read in sentences from file
+  > How many should I test after each epoch, and how to evaluate on full test/train dataset
+  > First do serially, one by one
+  > how to evaluate it in parallel (low priority)
+- Should have test / train dataset, so that we can test on unseen data
+- Then go inside code to figure out why issue is still present
+
+- we might have to see how many sentences are we accurately reproducing.
+- We might think of using spacy embeddings (should definitely produce better results)
+============================================
+
 
 - Add BPE
    why bpe is good, how did somebody invent bpe

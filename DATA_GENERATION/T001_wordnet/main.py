@@ -5,7 +5,8 @@ filePath = "/home/zaid/DrPascal/data/NOVELS/"
 files = os.listdir(filePath)
 
 print(files)
-outFile = open(filePath+"processed/outCombined.txt", mode='w')
+#outFile = open(filePath+"processed/outCombined.txt", mode='w')
+outFile = open("outCombined.txt", mode='w')
 
 for fileName in files:
     cleanFile(filePath, fileName, outFile)

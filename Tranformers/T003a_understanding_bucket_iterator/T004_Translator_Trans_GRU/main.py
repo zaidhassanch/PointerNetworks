@@ -42,10 +42,10 @@ print(english_vocab.itos[src_pad_idx])
 print("===============================after loading ")
 
 
-#model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
-model = Seq2Seq(src_pad_idx, src_vocab_size, trg_vocab_size, device, TRG_EOS_TOKEN).to(device)
+model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
+# model = Seq2Seq(src_pad_idx, src_vocab_size, trg_vocab_size, device, TRG_EOS_TOKEN).to(device)
 
-load_model = False
+load_model = True
 save_model = True
 learning_rate = 3e-4
 
@@ -54,9 +54,9 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 if load_model:
     load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
-train1(model, device, load_model, save_model,
-	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
-# train(model, device, load_model, save_model,
+# train1(model, device, load_model, save_model,
 # 	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
+train(model, device, load_model, save_model,
+	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
 
 

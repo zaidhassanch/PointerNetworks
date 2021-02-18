@@ -86,16 +86,17 @@ def train(model, device, load_model, save_model,
                      "His own words are a pledge of this.",
                      "A man are playing the banjo at a concert.",
                      "No; you is less than a servant, for you do nothing for your keep."]
-        for src in src_sents:
-            # translation = translate_sentence_lstm(model, src, german_vocab, english_vocab, device)
 
-            translated_sentence = translate_sentence(
-                model,
-                src, german_vocab, english_vocab, device, max_length=50
-            )
-
-            print(f"Translated example sentence: \n {src}")
-            print(f"Translated example sentence: \n {translated_sentence}")
+        # for src, trg in train_data:
+        #     # translation = translate_sentence_lstm(model, src, german_vocab, english_vocab, device)
+        #
+        #     translated_sentence = translate_sentence(
+        #         model,
+        #         src, german_vocab, english_vocab, device, max_length=50, inputIsTensor=True
+        #     )
+        #     src_eng = [german_vocab.itos[idx] for idx in src]
+        #     print(f"Translated example sentence: \n {src_eng}")
+        #     print(f"Translated example sentence: \n {translated_sentence}")
 
         # running on entire test data takes a while
         print("here1")
