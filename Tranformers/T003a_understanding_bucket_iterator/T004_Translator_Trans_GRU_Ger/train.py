@@ -36,8 +36,8 @@ def train(model, device, load_model, save_model,
     if load_model:
         load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
-    #sentence = "ein pferd geht unter einer brücke neben einem boot."
-    sentence = "ein pferd läuft neben einem boot unter einer brücke."
+    # sentence = "ein pferd geht unter einer brücke neben einem boot."
+    sentence = "A horse are walking beside a boat under a bridge."
     # sentence = 'a little girl climbing into a wooden playhouse.'
     # sentence = "is man lion a stuffed A at smiling."
 
@@ -88,8 +88,9 @@ def train(model, device, load_model, save_model,
         )
 
         print(f"Translated example sentence: \n {sentence}")
-        print(f"Translated example sentence: \n {translated_sentence}")
-
+        #print(f"Translated example sentence: \n {translated_sentence}")
+        for word in translated_sentence:
+            print(word, end=" ")
         # running on entire test data takes a while
         print("here1")
         score = bleu(train_data[1:10], model, german_vocab, english_vocab, device, LOAD_NEW_METHOD)
