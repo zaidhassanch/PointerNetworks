@@ -34,7 +34,6 @@ for i, line in enumerate(f):
 
     outputs.append(tokens_orig)
     targets.append([tokens_targ])
-
-    if i == 3:
-        break
+    if i % 100 == 0:
+        print(i)
 print(bleu_score(outputs, targets))
