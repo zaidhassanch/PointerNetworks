@@ -1,6 +1,4 @@
 from torchtext.data.metrics import bleu_score
-from nltk.translate.bleu_score import corpus_bleu
-from nltk.translate.gleu_score import corpus_gleu
 import spacy
 import numpy as np
 
@@ -21,7 +19,7 @@ spacy_eng = spacy.load("en")
 
 # f = open("test10k.tsv", "r")
 #9:13pm
-f = open("/data/chaudhryz/ankit/test10k.tsv", "r")
+f = open("/data/chaudhryz/ankit/train300k.tsv", "r")
 
 BleuScores = []
 
@@ -40,12 +38,4 @@ for i, line in enumerate(f):
     targets.append([tokens_targ])
     if i % 100 == 0:
         print(i)
-# print(bleu_score(outputs, targets))
-
-
-print("NLTK BLEU score: ", corpus_bleu(targets, outputs))
-print("NLTK GLEU score: ", corpus_gleu(targets, outputs))
-
-
-
-
+print(bleu_score(outputs, targets))

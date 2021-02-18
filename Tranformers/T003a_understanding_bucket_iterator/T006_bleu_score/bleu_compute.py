@@ -1,4 +1,7 @@
 from torchtext.data.metrics import bleu_score
+from nltk.translate.bleu_score import corpus_bleu
+from nltk.translate.gleu_score import corpus_gleu
+
 import spacy
 import numpy as np
 
@@ -36,9 +39,9 @@ for i, line in enumerate(f):
 
         outputs.append(tokens_orig)
 
-        bleu = bleu_score([outputs[-1]], [targets[-1]])
-        bleu_overall = bleu_score(outputs, targets)
-        BleuScores.append(bleu)
+        # bleu = bleu_score([outputs[-1]], [targets[-1]])
+        # bleu_overall = bleu_score(outputs, targets)
+        # BleuScores.append(bleu)
         # if np.int(np.floor((i + 1) /5)+ 1) % 2 == 0:
         #     # bleu = bleu_score(outputs, targets)
         #     print(np.int(np.floor((i + 1) /5)+1))
@@ -57,8 +60,10 @@ for i, line in enumerate(f):
 
         targets.append([tokens_targ])
 
-BleuScores = np.array(BleuScores)
-print("average = ", np.mean(BleuScores))
+# BleuScores = np.array(BleuScores)
+# print("average = ", np.mean(BleuScores))
 print(bleu_score(outputs, targets))
+print(corpus_bleu(targets, outputs))
+print(corpus_gleu(targets, outputs))
 print(BleuScores)
 
