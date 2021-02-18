@@ -25,7 +25,7 @@ targets = []
 outputs = []
 
 for i, line in enumerate(f):
-    orig = line.split("\t")[0]
+    orig = line.split("\t")
     print(orig)
 #
 #     orig = line.strip().split(".", 1)[0]
