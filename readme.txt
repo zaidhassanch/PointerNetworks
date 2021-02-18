@@ -19,11 +19,17 @@
                 - stuck on disappearing code in bleu compute
                     - Note: Feb 17 has been transmitted as is
                     - resolved by pushing all files instead of using git kraken
-12:57-1:12 - take averaging to scribendi server and start computing results
+12:57-1:12  - take averaging to scribendi server and start computing results
             - Achieved:
                 - stuck on trying to activate the environment
                     - resolved by searching how to activate virtual environment
 
+Next target:
+            - local averaging of bleu score (make a list and then average it)
+Break 1:20
+1:20-1:48 - Figuring out how to take average of bleu score locally
+3:47-4:02 - Decided that average will not give bleu score, so finding directly
+                - need to read the tsvs
 
 15 mins targets
 =================================================================

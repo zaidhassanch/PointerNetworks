@@ -1,5 +1,7 @@
 from torchtext.data.metrics import bleu_score
 import spacy
+import numpy as np
+
 
 spacy_eng = spacy.load("en")
 #
@@ -18,6 +20,8 @@ spacy_eng = spacy.load("en")
 
 f = open("Feb17", "r")
 
+BleuScores = []
+
 targets = []
 outputs = []
 
@@ -31,6 +35,18 @@ for i, line in enumerate(f):
         tokens_orig = [token.text.lower() for token in spacy_eng(orig)]
 
         outputs.append(tokens_orig)
+
+        bleu = bleu_score([outputs[-1]], [targets[-1]])
+        bleu_overall = bleu_score(outputs, targets)
+        BleuScores.append(bleu)
+        # if np.int(np.floor((i + 1) /5)+ 1) % 2 == 0:
+        #     # bleu = bleu_score(outputs, targets)
+        #     print(np.int(np.floor((i + 1) /5)+1))
+        #     bleu = bleu_score(outputs, targets)
+        #     BleuScores.append(bleu)
+        #     outputs = []
+        #     targets = []
+            
     if (i-1) % 5 == 0:
 
         targ = line.strip().split(".", 1)[0]
@@ -41,10 +57,8 @@ for i, line in enumerate(f):
 
         targets.append([tokens_targ])
 
+BleuScores = np.array(BleuScores)
+print("average = ", np.mean(BleuScores))
+print(bleu_score(outputs, targets))
+print(BleuScores)
 
-
-
-
-bleu = bleu_score(outputs, targets)
-
-print(bleu)
