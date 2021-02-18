@@ -17,8 +17,12 @@
                 - Note: list will be long
             - Achieved
                 - stuck on disappearing code in bleu compute
-                    - Note: Feb 17 has been transmitted as is 
+                    - Note: Feb 17 has been transmitted as is
+                    - resolved by pushing all files instead of using git kraken
 12:57-1:12 - take averaging to scribendi server and start computing results
+            - Achieved:
+                - stuck on trying to activate the environment
+                    - resolved by searching how to activate virtual environment
 
 
 15 mins targets

@@ -16,7 +16,7 @@ spacy_eng = spacy.load("en")
 #
 # print(bleu)
 
-f = open("/home/zaid/DrPascal/Feb17", "r")
+f = open("Feb17", "r")
 
 targets = []
 outputs = []
