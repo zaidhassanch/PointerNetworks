@@ -45,7 +45,7 @@ print("===============================after loading ")
 model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
 # model = Seq2Seq(src_pad_idx, src_vocab_size, trg_vocab_size, device, TRG_EOS_TOKEN).to(device)
 
-load_model = False
+load_model = True
 save_model = True
 learning_rate = 3e-4
 

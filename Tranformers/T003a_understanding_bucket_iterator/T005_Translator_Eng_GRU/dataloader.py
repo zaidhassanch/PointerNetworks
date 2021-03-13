@@ -94,14 +94,14 @@ def data_process_tsv(path, ger_voc, eng_voc, ger_tok, eng_tok):
     data.append((de_tensor_, en_tensor_))
   return data
 
-def getData2(ger_tok, eng_tok, from_TSV = True):
+def getData2(ger_tok, eng_tok, from_TSV = False):
   if from_TSV == False:
-    ger_voc = build_vocab('.data/multi30k/train.de', ger_tok) #vocab from training data
+    ger_voc = build_vocab('.data/multi30k/train.en', ger_tok) #vocab from training data
     eng_voc = build_vocab('.data/multi30k/train.en', eng_tok) #vocab from training data
 
-    train_data = data_process('.data/multi30k/train.de', '.data/multi30k/train.en', ger_voc, eng_voc, ger_tok, eng_tok)
-    val_data = data_process('.data/multi30k/val.de', '.data/multi30k/val.en', ger_voc, eng_voc, ger_tok, eng_tok)
-    test_data = data_process('.data/multi30k/test2016.de', '.data/multi30k/test2016.en', ger_voc, eng_voc, ger_tok, eng_tok)
+    train_data = data_process('.data/multi30k/train.en', '.data/multi30k/train.en', ger_voc, eng_voc, ger_tok, eng_tok)
+    val_data = data_process('.data/multi30k/val.en', '.data/multi30k/val.en', ger_voc, eng_voc, ger_tok, eng_tok)
+    test_data = data_process('.data/multi30k/test2016.en', '.data/multi30k/test2016.en', ger_voc, eng_voc, ger_tok, eng_tok)
   else:
     ger_voc = build_vocab_tsv('tsv/combined.tsv', ger_tok, column=0) #vocab from training data
     eng_voc = build_vocab_tsv('tsv/combined.tsv', eng_tok, column=1)

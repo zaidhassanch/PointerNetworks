@@ -1,24 +1,25 @@
-
 from utils import translate_sentence, load_checkpoint
 import torch
-from data import getData, getData_newMethod
+from data import getData, getData_new_method
 from train import train
 from transfomer import Transformer
 
-#german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod()
+LOAD_NEW_METHOD = True
+
+german_vocab, english_vocab, train_data, valid_data, test_data = getData_new_method()
 print("===============================before loading")
-german_vocab, english_vocab, train_data, valid_data, test_data = getData()
-print("train_data ", len(train_data.examples))
-print("valid_data ", len(valid_data.examples))
-print("test_data ", len(test_data.examples))
+# german_vocab, english_vocab, train_data, valid_data, test_data = getData(LOAD_NEW_METHOD)
+# print("train_data ", len(train_data.examples))
+# print("valid_data ", len(valid_data.examples))
+# print("test_data ", len(test_data.examples))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 batch_size = 32
 
 data = train_data[0:3]
 
 for example in data:
-    src = example.src
-    trg = example.trg
+    src = example
+    trg = example
     print(">> ", src)
     print("   ", trg)
 
@@ -43,13 +44,13 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 if load_model:
     load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
-srcFile = open("/data/chaudhryz/uwstudent1/GDATA/test.src", "r")
-tgtFile = open("/data/chaudhryz/uwstudent1/GDATA/test.tgt", "r")
+# srcFile = open("/data/chaudhryz/uwstudent1/GDATA/test.src", "r")
+# tgtFile = open("/data/chaudhryz/uwstudent1/GDATA/test.tgt", "r")
 
-# srcFile = open(".data/multi30k/test2016.ens", "r")
-# tgtFile = open(".data/multi30k/test2016.en", "r")
+srcFile = open(".data/multi30k/my.en", "r")
+tgtFile = open(".data/multi30k/my.en", "r")
 
-for i in range(30):
+for i in range(2):
     srcLine = srcFile.readline()
     srcLine = srcLine.strip()
     tgtLine = tgtFile.readline()

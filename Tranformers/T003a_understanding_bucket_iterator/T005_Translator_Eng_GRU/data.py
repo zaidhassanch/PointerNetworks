@@ -11,7 +11,7 @@ python -m spacy download de
 """
 from torchtext.data.utils import get_tokenizer
 
-spacy_ger = spacy.load("de")
+spacy_ger = spacy.load("en")
 spacy_eng = spacy.load("en")
 
 

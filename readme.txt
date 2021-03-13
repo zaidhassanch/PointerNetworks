@@ -1,3 +1,159 @@
+
+Want to have a perfect syntax probe.
+ > we need to prove that we have a perfect syntax probe.
+ > input [array of words in proper sequence]
+ > And, stop words in embedded form.
+
+
+Zaid is a good boy,
+Negative
+Present
+
+Zaid is not a good boy
+Zaid is a bad boy
+
+Negative
+Past
+Zaid was not a good boy
+
+We design a systematic set of auxiliary losses, enforcing the separation of style and content latent spaces. In partic-
+ular, the multi-task loss operates on a latent space to ensure that the space does contain the information we wish to encode.
+The adversarial loss, on the contrary, minimizes the predictability of information that should not be contained in a given
+latent space.
+
+Along with traditional style-oriented auxiliary losses, our BoW multi-task loss and BoW adversarial loss enable better
+disentanglement of the style and content space.
+
+The learned disentangled latent space can be directly used for text style transfer, which aims to
+transform a given sentence to a new sentence with the same content but a different style.
+
+
+=======================================================================
+- Increase motivation/energy level          70 [5, 70]
+- To increase Zaid's confidence             70 [5, 70]
+- To reduce Zaid's inertia to start work
+   
+   --- by product --- Zaid will become quick at programming
+
+- Make Pascal Happy
+- Correct Grammar
+
+   --- Get degree
+
+- Do something great, which Zaid can say that I did it or we did it.
+
+14 - baseline without any probe. 
+13 - 11 with seq2seq probe. Seq2Seq 
+11 - Basic Model. probe(Transformer)
+12 - 11 with attention. 
+
+14    Scribendi baseline                     
+13    Content-Syntax w probes(Seq2Seq)       
+11    Content-Syntax w probes(Transformer)    
+12    Content-Syntax w probes & attention
+
+
+Exp   Models                                Epoch     BLEU   GLUE     BLEU   GLUE     Time
+14    Scribendi baseline                      10      59.52  62.47   60.34  57.96     3:22 (22s)
+13    Content-Syntax w probes(Seq2Seq)         9      29.24  36.03   22.90  26.80     4:49 (30s)        
+11    Content-Syntax w probes(Transformer)    14      22.32  29.35   16.56  21.19     3:16 (22s)
+12    Content-Syntax w probes & attention      4      59.10  62.05   59.94  57.58     5:49 (23s-->>&&& )
+
+&&&--- 1400 used instead of 900~1000 batches
+
+
+- check loss for the syntax probe
+    - run the code to see the loss
+
+
+==========================================================
+
+- code to compute BLEU score was previously kept in:
+    - /home/zaid/DrPascal/data/GEC/FiftyTest
+- Now moving it to T003a/T006
+- errant score is too low for the file created on Scribendi server using errant
+    - both should probably have the same sentences (S) but different annotations (A)
+    - SOLVED: the target file had been accidentally created as source file with name changed
+        - Confirmation:
+            - orig is src while cor are first tgt (for gold) and then predictions (for pred.m2)
+    - The size of the m2 file created by errant is 9983 as opposed to 10000 and 498 as opposed to 500
+        - Is it because of the sentence remaining the same
+            - No, since the m2 for no change was giving noops
+            - Then why
+        - This problem means that we cannot use m2scorer
+            - since, it uses the predicted sentences file and compares it with the gold m2 file
+                - we can choose sentences from the predictions which were picked for the m2 file
+                    - anyways how could we do this
+                    - This can also be solved by ensuring that each sentence has been included in the m2 file
+                        - figure out why some of the sentences are being missed
+
+- m2 not being found, because there seems to be a mismatch in number of lines
+    - file of src with the m2 file is naturally giving 0 as output
+    - there is a need to find a file of asadul's output without nans in it
+        - done
+
+============================================================
+
+
+Plan Q:
+  > Train / Test a little properly our T003a code (even for translation)
+    We should be able to prove that our code is much faster
+      or identfiy that BPE is too slow, and suggest how to make it faster
+         > tokenize in advance.
+
+- Autoencoder to generate correct english.
+
+- Make arch diagrams for 11, 12, 13, 14
+  Select the implementation we want to work on
+  Train that implementation using Multi30k (Ankit and our implementation)
+  We will have Time / Accuracy comparison
+  We will have developed some more understanding and might be able to give next steps
+
+- Understand Ankit's code, perfectly. (classifier, train, ....)
+  > BPE in our code _GRU
+  > Run translation german to English. (Ankit code and Our code)
+  > Reproduce results of Ankit ourselves
+    (multiple options improve speed, )
+
+- Track time for epoch for 14 and 12 (13/11)
+  compare with Transformer (but tokenization should be same)
+
+
+- replace transformer in place of the main seq2seq model
+- experiment Ankit's code "as is" on the public datasets 
+- Compute bleu score via tokens
+- Make a better training and test set.
+- Add BPE encoding into Our code
+- Train our baseline (GRU) and get results similar to Ankit
+  > compare BPE vs Spacy tokenization
+
+- pytorch lightening <<<<< check how quickly we can learn
+
+We need to have a good dataset.
+Try to clean public datasets
+We should have a separate spell corrector (rule based, etc)
+
+Future: Use language model to correct sentences
+=============================================================
+> results on 300k are required and number of epochs to run
+> pytorch lightning code
+> how can we distribute work
+    - improve syntax
+        - need results for it
+    - work together on optimization of code
+        - replace Transformer into the code
+    - or work on content to sentence generation
+> collect 50/60 sentences
+    - choose 30 each
+    - so that we can actually see how good are our results
+    - just getting a numerical result should not be good enough
+    - share code on m2 if you have
+> google translate github api
+    - baseline
+> back translate model
+
+
+==================================================================
 - I needed some results which I can reproduce and then improve.
   > Probably, the new pipelines Ankit has created can be used now.
   > But, still they are very slow

@@ -2,7 +2,7 @@ import torch
 import spacy
 from torchtext.data.metrics import bleu_score
 
-spacy_ger = spacy.load("de")
+spacy_ger = spacy.load("en")
 
 
 
