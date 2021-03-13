@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from models.transformer.transformerz import TransformerZ
+from configs import config
 
 
 
@@ -27,7 +28,7 @@ class Model(nn.Module):
         num_decoder_layers = 1,
         forward_expansion = 1,
         dropout = 0.0,
-        max_len = 100,
+        max_len = config.MAX_LEN,
     ):
         super(Model, self).__init__()
         self.src_word_embedding = nn.Embedding(src_vocab_size, embedding_size)  # 7854 x 512
@@ -36,7 +37,7 @@ class Model(nn.Module):
         self.trg_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
 
         self.device = device
-        flag = False
+        flag = config.PYTORCH_TRANSFORMER
         if flag:
             self.transformer = nn.Transformer(
                 embedding_size,

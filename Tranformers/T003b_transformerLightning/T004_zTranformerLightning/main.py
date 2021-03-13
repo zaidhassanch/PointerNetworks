@@ -10,13 +10,13 @@ from torch.utils.data import random_split, DataLoader
 from models.transformer.model import Model
 from data import getData
 from dataloader import Batcher
-from utils import translate_sentence
+from utils import translate_sentence, translate_sentence_bpe
 
 import pytorch_lightning as pl
 
 from pytorch_lightning.metrics.functional import accuracy
 
-LOAD_NEW_METHOD = True
+from configs import config
 
 class grammarTransformer(pl.LightningModule):
     def __init__(self):
@@ -74,32 +74,39 @@ class grammarTransformer(pl.LightningModule):
         #
         # pbar = {'avg_val_acc': avg_val_acc}
         print("Translation Sample =================")
-        sentences = []
-        sentences.append("ein pferd geht unter einer brücke neben einem boot.")
-        sentences.append("ein mann, der rotes hemd trägt, das unter einem baum sitzt.")
-        sentences.append("ein hund, der einer katze nachläuft, um sie zu schlagen.")
-        sentences.append("ein alter mann, der versucht, von einem kaputten stuhl aufzustehen.")
+
         #"An old man trying to get up from a broken chair
         #A man wearing red shirt sitting under a tree
         device = "cuda"
 
-        for sentence in sentences:
-            translated_sentence = translate_sentence(
-                self,
-                sentence, self.german_vocab, self.english_vocab, device, max_length=50
-            )
+        for sentence in config.sentences:
+            if config.USE_BPE == False:
+                translated_sentence = translate_sentence(
+                    self,
+                    sentence, self.german_vocab, self.english_vocab, device, max_length=50
+                )
+            else:
+                translated_sentence = translate_sentence_bpe(
+                    self,
+                    sentence, self.german_vocab, self.english_vocab, device, max_length=50
+                )
 
             print("Output", translated_sentence)
         return
 
     def prepare_data_own(self):
-        self.german_vocab, self.english_vocab, train_data, valid_data, test_data = getData(LOAD_NEW_METHOD)
+        self.german_vocab, self.english_vocab, train_data, valid_data, test_data = getData(config.LOAD_NEW_METHOD, config.USE_BPE)
         self.train_iterator, self.valid_iterator, self.test_iterator = Batcher(train_data, valid_data, test_data)
 
         self.src_vocab_size = len(self.german_vocab)
         self.trg_vocab_size = len(self.english_vocab)
-        self.src_pad_idx = self.english_vocab.stoi["<pad>"]
-        self.pad_idx = self.english_vocab.stoi["<pad>"]
+
+        if config.USE_BPE == False:
+            self.src_pad_idx = self.english_vocab.stoi["<pad>"]
+            self.pad_idx = self.english_vocab.stoi["<pad>"]
+        else:
+            self.src_pad_idx = self.english_vocab.pad_id()
+            self.pad_idx = self.english_vocab.pad_id()
 
     def setup(self, stage_name):
         # dataset = datasets.MNIST('data', train=True, download=False, transform=transforms.ToTensor())
@@ -120,7 +127,7 @@ class grammarTransformer(pl.LightningModule):
 model = grammarTransformer()
 
 start_time = time.time()
-trainer = pl.Trainer(max_epochs=10,gpus=1, precision=16)
+trainer = pl.Trainer(max_epochs=10, gpus=1)
 # trainer = pl.Trainer(max_epochs=5,gpus=1, precision=16)
 trainer.fit(model)
 

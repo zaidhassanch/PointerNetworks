@@ -4,6 +4,7 @@ from torchtext.vocab import Vocab
 import io
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
+from configs import config
 
 def build_vocab(filepath, tokenizer):
   counter = Counter()
@@ -42,21 +43,61 @@ def data_process(ger_path, eng_path, ger_voc, eng_voc, ger_tok, eng_tok):
     data.append((de_tensor_, en_tensor_))
   return data
 
-def getData2(ger_tok, eng_tok):
+def data_process_bpe(ger_path, eng_path, ger_voc, eng_voc, ger_tok, eng_tok):
+  raw_de_iter = iter(io.open(ger_path, encoding="utf8"))
+  raw_en_iter = iter(io.open(eng_path, encoding="utf8"))
+  data = []
+  for (raw_de, raw_en) in zip(raw_de_iter, raw_en_iter):
+    raw_en = raw_en.rstrip()
+    raw_de = raw_de.rstrip()
+    de_tensor_ = torch.tensor(ger_tok.encode(raw_de),
+                            dtype=torch.long)
 
-  ger_voc = build_vocab('/home/zaid/DrPascal/PointerNetworksCodes/PointerNetworks/Tranformers/T003b_transformerLightning/T003_grammer_correction_dataLoader/.data/multi30k/train.de', ger_tok) #vocab from training data
-  eng_voc = build_vocab('.data/multi30k/train.en', eng_tok) #vocab from training data
+    en_tensor_ = torch.tensor(eng_tok.encode(raw_en),
+                            dtype=torch.long)
 
-  train_data = data_process('.data/multi30k/train.de', '.data/multi30k/train.en', ger_voc, eng_voc, ger_tok, eng_tok)
-  # exit()
-  val_data = data_process('.data/multi30k/val.de', '.data/multi30k/val.en', ger_voc, eng_voc, ger_tok, eng_tok)
-  test_data = data_process('.data/multi30k/test2016.de', '.data/multi30k/test2016.en', ger_voc, eng_voc, ger_tok, eng_tok)
+    # tokens = [token.lower() for token in eng_tok(raw_en)]
+    # print(tokens)
+    #
+    # text_to_indices = [eng_voc[token] for token in tokens]
+    # translated_sentence = [eng_voc.itos[idx] for idx in text_to_indices]
+    # print(raw_en)
+    # print(text_to_indices)
+    # print(translated_sentence)
+    # exit()
+    data.append((de_tensor_, en_tensor_))
+  return data
 
-  print("train_data ", len(train_data))
-  print("valid_data ", len(val_data))
-  print("test_data ", len(test_data))
+def getData2(ger_tok, eng_tok, USE_BPE):
 
-  return ger_voc, eng_voc, train_data, val_data, test_data
+  if USE_BPE == False:
+    ger_voc = build_vocab(config.TRAIN_SRC, ger_tok) #vocab from training data
+    eng_voc = build_vocab(config.TRAIN_TGT, eng_tok) #vocab from training data
+
+    train_data = data_process(config.TRAIN_SRC, config.TRAIN_TGT, ger_voc, eng_voc, ger_tok, eng_tok)
+    # exit()
+    val_data = data_process(config.VAL_SRC, config.VAL_TGT, ger_voc, eng_voc, ger_tok, eng_tok)
+    test_data = data_process(config.TEST_SRC, config.TEST_TGT, ger_voc, eng_voc, ger_tok, eng_tok)
+
+    print("train_data ", len(train_data))
+    print("valid_data ", len(val_data))
+    print("test_data ", len(test_data))
+
+    return ger_voc, eng_voc, train_data, val_data, test_data
+  else:
+    ger_voc = ger_tok #vocab from training data
+    eng_voc = eng_tok #vocab from training data
+
+    train_data = data_process_bpe(config.TRAIN_SRC, config.TRAIN_TGT, ger_voc, eng_voc, ger_tok, eng_tok)
+    # exit()
+    val_data = data_process_bpe(config.VAL_SRC, config.VAL_TGT, ger_voc, eng_voc, ger_tok, eng_tok)
+    test_data = data_process_bpe(config.TEST_SRC, config.TEST_TGT, ger_voc, eng_voc, ger_tok, eng_tok)
+
+    print("train_data ", len(train_data))
+    print("valid_data ", len(val_data))
+    print("test_data ", len(test_data))
+
+    return ger_voc, eng_voc, train_data, val_data, test_data
 
 def generate_batch(data_batch):
   PAD_IDX = 1 #german_vocab['<pad>']

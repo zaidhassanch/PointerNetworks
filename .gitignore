@@ -18,3 +18,4 @@ checkpoints
 __pycache__
 .idea
 *.pyc
+lightning_logs
