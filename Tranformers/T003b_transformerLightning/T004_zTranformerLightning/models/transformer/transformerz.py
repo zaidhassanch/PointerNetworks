@@ -2,7 +2,7 @@ import copy
 from typing import Optional, Any
 
 #from multiheadattentionZ import MultiheadAttentionZ
-from multiheadattn import MultiheadAttentionZ
+from models.transformer.multiheadattn import MultiheadAttentionZ
 
 import torch
 from torch import nn

@@ -1,75 +1,130 @@
+import time
 
-from utils import translate_sentence, load_checkpoint
 import torch
+print(torch.cuda.is_available())
+from torch import nn
+from torch import optim
+from torchvision import datasets, transforms
+from torch.utils.data import random_split, DataLoader
+
+from models.transformer.model import Model
 from data import getData
-from train import train
-from transfomer import Transformer
+from dataloader import Batcher
+from utils import translate_sentence
+
+import pytorch_lightning as pl
+
+from pytorch_lightning.metrics.functional import accuracy
 
 LOAD_NEW_METHOD = True
-batch_size = 32
-print("===============================before loading")
-# german_vocab, english_vocab, train_data, valid_data, test_data = getData_newMethod(LOAD_NEW_METHOD)
-german_vocab, english_vocab, train_data, valid_data, test_data = getData(LOAD_NEW_METHOD)
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-data = train_data[0:3]
+
+class grammarTransformer(pl.LightningModule):
+    def __init__(self):
+        super().__init__()
+        # change things as required
+
+        embedding_size = 512
+        device = "cuda"
+        self.prepare_data_own()
+        self.model = Model(device, embedding_size, self.src_vocab_size, self.trg_vocab_size, self.src_pad_idx).to(device)
+
+        # pad_idx = english_vocab.stoi["<pad>"]
+        # criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
+        self.loss = nn.CrossEntropyLoss(ignore_index=self.pad_idx)
+
+    def forward(self, inp_data, trg):
+        output = self.model(inp_data, trg)
+        return output
+
+    def configure_optimizers(self):
+        optimizer = optim.Adam(self.parameters(), lr=3e-4)
+        return optimizer
+
+    def training_step(self, batch, batch_idx):
+        inp_data = batch[0]
+        target = batch[1]
+
+        # x: b x 1 x 28 x28
+        trg = target[:-1, :]
+
+        # 1 forward
+        output = self(inp_data, trg)# l: logits
+
+        output = output.reshape(-1, output.shape[2])
+        target = target[1:].reshape(-1)
+
+        # 2 compute the objective function
+        J = self.loss(output, target)
+
+        # acc = accuracy(logits, y)
+        # pbar = {'train_acc': acc}
+
+        # return {'loss': J, 'progress_bar': pbar}
+        return J
+
+    def validation_step(self, batch, batch_idx):
+        results = self.training_step(batch, batch_idx)
+        # results["progress_bar"]["val_acc"] = results["progress_bar"]["train_acc"]
+        # del results["progress_bar"]["train_acc"]
+        return results
+
+    def validation_epoch_end(self, val_step_outputs):
+        # avg_val_loss = torch.tensor([x['loss'] for x in val_step_outputs]).mean()
+        # avg_val_acc = torch.tensor([x["progress_bar"]["val_acc"] for x in val_step_outputs]).mean()
+        #
+        # pbar = {'avg_val_acc': avg_val_acc}
+        print("Translation Sample =================")
+        sentences = []
+        sentences.append("ein pferd geht unter einer brücke neben einem boot.")
+        sentences.append("ein mann, der rotes hemd trägt, das unter einem baum sitzt.")
+        sentences.append("ein hund, der einer katze nachläuft, um sie zu schlagen.")
+        sentences.append("ein alter mann, der versucht, von einem kaputten stuhl aufzustehen.")
+        #"An old man trying to get up from a broken chair
+        #A man wearing red shirt sitting under a tree
+        device = "cuda"
+
+        for sentence in sentences:
+            translated_sentence = translate_sentence(
+                self,
+                sentence, self.german_vocab, self.english_vocab, device, max_length=50
+            )
+
+            print("Output", translated_sentence)
+        return
+
+    def prepare_data_own(self):
+        self.german_vocab, self.english_vocab, train_data, valid_data, test_data = getData(LOAD_NEW_METHOD)
+        self.train_iterator, self.valid_iterator, self.test_iterator = Batcher(train_data, valid_data, test_data)
+
+        self.src_vocab_size = len(self.german_vocab)
+        self.trg_vocab_size = len(self.english_vocab)
+        self.src_pad_idx = self.english_vocab.stoi["<pad>"]
+        self.pad_idx = self.english_vocab.stoi["<pad>"]
+
+    def setup(self, stage_name):
+        # dataset = datasets.MNIST('data', train=True, download=False, transform=transforms.ToTensor())
+        # self.train_data, self.val_data = random_split(dataset, [55000, 5000])
+        pass
 
 
-for example in data:
-    if LOAD_NEW_METHOD:
-        src = example[0]
-        trg = example[1]
-        src = [german_vocab.itos[idx] for idx in src]
-        trg = [english_vocab.itos[idx] for idx in trg]
-    else:
-        src = example.src
-        trg = example.trg
-    print(">> ", src)
-    print("   ", trg)
-# exit()
 
-src_vocab_size = len(german_vocab)
-trg_vocab_size = len(english_vocab)
-print("src vocabulary size: ", src_vocab_size)
-print("trg vocabulary size: ", trg_vocab_size)
-embedding_size = 512
-src_pad_idx = english_vocab.stoi["<pad>"]
-print(src_pad_idx)
-print(english_vocab.itos[src_pad_idx])
-print("===============================after loading ")
+    def train_dataloader(self): # defined here to know number of classes
+        # Train, Val split
+        train_loader = self.train_iterator
+        return train_loader
 
-model = Transformer(device, embedding_size, src_vocab_size, trg_vocab_size, src_pad_idx).to(device)
+    def val_dataloader(self):
+        val_loader = self.valid_iterator
+        return val_loader
 
-load_model = False
-save_model = True
-learning_rate = 3e-4
+model = grammarTransformer()
 
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+start_time = time.time()
+trainer = pl.Trainer(max_epochs=10,gpus=1, precision=16)
+# trainer = pl.Trainer(max_epochs=5,gpus=1, precision=16)
+trainer.fit(model)
 
-if load_model:
-    load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
-
-sentence = "ein pferd geht unter einer brücke neben einem boot."
-#
-# translated_sentence = translate_sentence(
-#     model, sentence, german, english, device, max_length=50
-# )
-# sentence = 'The study questions are carefully worded and chosen.'
-# sentence = 'a little girl climbing into a wooden playhouse.'
-
-# sentence = "is man lion a stuffed A at smiling."
-
-#sentence1 = ['ein', 'pferd', 'geht', 'unter', 'einer', 'brücke', 'neben', 'einem', 'boot', '.']
-# sentence1 = ['a', 'little', 'girl', 'climbing', 'into', 'a', 'wooden', 'playhouse', '.']
-translated_sentence = translate_sentence(model, sentence, german_vocab, english_vocab, device, max_length=50)
-# exit()
-# print(f"Translated1 example sentence: \n {sentence}")
-# print(f"Translated1 example sentence: \n {translated_sentence}")
-
-# exit()
-print("===============================going for training ")
-
-train(model, device, load_model, save_model, 
-	german_vocab, english_vocab, train_data, valid_data, test_data, batch_size, LOAD_NEW_METHOD)
-# running on entire test data takes a while
+print("Time taken: ", time.time() - start_time)
 
 
+# encoder-decoder and decoder save: https://scale.com/blog/pytorch-improvements

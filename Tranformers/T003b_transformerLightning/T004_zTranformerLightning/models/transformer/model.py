@@ -1,14 +1,12 @@
 import torch
 import torch.nn as nn
-from transformerz import TransformerZ
+from models.transformer.transformerz import TransformerZ
 
 
-num_heads = 8
-num_encoder_layers = 3
-num_decoder_layers = 3
-dropout = 0.10
-max_len = 100
-forward_expansion = 4
+
+# dropout = 0.10
+# max_len = 100
+# forward_expansion = 4
 
 # num_heads = 8
 # num_encoder_layers = 3
@@ -16,7 +14,7 @@ forward_expansion = 4
 # dropout = 0.10
 # max_len = 100
 # forward_expansion = 4
-class Transformer(nn.Module):
+class Model(nn.Module):
     def __init__(
         self,
         device,
@@ -24,14 +22,14 @@ class Transformer(nn.Module):
         src_vocab_size,
         trg_vocab_size,
         src_pad_idx,
-        num_heads = 8,
+        num_heads = 1,
         num_encoder_layers = 1,
         num_decoder_layers = 1,
         forward_expansion = 1,
         dropout = 0.0,
         max_len = 100,
     ):
-        super(Transformer, self).__init__()
+        super(Model, self).__init__()
         self.src_word_embedding = nn.Embedding(src_vocab_size, embedding_size)  # 7854 x 512
         self.src_position_embedding = nn.Embedding(max_len, embedding_size)     #  100 x 512
         self.trg_word_embedding = nn.Embedding(trg_vocab_size, embedding_size)  # 5893 x 512
