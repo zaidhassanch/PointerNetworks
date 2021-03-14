@@ -23,6 +23,6 @@ with open(inFile, 'r') as fp:
             print(count)
             print("line[0]", line[0])
             print("line[1]", line[1])
-        print(count, line[0])
+
         fwSRC.write(line[0] + "\n")
         fwTGT.write(line[1] + "\n")
