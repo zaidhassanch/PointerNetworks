@@ -10,7 +10,7 @@ count = 0
 
 with open(inFile, 'r') as fp:
     for line in fp:
-        line = line.strip()
+        line = line.rstrip()
         if count == 332:
             print("===========")
             print("line[0]:", line[0], ":line[0]")
