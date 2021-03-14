@@ -5,7 +5,7 @@ PYTORCH_TRANSFORMER = False
 LOAD_NEW_METHOD = True
 USE_BPE = False
 MAX_LEN = 500
-GPUS = 4
+GPUS = 1
 
 TRAIN_SRC = '.data/multi30k/train.de'
 TRAIN_TGT = '.data/multi30k/train.en'
