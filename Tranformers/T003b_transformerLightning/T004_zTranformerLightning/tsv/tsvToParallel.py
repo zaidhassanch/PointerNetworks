@@ -17,7 +17,6 @@ with open(inFile, 'r') as fp:
         else:
             line = line.split('\t')
         count += 1
-
+        print(count, line[0])
         fwSRC.write(line[0] + "\n")
         fwTGT.write(line[1] + "\n")
-        print(line[0] + "\t" + line[1])
