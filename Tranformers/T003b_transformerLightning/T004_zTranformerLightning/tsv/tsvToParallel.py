@@ -11,7 +11,11 @@ count = 0
 with open(inFile, 'r') as fp:
     for line in fp:
         line = line.strip()
-        line = line.split('\t')
+        if line[0] == "\t":
+            line[0] = ""
+            line[1] = ""
+        else:
+            line = line.split('\t')
         count += 1
 
         fwSRC.write(line[0] + "\n")
