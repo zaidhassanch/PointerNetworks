@@ -5,6 +5,8 @@ import spacy
 from torchtext.data import Field
 from torchtext.datasets import Multi30k, TranslationDataset
 from dataloader import getData2
+from configs import config
+from torchtext.data.functional import generate_sp_model, load_sp_model
 """
 To install spacy languages do:
 python -m spacy download en
@@ -36,9 +38,12 @@ def getData_new_method(USE_BPE):
         e_tok = get_tokenizer('spacy', language='en')
         return getData2(g_tok, e_tok, USE_BPE)
     else:
-        pkl_file = open('BPE/data.pkl', 'rb')
-        data1 = pickle.load(pkl_file)
-        sp_gec = data1["sp_gec_orig"]
+        if config.BPE_FROM_PICKLE:
+            pkl_file = open('BPE/data.pkl', 'rb')
+            data1 = pickle.load(pkl_file)
+            sp_gec = data1["sp_gec_orig"]
+        else:
+            sp_gec = load_sp_model(config.BPE_PATH)
         return getData2(sp_gec, sp_gec, USE_BPE)
 
 def getData_old_method(USE_BPE):
