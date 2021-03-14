@@ -23,6 +23,9 @@ class grammarTransformer(pl.LightningModule):
         super().__init__()
         # change things as required
 
+        self.nepochs = 0
+        self.total_time = 0
+
         embedding_size = 512
         device = "cuda"
         self.prepare_data_own()
@@ -123,6 +126,18 @@ class grammarTransformer(pl.LightningModule):
     def val_dataloader(self):
         val_loader = self.valid_iterator
         return val_loader
+
+    def on_epoch_start(self):
+        print(">>>>>>>>>>>>>>>>>>>>> on_epoch_start")
+        self.start_time = time.time()
+
+    def on_epoch_end(self):
+        print(">>>>>>>>>>>>>>>>>>>>> on_epoch_end1")
+        epoch_time = time.time() - self.start_time
+        self.nepochs += 1
+        self.total_time += epoch_time
+        # print(">>>>>>>>>>>>>>>>>>>>> on_epoch_end2", self.nepochs)
+        print("Epoch Time taken: ", epoch_time, self.total_time / self.nepochs)
 
 model = grammarTransformer()
 
