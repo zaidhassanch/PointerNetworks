@@ -17,6 +17,8 @@ with open(inFile, 'r') as fp:
         else:
             line = line.split('\t')
         count += 1
+        if count == 333:
+            print("===========")
         print(count, line[0])
         fwSRC.write(line[0] + "\n")
         fwTGT.write(line[1] + "\n")
