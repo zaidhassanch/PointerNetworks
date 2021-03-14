@@ -3,7 +3,7 @@ BPE_PATH = "GCEBPE4m.model"
 
 PYTORCH_TRANSFORMER = False
 LOAD_NEW_METHOD = True
-USE_BPE = False
+USE_BPE = True
 MAX_LEN = 500
 GPUS = 4
 
