@@ -17,8 +17,7 @@ with open(inFile, 'r') as fp:
             print("line[1]:", line[1], ":line[1]")
 
         if line[0] == "\t":
-            line[0] = ""
-            line[1] = ""
+            line = ["", ""]
         else:
             line = line.split('\t')
         count += 1
