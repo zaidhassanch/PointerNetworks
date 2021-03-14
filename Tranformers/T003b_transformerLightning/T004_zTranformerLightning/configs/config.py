@@ -7,8 +7,8 @@ USE_BPE = True
 MAX_LEN = 500
 GPUS = 4
 
-TRAIN_SRC = 'dataFiles/test10k.src'
-TRAIN_TGT = 'dataFiles/test10k.tgt'
+TRAIN_SRC = 'dataFiles/train4m.src'
+TRAIN_TGT = 'dataFiles/train4m.tgt'
 VAL_SRC = 'dataFiles/test10k.src'
 VAL_TGT = 'dataFiles/test10k.tgt'
 TEST_SRC = 'dataFiles/test10k.src'
