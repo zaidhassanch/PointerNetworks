@@ -5,6 +5,7 @@ PYTORCH_TRANSFORMER = False
 LOAD_NEW_METHOD = True
 USE_BPE = True
 MAX_LEN = 500
+GPUS = 4
 
 TRAIN_SRC = 'tsv/sent_9_jane_eyre.src'
 TRAIN_TGT = 'tsv/sent_9_jane_eyre.tgt'

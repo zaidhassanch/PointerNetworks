@@ -127,7 +127,7 @@ class grammarTransformer(pl.LightningModule):
 model = grammarTransformer()
 
 start_time = time.time()
-trainer = pl.Trainer(max_epochs=10, gpus=1)
+trainer = pl.Trainer(max_epochs=10, gpus=config.GPUS)
 # trainer = pl.Trainer(max_epochs=5,gpus=1, precision=16)
 trainer.fit(model)
 
