@@ -1,6 +1,7 @@
-inFile = "/home/chaudhryz/scribendigec/Final/Exp14/test10k.tsv"
-srcFile = "/home/chaudhryz/scribendigec/Final/Exp14/test10k.src"
-tgtFile = "/home/chaudhryz/scribendigec/Final/Exp14/test10k.tgt"
+file = "test10k"
+inFile = "/home/chaudhryz/scribendigec/Final/Exp14/" +file + ".tsv"
+srcFile = "/home/chaudhryz/PointerNetworks/Tranformers/T003b_transformerLightning/T004_zTranformerLightning/dataFiles/" +file + ".src"
+tgtFile = "/home/chaudhryz/PointerNetworks/Tranformers/T003b_transformerLightning/T004_zTranformerLightning/dataFiles/" +file + ".tgt"
 
 fwSRC = open(srcFile, 'w')
 fwTGT = open(tgtFile, 'w')
