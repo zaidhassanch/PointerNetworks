@@ -1,8 +1,15 @@
 import copy
 from typing import Optional, Any
+from configs import config
 
 #from multiheadattentionZ import MultiheadAttentionZ
-from models.transformer.multiheadattn import MultiheadAttentionZSelf
+if config.SELF_ATTN == "OUR":
+    from models.transformer.multiheadattn import MultiheadAttentionZSelf
+elif config.SELF_ATTN == "SUMMARIZED":
+    from models.transformer.multiheadattn import MultiheadAttentionZ2 as MultiheadAttentionZSelf
+elif config.SELF_ATTN == "ORIGINAL":
+    from models.transformer.multiheadattn import MultiheadAttentionZ3 as MultiheadAttentionZSelf
+
 from models.transformer.multiheadattn import MultiheadAttentionZCross
 import torch
 from torch import nn

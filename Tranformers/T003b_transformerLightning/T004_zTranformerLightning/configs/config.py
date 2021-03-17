@@ -2,26 +2,22 @@ BPE_FROM_PICKLE = True
 BPE_PATH = "GCEBPE4m.model"
 
 PYTORCH_TRANSFORMER = False
+SELF_ATTN = "SUMMARIZED"  #"ORIGINAL"|"SUMMARIZED"|"OUR"
 LOAD_NEW_METHOD = True
-USE_BPE = True
+USE_BPE = False
 MAX_LEN = 500
-GPUS = 4
+GPUS = 1
+MAX_EPOCHS = 10
 
-TRAIN_SRC = 'dataFiles/train4m.src'
-TRAIN_TGT = 'dataFiles/train4m.tgt'
-VAL_SRC = 'dataFiles/test10k.src'
-VAL_TGT = 'dataFiles/test10k.tgt'
-TEST_SRC = 'dataFiles/test10k.src'
-TEST_TGT = 'dataFiles/test10k.tgt'
+TRAIN_SRC = '.data/multi30k/train.de'
+TRAIN_TGT = '.data/multi30k/train.en'
+VAL_SRC = '.data/multi30k/val.de'
+VAL_TGT = '.data/multi30k/val.en'
+TEST_SRC = '.data/multi30k/test2016.de'
+TEST_TGT = '.data/multi30k/test2016.en'
 
 sentences = []
-#sentences.append("During counselling, therapist should aware the multi cultural context of each client and apply the skills according to the needs of the client.")
-# Further , during counseling, the therapist should be aware of the multicultural context of the client and apply his or her skills according to the needs of the client.
-sentences.append("The research was conducted at six CBE villages located on the three provinces in South Korea (see Figure 1.) .")
-#The research was conducted in six CBE villages in three provinces in South Korea (see Figure 1) .
-sentences.append("Initially , 690 participants were invited, 71 of these participants were declined or did not complete the questionnaires.")
-# Initially , 690 participants were invited, but 71 of these participants were declined or did not complete the questionnaires.
-sentences.append("The original rubric contain four areas for studying TPACK.")
-# The original rubric contains four areas for studying TPACK.
-sentences.append("The tie is the term used to explain the relationship between one node to another.")
-# The tie is the term used to explain the relationship between one node and another.
+sentences.append("Ein Pferd geht unter einer Brücke neben einem Boot.")
+sentences.append("ein mann, der rotes hemd tragt, das unter einem baum sitzt.")
+sentences.append("ein hund, der einer katze nachlauft, um sie zu schlagen.")
+sentences.append("ein alter mann, der versucht, von einem kaputten stuhl aufzustehen.")

@@ -1,0 +1,50 @@
+\
+\
+cumtime: 0.146, 0.144, 156 Our self-attn multiattention, tottime: 0.004, 0.004, 0.004
+cumtime: 0.483, 0.491, 0.477 Pytorch self-attn tottime: 0.080, 0.083, 0.085 Long-time: 1.096, 1.097
+
+31 sec grad
+32.4 with everything including transformer without fc
+ And, each epoch for 30k dataset takes around 42 sec on my GPU. With original self-attention
+   it was taking xx sec, and needed same number of epoch to produce similar results. So, this approximation
+   looks perfect in principle.
+
+
+Dear Prof. Pascal,
+   Summary of my past few days work is as follows:
+   1. Reducing self-attention complexity
+   2. Building the optimized transformer based main-pipeline for grammar correction on Pytorch Lightning
+      (this is something I was already working on, and was close to completion. I have completed it in principle)
+   3. Problem definition for evaluating self-attention optimization (need to discuss this)
+   4. My presentation in Scribendi Meeting. (need to discuss this)
+   Can we have a meeting on Tuesday to discuss some of the above.
+
+   Now more details on above.
+
+   1. Reducing Complexity of Self-Attention:
+   =========================================
+   I did some experiments on reducing complexity of self-attention so that transformers
+   can train faster. For experimentation, I have used Multi30k dataset which has data for translation from German
+   to English. I have been able to reduce the complexity significantly without much apparent
+   compromise on translation. It is looking too good to be true,
+   not sure if I am missing something. This model gives fairly good translations after couple of
+   epochs (the results apparently match those with full-scale self-attention implementation).
+
+   2. Implementing Optimized Transformer based Pipeline
+   ====================================================
+   I have also completed building a pipeline for grammar correction using Pytorch Lightning (this is the
+   one I was expecting to get from Ankit, but now I have developed it myself). Since I don't have
+   multiple GPUs I needed to test my pipeline on Scribendi GPUs. The processors were free for a while, and I
+   tested the processing speed of my pipeline - it took almost one hour for one epoch on 4M dataset. But, I need
+   to run more experiments to see if the model really works. Currently, I have just used the processors for sanity testing.
+
+   3. Problem definition for evaluating self-attention optimization
+   ================================================================
+   However, I am a little confused on how to test my reduced complexity model of self-attention. Should I test it
+   on a translation problem, or a grammar correction problem, or some other problem with longer sequences. I think, I should have
+   some well defined problem (or problems) on which I can make sure that my reduced complexity self-attention
+   replacement works well. I will need a dataset and a model on which I can produce results and do optimization.
+
+   4. My Presentation in Scribendi Meeting
+   =========================================
+   Since I am working on different stuff, I need help in what to put on slides for Scribendi meeting. Need help here too.

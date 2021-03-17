@@ -6,6 +6,7 @@ from torch import nn
 from torch import optim
 from torchvision import datasets, transforms
 from torch.utils.data import random_split, DataLoader
+from pytorch_lightning.profiler import AdvancedProfiler
 
 from models.transformer.model import Model
 from data import getData
@@ -58,6 +59,8 @@ class grammarTransformer(pl.LightningModule):
 
         # 2 compute the objective function
         J = self.loss(output, target)
+        #       J = torch.autograd.Variable(torch.tensor(0)).to(self.device)
+
 
         # acc = accuracy(logits, y)
         # pbar = {'train_acc': acc}
@@ -140,15 +143,18 @@ class grammarTransformer(pl.LightningModule):
         print("Epoch Time taken: ", epoch_time, self.total_time / self.nepochs)
 
 model = grammarTransformer()
+profiler = AdvancedProfiler()
 
 start_time = time.time()
 
 if config.GPUS == 1:
-    trainer = pl.Trainer(max_epochs=10, gpus=config.GPUS)
+    trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS)
+    # trainer = pl.Trainer(max_epochs=1, gpus=config.GPUS, profiler=profiler)
+    # trainer = pl.Trainer(max_epochs=1, gpus=config.GPUS, profiler=True)
 elif config.GPUS == 0:
-    trainer = pl.Trainer(max_epochs=10)
+    trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS)
 else:
-    trainer = pl.Trainer(max_epochs=10, gpus=config.GPUS, accelerator="ddp")
+    trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS, accelerator="ddp")
 
 # trainer = pl.Trainer(max_epochs=5,gpus=1, precision=16)
 trainer.fit(model)
