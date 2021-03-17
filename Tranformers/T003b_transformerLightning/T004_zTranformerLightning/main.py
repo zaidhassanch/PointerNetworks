@@ -11,7 +11,7 @@ from pytorch_lightning.profiler import AdvancedProfiler
 from models.transformer.model import Model
 from data import getData
 from dataloader import Batcher
-from utils import translate_sentence, translate_sentence_bpe
+from utils import translate_sentence, translate_sentence_bpe, computeBLEU, writeArrToCSV
 
 import pytorch_lightning as pl
 
@@ -26,6 +26,8 @@ class grammarTransformer(pl.LightningModule):
 
         self.nepochs = 0
         self.total_time = 0
+
+        self.bleu_scores = []
 
         embedding_size = 512
         device = "cuda"
@@ -98,11 +100,19 @@ class grammarTransformer(pl.LightningModule):
                 )
 
             print("Output", translated_sentence)
+
+        # if config.COMPUTE_BLEU == True and self.nepochs == config.MAX_EPOCHS:
+        if config.COMPUTE_BLEU == True and self.nepochs > 0:
+            bleu_score = computeBLEU(self.test_data, self, self.german_vocab, self.english_vocab, device)
+            self.bleu_scores.append(bleu_score)
+            print("BLEU score: ", bleu_score)
+            if self.nepochs % 1 == 0:
+                writeArrToCSV(self.bleu_scores)
         return
 
     def prepare_data_own(self):
-        self.german_vocab, self.english_vocab, train_data, valid_data, test_data = getData(config.LOAD_NEW_METHOD, config.USE_BPE)
-        self.train_iterator, self.valid_iterator, self.test_iterator = Batcher(train_data, valid_data, test_data)
+        self.german_vocab, self.english_vocab, self.train_data, self.valid_data, self.test_data = getData(config.LOAD_NEW_METHOD, config.USE_BPE)
+        self.train_iterator, self.valid_iterator, self.test_iterator = Batcher(self.train_data, self.valid_data, self.test_data)
 
         self.src_vocab_size = len(self.german_vocab)
         self.trg_vocab_size = len(self.english_vocab)
@@ -133,14 +143,17 @@ class grammarTransformer(pl.LightningModule):
     def on_epoch_start(self):
         print(">>>>>>>>>>>>>>>>>>>>> on_epoch_start")
         self.start_time = time.time()
+        self.nepochs += 1
 
     def on_epoch_end(self):
         print(">>>>>>>>>>>>>>>>>>>>> on_epoch_end1")
         epoch_time = time.time() - self.start_time
-        self.nepochs += 1
+
         self.total_time += epoch_time
         # print(">>>>>>>>>>>>>>>>>>>>> on_epoch_end2", self.nepochs)
         print("Epoch Time taken: ", epoch_time, self.total_time / self.nepochs)
+
+
 
 model = grammarTransformer()
 profiler = AdvancedProfiler()
@@ -149,8 +162,8 @@ start_time = time.time()
 
 if config.GPUS == 1:
     trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS)
-    # trainer = pl.Trainer(max_epochs=1, gpus=config.GPUS, profiler=profiler)
-    # trainer = pl.Trainer(max_epochs=1, gpus=config.GPUS, profiler=True)
+    # trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS, profiler=profiler)
+    # trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS, profiler=True)
 elif config.GPUS == 0:
     trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS)
 else:

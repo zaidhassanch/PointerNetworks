@@ -24,10 +24,10 @@ class Model(nn.Module):
         src_vocab_size,
         trg_vocab_size,
         src_pad_idx,
-        num_heads = 1,
-        num_encoder_layers = 1,
-        num_decoder_layers = 1,
-        forward_expansion = 1,
+        num_heads = config.NUM_HEADS,
+        num_encoder_layers = config.N_LAYERS,
+        num_decoder_layers = config.N_LAYERS,
+        forward_expansion = config.FORWARD_EXP,
         dropout = 0.0,
         max_len = config.MAX_LEN,
     ):
@@ -52,7 +52,7 @@ class Model(nn.Module):
         else:
             self.transformer = TransformerZ(
                 embedding_size,
-                1, #num_heads,
+                num_heads, #num_heads,
                 num_encoder_layers,
                 num_decoder_layers,
                 forward_expansion,

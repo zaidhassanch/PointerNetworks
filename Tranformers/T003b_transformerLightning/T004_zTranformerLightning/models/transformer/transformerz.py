@@ -10,7 +10,10 @@ elif config.SELF_ATTN == "SUMMARIZED":
 elif config.SELF_ATTN == "ORIGINAL":
     from models.transformer.multiheadattn import MultiheadAttentionZ3 as MultiheadAttentionZSelf
 
-from models.transformer.multiheadattn import MultiheadAttentionZCross
+if config.SELF_ATTN == "ORIGINAL" or config.SELF_ATTN == "OUR":
+    from models.transformer.multiheadattn import MultiheadAttentionZ3 as MultiheadAttentionZCross
+else:
+    from models.transformer.multiheadattn import MultiheadAttentionZCross
 import torch
 from torch import nn
 from torch import Tensor

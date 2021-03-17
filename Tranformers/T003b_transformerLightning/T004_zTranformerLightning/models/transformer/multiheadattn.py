@@ -94,6 +94,7 @@ class MultiheadAttentionZ2(nn.Module):
 
         k = self.linear1(k)
         q = self.linear2(k)
+
         v = self.linear3(k)
         q = q * scaling
         q = q.contiguous().view(tgt_len, bsz * num_heads, head_dim).transpose(0, 1)
