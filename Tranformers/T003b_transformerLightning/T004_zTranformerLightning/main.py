@@ -30,9 +30,12 @@ class grammarTransformer(pl.LightningModule):
         self.bleu_scores = []
 
         embedding_size = 512
-        device = "cuda"
+        if config.GPUS==0:
+            self.deviceLegacy = "cpu"
+        else:
+            self.deviceLegacy = "cuda"
         self.prepare_data_own()
-        self.model = Model(device, embedding_size, self.src_vocab_size, self.trg_vocab_size, self.src_pad_idx).to(device)
+        self.model = Model(self.deviceLegacy, embedding_size, self.src_vocab_size, self.trg_vocab_size, self.src_pad_idx).to(self.deviceLegacy)
 
         # pad_idx = english_vocab.stoi["<pad>"]
         # criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
@@ -86,7 +89,6 @@ class grammarTransformer(pl.LightningModule):
 
         #"An old man trying to get up from a broken chair
         #A man wearing red shirt sitting under a tree
-        device = "cuda"
 
         for sentence in config.sentences:
             if config.USE_BPE == False:
@@ -95,7 +97,7 @@ class grammarTransformer(pl.LightningModule):
                 # myGlobal = True
                 translated_sentence = translate_sentence(
                     self,
-                    sentence, self.german_vocab, self.english_vocab, device, max_length=50
+                    sentence, self.german_vocab, self.english_vocab, self.deviceLegacy,max_length=50
                 )
                 # print("Output", translated_sentence)
                 # print(sentence)
@@ -110,14 +112,14 @@ class grammarTransformer(pl.LightningModule):
             else:
                 translated_sentence = translate_sentence_bpe(
                     self,
-                    sentence, self.german_vocab, self.english_vocab, device, max_length=50
+                    sentence, self.german_vocab, self.english_vocab, self.deviceLegacy, max_length=50
                 )
 
             print("Output", translated_sentence)
 
         # if config.COMPUTE_BLEU == True and self.nepochs == config.MAX_EPOCHS:
         if config.COMPUTE_BLEU == True and self.nepochs > 0:
-            bleu_score = computeBLEU(self.test_data, self, self.german_vocab, self.english_vocab, device)
+            bleu_score = computeBLEU(self.test_data, self, self.german_vocab, self.english_vocab, self.deviceLegacy)
             self.bleu_scores.append(bleu_score)
             print("BLEU score: ", bleu_score)
             if self.nepochs % 1 == 0:
