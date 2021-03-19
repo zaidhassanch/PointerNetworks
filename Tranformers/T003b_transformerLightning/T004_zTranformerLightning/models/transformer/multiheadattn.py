@@ -14,26 +14,26 @@ from torch.nn.init import constant_
 from models.transformer.originalMultiHeadForward import multi_head_attention_forward
 from configs import config
 
-class readyForSaving:
-    def __init__(self):
-        self.myGlobal = False
-        self.count = 0
-
-    def __bool__(self):
-        return self.myGlobal
-
-    def change(self, Save_Bool):
-        self.myGlobal = Save_Bool
-
-    def updateCount(self):
-        self.count += 1
-        if self.count == config.N_LAYERS * 3 + 1:
-            self.count = 1
-        return self.count
-
-global myGlobal
-
-myGlobal = readyForSaving()
+# class readyForSaving:
+#     def __init__(self):
+#         self.myGlobal = False
+#         self.count = 0
+#
+#     def __bool__(self):
+#         return self.myGlobal
+#
+#     def change(self, Save_Bool):
+#         self.myGlobal = Save_Bool
+#
+#     def updateCount(self):
+#         self.count += 1
+#         if self.count == config.N_LAYERS * 3 + 1:
+#             self.count = 1
+#         return self.count
+#
+# global myGlobal
+#
+# myGlobal = readyForSaving()
 
 class MultiheadAttentionZCross(nn.Module):
 

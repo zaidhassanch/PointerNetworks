@@ -16,7 +16,7 @@ from utils import translate_sentence, translate_sentence_bpe, computeBLEU, write
 import pytorch_lightning as pl
 
 from pytorch_lightning.metrics.functional import accuracy
-from models.transformer.multiheadattn import myGlobal
+# from models.transformer.multiheadattn import myGlobal
 from configs import config
 
 class grammarTransformer(pl.LightningModule):
@@ -90,8 +90,8 @@ class grammarTransformer(pl.LightningModule):
 
         for sentence in config.sentences:
             if config.USE_BPE == False:
-                if self.nepochs == config.MAX_EPOCHS:
-                    myGlobal.change(True)
+                # if self.nepochs == config.MAX_EPOCHS:
+                #     myGlobal.change(True)
                 # myGlobal = True
                 translated_sentence = translate_sentence(
                     self,
@@ -102,11 +102,11 @@ class grammarTransformer(pl.LightningModule):
                 # global myGlobal
                 # myGlobal = False
                 # exit()
-                if self.nepochs == config.MAX_EPOCHS:
-                    myGlobal.change(False)
-                    print("Input", sentence)
-                    print("Output", translated_sentence)
-                    exit()
+                # if self.nepochs == config.MAX_EPOCHS:
+                #     myGlobal.change(False)
+                #     print("Input", sentence)
+                #     print("Output", translated_sentence)
+                #     exit()
             else:
                 translated_sentence = translate_sentence_bpe(
                     self,
