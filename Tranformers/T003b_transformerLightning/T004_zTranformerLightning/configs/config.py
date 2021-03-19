@@ -11,7 +11,7 @@ MAX_EPOCHS = 15
 PRECISION = 32 #32|16
 LEARNING_RATE = 3e-4
 
-N_LAYERS = 1
+N_LAYERS = 10
 NUM_HEADS = 8
 FORWARD_EXP = 4
 
@@ -28,14 +28,13 @@ sentences = []
 #sentences.append("During counselling, therapist should aware the multi cultural context of each client and apply the skills according to the needs of the client.")
 # Further , during counseling, the therapist should be aware of the multicultural context of the client and apply his or her skills according to the needs of the client.
 sentences.append("Peer support also meant giving tips and ideas for domestic problems.")
-# Peer support also means giving tips and ideas to solve domestic problems.
-sentences.append("Then Then with a sniff and another sad smile she was gone.")
+#Peer support also means giving tips and ideas to solve domestic problems.
+sentences.append("Then Then with a sniff and another sad smile she was gone")
 # Then with a sniff and another sad smile she was gone.
-sentences.append("Erik understands this as a reproach, as he asks if Mats have objections against German (line 6) .")
+sentences.append("Erik understands this as a reproach, as he asks if Mats have objections against German (line 6)")
 # Erik understands this as a reproach as he asks if Mats have objections against German (line 6) .
 sentences.append("What is becoming a rule of thumb is Hire Hire slowly.")
 # What is becoming a rule of thumb is Hire slowly.
-
 #sentences.append("During counselling, therapist should aware the multi cultural context of each client and apply the skills according to the needs of the client.")
 # Further , during counseling, the therapist should be aware of the multicultural context of the client and apply his or her skills according to the needs of the client.
 # sentences.append("The research was conducted at six CBE villages located on the three provinces in South Korea (see Figure 1.) .")
