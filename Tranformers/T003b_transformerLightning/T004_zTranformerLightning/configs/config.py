@@ -7,12 +7,14 @@ LOAD_NEW_METHOD = True
 USE_BPE = False
 MAX_LEN = 500
 GPUS = 4
-MAX_EPOCHS = 10
+MAX_EPOCHS = 2
 PRECISION = 32 #32|16
 
 N_LAYERS = 6
 NUM_HEADS = 8
 FORWARD_EXP = 4
+
+COMPUTE_BLEU = False
 
 TRAIN_SRC = 'dataFiles/test10k.src'
 TRAIN_TGT = 'dataFiles/test10k.tgt'

@@ -14,6 +14,8 @@ N_LAYERS = 6
 NUM_HEADS = 8
 FORWARD_EXP = 4
 
+COMPUTE_BLEU = False
+
 TRAIN_SRC = 'dataFiles/test10k.src'
 TRAIN_TGT = 'dataFiles/test10k.tgt'
 VAL_SRC = 'dataFiles/test10k.src'
