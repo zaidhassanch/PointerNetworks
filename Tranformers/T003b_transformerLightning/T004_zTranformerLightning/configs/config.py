@@ -4,7 +4,7 @@ BPE_PATH = "GCEBPE4m.model"
 PYTORCH_TRANSFORMER = False
 SELF_ATTN = "ORIGINAL"  #"ORIGINAL"|"SUMMARIZED"|"OUR"|"CROSS"
 LOAD_NEW_METHOD = True
-USE_BPE = False
+USE_BPE = True
 MAX_LEN = 500
 GPUS = 4
 MAX_EPOCHS = 2
@@ -16,8 +16,8 @@ FORWARD_EXP = 4
 
 COMPUTE_BLEU = False
 
-TRAIN_SRC = 'dataFiles/test10k.src'
-TRAIN_TGT = 'dataFiles/test10k.tgt'
+TRAIN_SRC = 'dataFiles/train4m.src'
+TRAIN_TGT = 'dataFiles/train4m.tgt'
 VAL_SRC = 'dataFiles/test10k.src'
 VAL_TGT = 'dataFiles/test10k.tgt'
 TEST_SRC = 'dataFiles/test10k.src'
