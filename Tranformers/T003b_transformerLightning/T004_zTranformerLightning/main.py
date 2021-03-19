@@ -175,13 +175,13 @@ profiler = AdvancedProfiler()
 start_time = time.time()
 
 if config.GPUS == 1:
-    trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS)
+    trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS, precision=config.PRECISION)
     # trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS, profiler=profiler)
     # trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS, profiler=True)
 elif config.GPUS == 0:
-    trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS)
+    trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, precision=config.PRECISION)
 else:
-    trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS, accelerator="ddp")
+    trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS, accelerator="ddp", precision=config.PRECISION)
 
 # trainer = pl.Trainer(max_epochs=5,gpus=1, precision=16)
 trainer.fit(model)
