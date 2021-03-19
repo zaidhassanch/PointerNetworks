@@ -4,7 +4,7 @@ import torch
 print(torch.cuda.is_available())
 from torch import nn
 from torch import optim
-from torchvision import datasets, transforms
+# from torchvision import datasets, transforms
 from torch.utils.data import random_split, DataLoader
 from pytorch_lightning.profiler import AdvancedProfiler
 
