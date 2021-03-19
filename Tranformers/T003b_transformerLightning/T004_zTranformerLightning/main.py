@@ -46,7 +46,7 @@ class grammarTransformer(pl.LightningModule):
         return output
 
     def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=3e-4)
+        optimizer = optim.Adam(self.parameters(), lr=config.LEARNING_RATE)
         return optimizer
 
     def training_step(self, batch, batch_idx):
