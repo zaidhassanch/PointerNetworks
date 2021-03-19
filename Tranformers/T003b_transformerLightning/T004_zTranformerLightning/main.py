@@ -1,5 +1,5 @@
 import time
-
+# import numpy
 import torch
 print(torch.cuda.is_available())
 from torch import nn
@@ -16,7 +16,7 @@ from utils import translate_sentence, translate_sentence_bpe, computeBLEU, write
 import pytorch_lightning as pl
 
 from pytorch_lightning.metrics.functional import accuracy
-
+from models.transformer.multiheadattn import myGlobal
 from configs import config
 
 class grammarTransformer(pl.LightningModule):
@@ -77,6 +77,7 @@ class grammarTransformer(pl.LightningModule):
         return results
 
     def validation_epoch_end(self, val_step_outputs):
+        # global myGlobal
         # avg_val_loss = torch.tensor([x['loss'] for x in val_step_outputs]).mean()
         # avg_val_acc = torch.tensor([x["progress_bar"]["val_acc"] for x in val_step_outputs]).mean()
         #
@@ -89,10 +90,23 @@ class grammarTransformer(pl.LightningModule):
 
         for sentence in config.sentences:
             if config.USE_BPE == False:
+                if self.nepochs == config.MAX_EPOCHS:
+                    myGlobal.change(True)
+                # myGlobal = True
                 translated_sentence = translate_sentence(
                     self,
                     sentence, self.german_vocab, self.english_vocab, device, max_length=50
                 )
+                # print("Output", translated_sentence)
+                # print(sentence)
+                # global myGlobal
+                # myGlobal = False
+                # exit()
+                if self.nepochs == config.MAX_EPOCHS:
+                    myGlobal.change(False)
+                    print("Input", sentence)
+                    print("Output", translated_sentence)
+                    exit()
             else:
                 translated_sentence = translate_sentence_bpe(
                     self,

@@ -9,9 +9,13 @@ elif config.SELF_ATTN == "SUMMARIZED":
     from models.transformer.multiheadattn import MultiheadAttentionZ2 as MultiheadAttentionZSelf
 elif config.SELF_ATTN == "ORIGINAL":
     from models.transformer.multiheadattn import MultiheadAttentionZ3 as MultiheadAttentionZSelf
+elif config.SELF_ATTN == "CROSS":
+    from models.transformer.multiheadattn import MultiheadAttentionZCross as MultiheadAttentionZSelf
 
 if config.SELF_ATTN == "ORIGINAL" or config.SELF_ATTN == "OUR":
     from models.transformer.multiheadattn import MultiheadAttentionZ3 as MultiheadAttentionZCross
+elif config.SELF_ATTN == "CROSS":
+    from models.transformer.multiheadattn import MultiheadAttentionZCross
 else:
     from models.transformer.multiheadattn import MultiheadAttentionZCross
 import torch
@@ -26,6 +30,7 @@ from torch.nn.modules.dropout import Dropout
 from torch.nn.modules.linear import Linear
 from torch.nn.modules.normalization import LayerNorm
 
+countz = 0
 
 class TransformerZ(Module):
     r"""A transformer model. User is able to modify the attributes as needed. The architecture
@@ -269,7 +274,11 @@ class TransformerEncoderLayer(Module):
 
     def __init__(self, d_model, nhead, dim_feedforward=2048, dropout=0.1, activation="relu"):
         super(TransformerEncoderLayer, self).__init__()
-        self.self_attn = MultiheadAttentionZSelf(d_model, nhead, dropout=dropout)
+        # global countz
+        # countz += 1
+        # self.count = countz
+        # print("enc", countz)
+        self.self_attn = MultiheadAttentionZSelf(d_model, nhead, dropout=dropout, name="EncoderSelfAttn")
         # Implementation of Feedforward model
         self.linear1 = Linear(d_model, dim_feedforward)
         self.dropout = Dropout(dropout)
@@ -332,8 +341,8 @@ class TransformerDecoderLayer(Module):
 
     def __init__(self, d_model, nhead, dim_feedforward=2048, dropout=0.1, activation="relu"):
         super(TransformerDecoderLayer, self).__init__()
-        self.self_attn = MultiheadAttentionZSelf(d_model, nhead, dropout=dropout)
-        self.multihead_attn = MultiheadAttentionZCross(d_model, nhead, dropout=dropout)
+        self.self_attn = MultiheadAttentionZSelf(d_model, nhead, dropout=dropout, name="DecoderSelfAttn")
+        self.multihead_attn = MultiheadAttentionZCross(d_model, nhead, dropout=dropout, name="DecoderCrossAttn")
         # Implementation of Feedforward model
         self.linear1 = Linear(d_model, dim_feedforward)
         self.dropout = Dropout(dropout)

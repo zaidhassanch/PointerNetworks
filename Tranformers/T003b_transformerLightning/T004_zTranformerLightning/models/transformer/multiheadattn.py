@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import numpy, scipy.io
+import time
 
 from typing import Optional, Tuple
 from torch import Tensor
@@ -9,19 +11,49 @@ from torch.nn.init import xavier_normal_
 from torch.nn.init import xavier_uniform_
 from torch.nn.init import constant_
 
+from models.transformer.originalMultiHeadForward import multi_head_attention_forward
+from configs import config
+
+class readyForSaving:
+    def __init__(self):
+        self.myGlobal = False
+        self.count = 0
+
+    def __bool__(self):
+        return self.myGlobal
+
+    def change(self, Save_Bool):
+        self.myGlobal = Save_Bool
+
+    def updateCount(self):
+        self.count += 1
+        if self.count == config.N_LAYERS * 3 + 1:
+            self.count = 1
+        return self.count
+
+global myGlobal
+
+myGlobal = readyForSaving()
 
 class MultiheadAttentionZCross(nn.Module):
 
-    def __init__(self, embed_dim, num_heads, dropout = 0):
+    def __init__(self, embed_dim, num_heads, dropout = 0, name="NoName"):
         super(MultiheadAttentionZCross, self).__init__()
         self.embed_dim = embed_dim
         head_dim = embed_dim // num_heads
         self.scaling = float(head_dim) ** -0.5
         self.linear = nn.Linear(embed_dim, embed_dim)
+        self.name = name
 
     def forward(self, q1, k, value, key_padding_mask=None, attn_mask=None):
         tgt_len, bsz, embed_dim = q1.size()
         # print(q1.shape, k.shape, value.shape)
+        # print(self.name)
+        # if myGlobal.__bool__() == True:
+        #     ccc = myGlobal.updateCount()
+        #     print("=================================>>>>>>>>>>>>>>>>>>>..")
+        #     scipy.io.savemat('mat/' + self.name +  str(ccc)+'kqcross.mat', mdict={'k': k.tolist(), 'q': q1.tolist()})
+
         v = self.linear(k)
         q = q1 * self.scaling
         q = q.transpose(0, 1)
@@ -49,14 +81,16 @@ class MultiheadAttentionZCross(nn.Module):
 
 class MultiheadAttentionZSelf(nn.Module):
 
-    def __init__(self, embed_dim, num_heads, dropout = 0):
+    def __init__(self, embed_dim, num_heads, dropout = 0, name="NoName"):
         super(MultiheadAttentionZSelf, self).__init__()
         self.embed_dim = embed_dim
         head_dim = embed_dim // num_heads
         self.scaling = float(head_dim) ** -0.5
         self.linear = nn.Linear(embed_dim, embed_dim)
+        self.name = name
 
     def forward(self, q1, k, value, key_padding_mask=None, attn_mask=None):
+        # print(self.name)
         v1 = self.linear(k)
         return v1
 
@@ -69,15 +103,14 @@ Output Two men are removing tree branches.
 Output A young boy in a red life jacket is swimming in a pool.
 Output Two kids are swinging on a playground.
 
-   Output A horse is walking beside a boat under a bridge.... boat. boat.................................
+Output A horse is walking beside a boat under a bridge.... boat. boat.................................
 Output Two men are competinging tree trunk..inginginginginging.ing.....ing.....ing.....ing.ing......inginginging...
 Output A young boy in a red life jacket is swimming in a pool. a pool...... a. a. a big...... a jacket. a.. a in in in a jacket is in a jacket
 Output Two kids are swinging on a playground..inging. are swing.ing... swing.ing.....ing.....ing.ing....ing.inginging.. swing.
 '''
-
 class MultiheadAttentionZ2(nn.Module):
 
-    def __init__(self, embed_dim, num_heads, dropout = 0):
+    def __init__(self, embed_dim, num_heads, dropout = 0, name="NoName"):
         super(MultiheadAttentionZ2, self).__init__()
         self.embed_dim = embed_dim
         self.num_heads = num_heads
@@ -85,15 +118,23 @@ class MultiheadAttentionZ2(nn.Module):
         self.linear1 = nn.Linear(embed_dim, embed_dim)
         self.linear2 = nn.Linear(embed_dim, embed_dim)
         self.linear3 = nn.Linear(embed_dim, embed_dim)
+        self.name = name
 
     def forward(self, q, k, value, key_padding_mask=None, attn_mask=None):
+        # print(self.name)
         num_heads = self.num_heads;
         tgt_len, bsz, embed_dim = q.size()
         head_dim = embed_dim // num_heads
         scaling = float(head_dim) ** -0.5
+        # if myGlobal.__bool__() == True:
+        #     ccc += 1
+        #     print("=================================>>>>>>>>>>>>>>>>>>>..")
+        #     scipy.io.savemat('mat/kq.mat', mdict={'k': k.tolist(), 'q': q.tolist()})
 
         k = self.linear1(k)
         q = self.linear2(k)
+        #if k.size(1) == 1:
+
 
         v = self.linear3(k)
         q = q * scaling
@@ -144,8 +185,9 @@ class MultiheadAttentionZ3(nn.Module):
     bias_k: Optional[torch.Tensor]
     bias_v: Optional[torch.Tensor]
 
-    def __init__(self, embed_dim, num_heads, dropout=0., bias=True, add_bias_kv=False, add_zero_attn=False, kdim=None, vdim=None):
+    def __init__(self, embed_dim, num_heads, dropout=0., bias=True, add_bias_kv=False, add_zero_attn=False, kdim=None, vdim=None, name="NoName"):
         super(MultiheadAttentionZ3, self).__init__()
+        self.name = name
         self.embed_dim = embed_dim
         self.kdim = kdim if kdim is not None else embed_dim
         self.vdim = vdim if vdim is not None else embed_dim
@@ -245,8 +287,19 @@ class MultiheadAttentionZ3(nn.Module):
         - attn_output_weights: :math:`(N, L, S)` where N is the batch size,
           L is the target sequence length, S is the source sequence length.
         """
+        # print(self.name)
         if not self._qkv_same_embed_dim:
-            return F.multi_head_attention_forward(
+            # return multi_head_attention_forward(
+            #     query, key, value, self.embed_dim, self.num_heads,
+            #     self.in_proj_weight, self.in_proj_bias,
+            #     self.bias_k, self.bias_v, self.add_zero_attn,
+            #     self.dropout, self.out_proj.weight, self.out_proj.bias,
+            #     training=self.training,
+            #     key_padding_mask=key_padding_mask, need_weights=need_weights,
+            #     attn_mask=attn_mask, use_separate_proj_weight=True,
+            #     q_proj_weight=self.q_proj_weight, k_proj_weight=self.k_proj_weight,
+            #     v_proj_weight=self.v_proj_weight, myGlobal=myGlobal, name=self.name)[0]
+            return multi_head_attention_forward(
                 query, key, value, self.embed_dim, self.num_heads,
                 self.in_proj_weight, self.in_proj_bias,
                 self.bias_k, self.bias_v, self.add_zero_attn,
@@ -257,7 +310,15 @@ class MultiheadAttentionZ3(nn.Module):
                 q_proj_weight=self.q_proj_weight, k_proj_weight=self.k_proj_weight,
                 v_proj_weight=self.v_proj_weight)[0]
         else:
-            return F.multi_head_attention_forward(
+            # return multi_head_attention_forward(
+            #     query, key, value, self.embed_dim, self.num_heads,
+            #     self.in_proj_weight, self.in_proj_bias,
+            #     self.bias_k, self.bias_v, self.add_zero_attn,
+            #     self.dropout, self.out_proj.weight, self.out_proj.bias,
+            #     training=self.training,
+            #     key_padding_mask=key_padding_mask, need_weights=need_weights,
+            #     attn_mask=attn_mask, myGlobal=myGlobal, name=self.name)[0]
+            return multi_head_attention_forward(
                 query, key, value, self.embed_dim, self.num_heads,
                 self.in_proj_weight, self.in_proj_bias,
                 self.bias_k, self.bias_v, self.add_zero_attn,

@@ -1,3 +1,15 @@
+https://vectorinstitute.zoom.us/j/7499157050?pwd=dWV6UGRoUGhaWVRpTkNRNHZnOEgzQT09
+
+Step 1:
+    - Original attention in all three places- encoder, decoder and cross
+    - confirm: 16, 59
+Step 2:
+    - kq code on all three (where there are no Wk and Wq)
+    - save kq in all
+    - try on 2 layers
+    - qkT softmax will be identity and for cross attention it will be correct
+
+=========================================================================
 spacy provides tokenizers,
 Tokenizers process input files to generate vocabulary
 
