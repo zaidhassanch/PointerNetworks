@@ -114,12 +114,11 @@ def generate_batch(data_batch):
 
 
 def Batcher(train_data, val_data, test_data):
-  BATCH_SIZE = 32
-  train_iter = DataLoader(train_data, batch_size=BATCH_SIZE,
+  train_iter = DataLoader(train_data, batch_size=config.BATCH_SIZE,
                           shuffle=True, collate_fn=generate_batch)
-  valid_iter = DataLoader(val_data, batch_size=BATCH_SIZE,
+  valid_iter = DataLoader(val_data, batch_size=config.BATCH_SIZE,
                           shuffle=True, collate_fn=generate_batch)
-  test_iter = DataLoader(test_data, batch_size=BATCH_SIZE,
+  test_iter = DataLoader(test_data, batch_size=config.BATCH_SIZE,
                          shuffle=True, collate_fn=generate_batch)
   return train_iter, valid_iter, test_iter
 
