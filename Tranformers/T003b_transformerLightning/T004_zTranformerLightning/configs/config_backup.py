@@ -17,7 +17,6 @@ FORWARD_EXP = 1
 
 COMPUTE_BLEU = False
 
-
 TRAIN_SRC = 'dataFiles/test10k.src'
 TRAIN_TGT = 'dataFiles/test10k.tgt'
 VAL_SRC = 'dataFiles/test10k.src'
