@@ -1,3 +1,18 @@
+
+- recover the version whose results we quoted in our scribendi meeting (6 layers)
+  with blue scores. ESTABLISH OUR BASELINE
+- parallelize the translate sentence (inference)
+- May be look at Ankit code.
+  > What are the stepsizes, layers sizes, convergence speed
+  > How is he parallelizing the inference
+
+AHMAD
+=====
+- Establish base data set(s), Multi30k, JaneErye, Public,
+- Compare convergence BPE vs Spacy for Trained Embed
+  > Make work around to modify dataset so that spacy tokenization works for Trained embed.
+- Introduce Spacy vectors (no training for embedding)
+
 https://vectorinstitute.zoom.us/j/7499157050?pwd=dWV6UGRoUGhaWVRpTkNRNHZnOEgzQT09
 
 Step 1:
