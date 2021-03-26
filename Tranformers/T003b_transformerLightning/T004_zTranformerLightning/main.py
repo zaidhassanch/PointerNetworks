@@ -12,9 +12,9 @@ from torch.utils.data import random_split, DataLoader
 from pytorch_lightning.profiler import AdvancedProfiler
 
 from models.transformer.Model import Model
-from data import getData, MyDataModule
+from data import MyDataModule
 from dataloader import Batcher
-from utils import translate_sentence, translate_sentence_bpe, computeBLEU, computeBLEU_bpe, writeArrToCSV
+from utils import translate_sentence, computeBLEU, writeArrToCSV
 
 import pytorch_lightning as pl
 
@@ -118,62 +118,6 @@ class grammarTransformer(pl.LightningModule):
         # return {'loss': J, 'progress_bar': pbar}
         return J
 
-    def validation_step(self, batch, batch_idx):
-        results = self.training_step(batch, batch_idx)
-        # results["progress_bar"]["val_acc"] = results["progress_bar"]["train_acc"]
-        # del results["progress_bar"]["train_acc"]
-        return results
-
-    def validation_epoch_end(self, val_step_outputs):
-        # global myGlobal
-        # avg_val_loss = torch.tensor([x['loss'] for x in val_step_outputs]).mean()
-        # avg_val_acc = torch.tensor([x["progress_bar"]["val_acc"] for x in val_step_outputs]).mean()
-        #
-        # pbar = {'avg_val_acc': avg_val_acc}
-        print("Translation Sample =================")
-
-        #"An old man trying to get up from a broken chair
-        #A man wearing red shirt sitting under a tree
-
-        for sentence in config.sentences:
-            if config.USE_BPE == False:
-                # if self.nepochs == config.MAX_EPOCHS:
-                #     myGlobal.change(True)
-                # myGlobal = True
-                translated_sentence = translate_sentence(
-                    self,
-                    sentence, self.german_vocab, self.english_vocab, self.deviceLegacy,max_length=50
-                )
-                # print("Output", translated_sentence)
-                # print(sentence)
-                # global myGlobal
-                # myGlobal = False
-                # exit()
-                # if self.nepochs == config.MAX_EPOCHS:
-                #     myGlobal.change(False)
-                #     print("Input", sentence)
-                #     print("Output", translated_sentence)
-                #     exit()
-            else:
-                translated_sentence = translate_sentence_bpe(
-                    self,
-                    sentence, self.german_vocab, self.english_vocab, self.deviceLegacy, max_length=50
-                )
-
-            print("Output", translated_sentence)
-
-        # if config.COMPUTE_BLEU == True and self.nepochs == config.MAX_EPOCHS:
-        if config.COMPUTE_BLEU == True and self.nepochs > 0:
-            if config.USE_BPE == False:
-                bleu_score = computeBLEU(self.test_data[1:100], self, self.german_vocab, self.english_vocab, self.deviceLegacy)
-            else:
-                bleu_score = computeBLEU_bpe(self.test_data[1:100], self, self.german_vocab, self.english_vocab, self.deviceLegacy)
-            self.bleu_scores.append(bleu_score)
-            print("BLEU score: ", bleu_score)
-            if self.nepochs % 1 == 0:
-                writeArrToCSV(self.bleu_scores)
-        return
-
     def setup(self, stage_name):
         # dataset = datasets.MNIST('data', train=True, download=False, transform=transforms.ToTensor())
         # self.train_data, self.val_data = random_split(dataset, [55000, 5000])
@@ -191,6 +135,33 @@ class grammarTransformer(pl.LightningModule):
         self.total_time += epoch_time
         # print(">>>>>>>>>>>>>>>>>>>>> on_epoch_end2", self.nepochs)
         print("Epoch Time taken: ", epoch_time, self.total_time / self.nepochs)
+        for sentence in config.sentences:
+            # if self.nepochs == config.MAX_EPOCHS:
+            #     myGlobal.change(True)
+            # myGlobal = True
+            translated_sentence = translate_sentence(
+                self,
+                sentence, self.german_vocab, self.english_vocab, self.deviceLegacy,max_length=50
+            )
+            # print("Output", translated_sentence)
+            # print(sentence)
+            # global myGlobal
+            # myGlobal = False
+            # exit()
+            # if self.nepochs == config.MAX_EPOCHS:
+            #     myGlobal.change(False)
+            #     print("Input", sentence)
+            #     print("Output", translated_sentence)
+            #     exit()
+            print("Output", translated_sentence)
+
+        # if config.COMPUTE_BLEU == True and self.nepochs == config.MAX_EPOCHS:
+        if config.COMPUTE_BLEU == True and self.nepochs > 0:
+            bleu_score = computeBLEU(self.test_data[1:100], self, self.german_vocab, self.english_vocab, self.deviceLegacy)
+            self.bleu_scores.append(bleu_score)
+            print("BLEU score: ", bleu_score)
+            if self.nepochs % 1 == 0:
+                writeArrToCSV(self.bleu_scores)
 
 seed_torch()
 
