@@ -1,4 +1,7 @@
 import time
+import os
+import random
+import numpy as np
 # import numpy
 import torch
 print(torch.cuda.is_available())
@@ -11,13 +14,26 @@ from pytorch_lightning.profiler import AdvancedProfiler
 from models.transformer.model import Model
 from data import getData
 from dataloader import Batcher
-from utils import translate_sentence, translate_sentence_bpe, computeBLEU, writeArrToCSV
+from utils import translate_sentence, translate_sentence_bpe, computeBLEU, computeBLEU_bpe, writeArrToCSV
 
 import pytorch_lightning as pl
 
 from pytorch_lightning.metrics.functional import accuracy
 # from models.transformer.multiheadattn import myGlobal
 from configs import config
+
+def seed_torch(seed=config.SEED): #move to config
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    np.random.RandomState(seed)
+
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed) #seed all gpus
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.enabled = False
+    torch.backends.cudnn.benchmark = False
 
 class grammarTransformer(pl.LightningModule):
     def __init__(self):
@@ -119,7 +135,10 @@ class grammarTransformer(pl.LightningModule):
 
         # if config.COMPUTE_BLEU == True and self.nepochs == config.MAX_EPOCHS:
         if config.COMPUTE_BLEU == True and self.nepochs > 0:
-            bleu_score = computeBLEU(self.test_data, self, self.german_vocab, self.english_vocab, self.deviceLegacy)
+            if config.USE_BPE == False:
+                bleu_score = computeBLEU(self.test_data[1:100], self, self.german_vocab, self.english_vocab, self.deviceLegacy)
+            else:
+                bleu_score = computeBLEU_bpe(self.test_data[1:100], self, self.german_vocab, self.english_vocab, self.deviceLegacy)
             self.bleu_scores.append(bleu_score)
             print("BLEU score: ", bleu_score)
             if self.nepochs % 1 == 0:
@@ -169,7 +188,7 @@ class grammarTransformer(pl.LightningModule):
         # print(">>>>>>>>>>>>>>>>>>>>> on_epoch_end2", self.nepochs)
         print("Epoch Time taken: ", epoch_time, self.total_time / self.nepochs)
 
-
+seed_torch()
 
 model = grammarTransformer()
 profiler = AdvancedProfiler()
