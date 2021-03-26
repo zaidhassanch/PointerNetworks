@@ -11,8 +11,8 @@ from torch import optim
 from torch.utils.data import random_split, DataLoader
 from pytorch_lightning.profiler import AdvancedProfiler
 
-from models.transformer.model import Model
-from data import getData
+from models.transformer.Model import Model
+from data import getData, MyDataModule
 from dataloader import Batcher
 from utils import translate_sentence, translate_sentence_bpe, computeBLEU, computeBLEU_bpe, writeArrToCSV
 
@@ -36,7 +36,7 @@ def seed_torch(seed=config.SEED): #move to config
     torch.backends.cudnn.benchmark = False
 
 class grammarTransformer(pl.LightningModule):
-    def __init__(self):
+    def __init__(self, german_vocab, english_vocab, test_data):
         super().__init__()
         # change things as required
 
@@ -46,12 +46,41 @@ class grammarTransformer(pl.LightningModule):
         self.bleu_scores = []
 
         embedding_size = 512
+        num_heads = config.NUM_HEADS
+        num_encoder_layers = config.N_LAYERS
+        num_decoder_layers = config.N_LAYERS
+        dropout = 0.0
+        max_len = config.MAX_LEN
+        forward_expansion = config.FORWARD_EXP
+        learning_rate = 3e-4
         if config.GPUS==0:
             self.deviceLegacy = "cpu"
         else:
             self.deviceLegacy = "cuda"
-        self.prepare_data_own()
-        self.model = Model(self.deviceLegacy, embedding_size, self.src_vocab_size, self.trg_vocab_size, self.src_pad_idx).to(self.deviceLegacy)
+        self.german_vocab, self.english_vocab, self.test_data = german_vocab, english_vocab, test_data
+        self.src_vocab_size = len(self.german_vocab)
+        self.trg_vocab_size = len(self.english_vocab)
+
+        if config.USE_BPE == False:
+            self.src_pad_idx = self.english_vocab.stoi["<pad>"]
+            self.pad_idx = self.english_vocab.stoi["<pad>"]
+        else:
+            self.src_pad_idx = self.english_vocab.pad_id()
+            self.pad_idx = self.english_vocab.pad_id()
+
+        self.model = Model(
+            embedding_size, #512
+            self.src_vocab_size, #7855
+            self.trg_vocab_size, #5894
+            self.src_pad_idx, #1
+            num_heads, #1
+            num_encoder_layers, #
+            num_decoder_layers, #
+            forward_expansion, #1
+            dropout, #0.0
+            max_len, #100
+            self.deviceLegacy, #'cuda'
+        ).to(self.deviceLegacy)
 
         # pad_idx = english_vocab.stoi["<pad>"]
         # criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
@@ -145,35 +174,10 @@ class grammarTransformer(pl.LightningModule):
                 writeArrToCSV(self.bleu_scores)
         return
 
-    def prepare_data_own(self):
-        self.german_vocab, self.english_vocab, self.train_data, self.valid_data, self.test_data = getData(config.LOAD_NEW_METHOD, config.USE_BPE)
-        self.train_iterator, self.valid_iterator, self.test_iterator = Batcher(self.train_data, self.valid_data, self.test_data)
-
-        self.src_vocab_size = len(self.german_vocab)
-        self.trg_vocab_size = len(self.english_vocab)
-
-        if config.USE_BPE == False:
-            self.src_pad_idx = self.english_vocab.stoi["<pad>"]
-            self.pad_idx = self.english_vocab.stoi["<pad>"]
-        else:
-            self.src_pad_idx = self.english_vocab.pad_id()
-            self.pad_idx = self.english_vocab.pad_id()
-
     def setup(self, stage_name):
         # dataset = datasets.MNIST('data', train=True, download=False, transform=transforms.ToTensor())
         # self.train_data, self.val_data = random_split(dataset, [55000, 5000])
         pass
-
-
-
-    def train_dataloader(self): # defined here to know number of classes
-        # Train, Val split
-        train_loader = self.train_iterator
-        return train_loader
-
-    def val_dataloader(self):
-        val_loader = self.valid_iterator
-        return val_loader
 
     def on_epoch_start(self):
         print(">>>>>>>>>>>>>>>>>>>>> on_epoch_start")
@@ -190,7 +194,9 @@ class grammarTransformer(pl.LightningModule):
 
 seed_torch()
 
-model = grammarTransformer()
+dm = MyDataModule()
+model = grammarTransformer(dm.german_vocab, dm.english_vocab, dm.test_data)
+
 profiler = AdvancedProfiler()
 
 start_time = time.time()
@@ -205,7 +211,7 @@ else:
     trainer = pl.Trainer(max_epochs=config.MAX_EPOCHS, gpus=config.GPUS, accelerator="ddp", precision=config.PRECISION)
 
 # trainer = pl.Trainer(max_epochs=5,gpus=1, precision=16)
-trainer.fit(model)
+trainer.fit(model, dm)
 
 print("Time taken: ", time.time() - start_time)
 
